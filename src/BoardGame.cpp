@@ -3,10 +3,7 @@
 //
 
 #include "BoardGame.h"
-#include "Ball.h"
-#include "Vec3.h"
-#include <math.h>
-#include <vector>
+
 using namespace std;
 
 
@@ -15,7 +12,7 @@ void BoardGame::startGame() {
     cout << "Victoire écrasante de Lucas, Najwa est en PLS dans les toilettes !!" << endl;
 }
 
-void BoardGame::throwBall(Player joueur, float power, float angle, float lateralOffset){
+vector<Vec3<int>> BoardGame::throwBall(Player joueur, float power, float angle, float lateralOffset){
     double Vx, Vy, Vz; // les vitesses d'origine selon x y et z
     double convertAngle; // l'angle de lance converti entre -Pi/4 et Pi/4
     int convertOffset;  // le décalage de lance convertie dans la table (entre 0 et sizeX)
@@ -33,9 +30,13 @@ void BoardGame::throwBall(Player joueur, float power, float angle, float lateral
      */
     convertAngle = angle * M_PI/2 - M_PI/4;
 
-    Vx = power * cos(convertAngle) / sqrt(2);
-    Vy = power * sin(convertAngle) / sqrt(2);
+    Vx = power * sin(convertAngle) / sqrt(2);
+    Vy = power * cos(convertAngle) / sqrt(2);
     Vz = power / sqrt(2);
+    cout << "angle = " << convertAngle << endl;
+    cout << "Vx = " << Vx << endl;
+    cout << "Vy = " << Vy << endl;
+
 
     y0 = 30; //le bras du joueur 30 cm
     x0 = (int)floor(lateralOffset * sizeX);
@@ -50,8 +51,10 @@ void BoardGame::throwBall(Player joueur, float power, float angle, float lateral
         y = i;
         x = (int)floor(Vx * (y - y0) / Vy) + x0;
         z = (int)floor(-9.81*y*y/(Vy*Vy)) + y + z0;
+        //cout << "(x,y,z) = (" << x << ", " << y << ", " << z << ")" << endl;
         throwingPositions.push_back(Vec3<int>(x,y,z));
     }
+    return throwingPositions;
 }
 
 

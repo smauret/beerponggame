@@ -8,6 +8,9 @@
 #include "Player.h"
 #include <string>
 #include <vector>
+#include "Vec3.h"
+#include <math.h>
+
 
 using namespace std;
 
@@ -89,7 +92,7 @@ public:
     void startGame();
 
 
-    void throwBall(Player joueur, float power, float angle, float translation);
+    vector<Vec3<int>> throwBall(Player joueur, float power, float angle, float translation);
 };
 
 

@@ -11,6 +11,7 @@ CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o
  /home/lucas/CLionProjects/beerponggame/src/Cup.h
  /home/lucas/CLionProjects/beerponggame/src/Player.h
  /home/lucas/CLionProjects/beerponggame/src/Vec2.h
+ /home/lucas/CLionProjects/beerponggame/src/Vec3.h
 CMakeFiles/beerpongproject.dir/src/Cup.cpp.o
  /home/lucas/CLionProjects/beerponggame/src/Cup.cpp
  /home/lucas/CLionProjects/beerponggame/src/Cup.h
@@ -26,4 +27,5 @@ CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o
  /home/lucas/CLionProjects/beerponggame/src/Cup.h
  /home/lucas/CLionProjects/beerponggame/src/Player.h
  /home/lucas/CLionProjects/beerponggame/src/Vec2.h
+ /home/lucas/CLionProjects/beerponggame/src/Vec3.h
  /home/lucas/CLionProjects/beerponggame/src/mainLucas.cpp
