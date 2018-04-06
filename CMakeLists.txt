@@ -3,4 +3,4 @@ project(untitled1)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(untitled1 main.cpp)
+add_executable(beerpongproject src/mainLucas.cpp src/BoardGame.cpp src/BoardGame.h src/Player.cpp src/Player.h src/Ball.cpp src/Ball.h src/Cup.cpp src/Cup.h src/Vec2.h src/Vec3.h)

@@ -48,10 +48,10 @@ RM = /opt/clion-2017.3.1/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sarah/CLionProjects/beerponggame
+CMAKE_SOURCE_DIR = /home/lucas/CLionProjects/beerponggame
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sarah/CLionProjects/beerponggame/cmake-build-debug
+CMAKE_BINARY_DIR = /home/lucas/CLionProjects/beerponggame/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sarah/CLionProjects/beerponggame/cmake-build-debug/CMakeFiles /home/sarah/CLionProjects/beerponggame/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucas/CLionProjects/beerponggame/cmake-build-debug/CMakeFiles /home/lucas/CLionProjects/beerponggame/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sarah/CLionProjects/beerponggame/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucas/CLionProjects/beerponggame/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,44 +111,152 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named untitled1
+# Target rules for targets named beerpongproject
 
 # Build rule for target.
-untitled1: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 untitled1
-.PHONY : untitled1
+beerpongproject: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 beerpongproject
+.PHONY : beerpongproject
 
 # fast build rule for target.
-untitled1/fast:
-	$(MAKE) -f CMakeFiles/untitled1.dir/build.make CMakeFiles/untitled1.dir/build
-.PHONY : untitled1/fast
+beerpongproject/fast:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/build
+.PHONY : beerpongproject/fast
 
-main.o: main.cpp.o
+src/Ball.o: src/Ball.cpp.o
 
-.PHONY : main.o
+.PHONY : src/Ball.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/untitled1.dir/build.make CMakeFiles/untitled1.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/Ball.cpp.o:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Ball.cpp.o
+.PHONY : src/Ball.cpp.o
 
-main.i: main.cpp.i
+src/Ball.i: src/Ball.cpp.i
 
-.PHONY : main.i
+.PHONY : src/Ball.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/untitled1.dir/build.make CMakeFiles/untitled1.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/Ball.cpp.i:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Ball.cpp.i
+.PHONY : src/Ball.cpp.i
 
-main.s: main.cpp.s
+src/Ball.s: src/Ball.cpp.s
 
-.PHONY : main.s
+.PHONY : src/Ball.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/untitled1.dir/build.make CMakeFiles/untitled1.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/Ball.cpp.s:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Ball.cpp.s
+.PHONY : src/Ball.cpp.s
+
+src/BoardGame.o: src/BoardGame.cpp.o
+
+.PHONY : src/BoardGame.o
+
+# target to build an object file
+src/BoardGame.cpp.o:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o
+.PHONY : src/BoardGame.cpp.o
+
+src/BoardGame.i: src/BoardGame.cpp.i
+
+.PHONY : src/BoardGame.i
+
+# target to preprocess a source file
+src/BoardGame.cpp.i:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.i
+.PHONY : src/BoardGame.cpp.i
+
+src/BoardGame.s: src/BoardGame.cpp.s
+
+.PHONY : src/BoardGame.s
+
+# target to generate assembly for a file
+src/BoardGame.cpp.s:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.s
+.PHONY : src/BoardGame.cpp.s
+
+src/Cup.o: src/Cup.cpp.o
+
+.PHONY : src/Cup.o
+
+# target to build an object file
+src/Cup.cpp.o:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Cup.cpp.o
+.PHONY : src/Cup.cpp.o
+
+src/Cup.i: src/Cup.cpp.i
+
+.PHONY : src/Cup.i
+
+# target to preprocess a source file
+src/Cup.cpp.i:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Cup.cpp.i
+.PHONY : src/Cup.cpp.i
+
+src/Cup.s: src/Cup.cpp.s
+
+.PHONY : src/Cup.s
+
+# target to generate assembly for a file
+src/Cup.cpp.s:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Cup.cpp.s
+.PHONY : src/Cup.cpp.s
+
+src/Player.o: src/Player.cpp.o
+
+.PHONY : src/Player.o
+
+# target to build an object file
+src/Player.cpp.o:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Player.cpp.o
+.PHONY : src/Player.cpp.o
+
+src/Player.i: src/Player.cpp.i
+
+.PHONY : src/Player.i
+
+# target to preprocess a source file
+src/Player.cpp.i:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Player.cpp.i
+.PHONY : src/Player.cpp.i
+
+src/Player.s: src/Player.cpp.s
+
+.PHONY : src/Player.s
+
+# target to generate assembly for a file
+src/Player.cpp.s:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Player.cpp.s
+.PHONY : src/Player.cpp.s
+
+src/mainLucas.o: src/mainLucas.cpp.o
+
+.PHONY : src/mainLucas.o
+
+# target to build an object file
+src/mainLucas.cpp.o:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o
+.PHONY : src/mainLucas.cpp.o
+
+src/mainLucas.i: src/mainLucas.cpp.i
+
+.PHONY : src/mainLucas.i
+
+# target to preprocess a source file
+src/mainLucas.cpp.i:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.i
+.PHONY : src/mainLucas.cpp.i
+
+src/mainLucas.s: src/mainLucas.cpp.s
+
+.PHONY : src/mainLucas.s
+
+# target to generate assembly for a file
+src/mainLucas.cpp.s:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.s
+.PHONY : src/mainLucas.cpp.s
 
 # Help Target
 help:
@@ -158,10 +266,22 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... untitled1"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... beerpongproject"
+	@echo "... src/Ball.o"
+	@echo "... src/Ball.i"
+	@echo "... src/Ball.s"
+	@echo "... src/BoardGame.o"
+	@echo "... src/BoardGame.i"
+	@echo "... src/BoardGame.s"
+	@echo "... src/Cup.o"
+	@echo "... src/Cup.i"
+	@echo "... src/Cup.s"
+	@echo "... src/Player.o"
+	@echo "... src/Player.i"
+	@echo "... src/Player.s"
+	@echo "... src/mainLucas.o"
+	@echo "... src/mainLucas.i"
+	@echo "... src/mainLucas.s"
 .PHONY : help
 
 

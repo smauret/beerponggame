@@ -89,7 +89,7 @@ public:
     void startGame();
 
 
-    void lancer
+    //void lancer
 };
 
 
