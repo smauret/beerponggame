@@ -19,7 +19,7 @@ public:
         for (int i=0; i<nbrOfCups; i++){
             cups.push_back(Cup(i));
         }
-        cout << Player::name << " créé ! :) :) :)" << endl;
+        //cout << Player::name << " créé ! :) :) :)" << endl;
     }
 
     Player() {}

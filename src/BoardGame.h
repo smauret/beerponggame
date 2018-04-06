@@ -8,12 +8,15 @@
 #include "Player.h"
 #include <string>
 #include <vector>
+#include "Vec3.h"
+#include <math.h>
+
 
 using namespace std;
 
 class BoardGame {
 private:
-    int sizeX, sizeY, sizeZ;
+    int sizeX, sizeY, sizeZ; // 1 case = 1 cm
     Player player1, computer;
     Ball PingPong;
 public:
@@ -89,7 +92,7 @@ public:
     void startGame();
 
 
-    //void lancer
+    vector<Vec3<int>> throwBall(Player joueur, float power, float angle, float translation);
 };
 
 

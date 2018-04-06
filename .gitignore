@@ -1,2 +1,7 @@
-cmake-build-debug
+<<<<<<< HEAD
+cmake-build-debug/
 .idea/*
+=======
+cmake-build-debug/
+.idea/
+>>>>>>> architecture
