@@ -19,7 +19,7 @@ public:
 
     Cup(int ID, const Vec2i &position) : ID(ID), position(position) {}
 
-    Cup(int ID) : ID(ID) {std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;}
+    Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/}
 
 };
 

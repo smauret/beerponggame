@@ -8,8 +8,8 @@ using namespace std;
 
 
 void BoardGame::startGame() {
-    cout << "\nDébut de la partie !" << endl;
-    cout << "Victoire écrasante de Lucas, Najwa est en PLS dans les toilettes !!" << endl;
+    /*cout << "\nDébut de la partie !" << endl;
+    cout << "Victoire écrasante de Lucas, Najwa est en PLS dans les toilettes !!" << endl;*/
 }
 
 vector<Vec3<int>> BoardGame::throwBall(Player joueur, float power, float angle, float lateralOffset){
@@ -33,9 +33,9 @@ vector<Vec3<int>> BoardGame::throwBall(Player joueur, float power, float angle, 
     Vx = power * sin(convertAngle) / sqrt(2);
     Vy = power * cos(convertAngle) / sqrt(2);
     Vz = power / sqrt(2);
-    cout << "angle = " << convertAngle << endl;
+    /*cout << "angle = " << convertAngle << endl;
     cout << "Vx = " << Vx << endl;
-    cout << "Vy = " << Vy << endl;
+    cout << "Vy = " << Vy << endl;*/
 
 
     y0 = 30; //le bras du joueur 30 cm
