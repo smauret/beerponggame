@@ -18,7 +18,7 @@ class BoardGame {
 private:
     int sizeX, sizeY, sizeZ; // 1 case = 1 cm
     Player player1, computer;
-    Ball PingPong;
+    Ball pingPong;
 public:
     /** Constructeurs
      */
@@ -57,7 +57,7 @@ public:
     }
 
     const Ball &getPingPong() const {
-        return PingPong;
+        return pingPong;
     }
 
     /** Setters
@@ -82,8 +82,8 @@ public:
         BoardGame::computer = computer;
     }
 
-    void setPingPong(const Ball &PingPong) {
-        BoardGame::PingPong = PingPong;
+    void setPingPong(const Ball &pingPong) {
+        BoardGame::pingPong = pingPong;
     }
 
         /** fonction start game, juste pour tester
