@@ -13,7 +13,7 @@ using namespace std;
 
 class BoardGame {
 private:
-    int sizeX, sizeY, sizeZ;
+    int sizeX, sizeY, sizeZ; // 1 case = 1 cm
     Player player1, computer;
     Ball PingPong;
 public:
@@ -89,7 +89,7 @@ public:
     void startGame();
 
 
-    //void lancer
+    void throwBall(Player joueur, float power, float angle, float translation);
 };
 
 
