@@ -11,6 +11,5 @@ int main() {
     for (int i = 0; i < throwingPositions.size(); i++){
         cout << "(x,y,z) = (" << throwingPositions[i].getX() << ", " << throwingPositions[i].getY() << ", " << throwingPositions[i].getZ() << ")" << endl;
     }
-
     return 0;
 }
