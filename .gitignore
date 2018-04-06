@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 cmake-build-debug/*
+=======
+cmake-build-debug/
+.idea/
+.idea/workspace.xml
+>>>>>>> b10530bb441225df2587c49c590dc69f5617de17
