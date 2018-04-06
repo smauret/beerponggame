@@ -137,7 +137,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=untitled1
+CMAKE_PROJECT_NAME:STATIC=beerponggame
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -193,6 +193,12 @@ ProcessorCount_cmd_getconf:FILEPATH=/usr/bin/getconf
 
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/sbin/sysctl
+
+//Value Computed by CMake
+beerponggame_BINARY_DIR:STATIC=/home/lucas/CLionProjects/beerponggame/cmake-build-debug
+
+//Value Computed by CMake
+beerponggame_SOURCE_DIR:STATIC=/home/lucas/CLionProjects/beerponggame
 
 //Value Computed by CMake
 untitled1_BINARY_DIR:STATIC=/home/lucas/CLionProjects/beerponggame/cmake-build-debug
