@@ -9,6 +9,7 @@ void Player::removeCup(int id) {
     while ((i < cups.size()) && (cups[i].getID() != id)) i++;
 
     cups.erase(cups.begin() + i);
+    cupsLeft--;
 
 
 }
@@ -19,7 +20,7 @@ vector<Vec3<int>> Player::throwBall(float power, float angle, float lateralOffse
     int convertOffset;  // le décalage de lance convertie dans la table (entre 0 et sizeX)
     int x0, y0, z0; // les coordonnées du lancé apres decalage
 
-    /**power et angle entre 0 et 1 => les convertir
+    /*power et angle entre 0 et 1 => les convertir
      * angle entre -45 et 45
      *  angle = angle * 90 -45
      *
