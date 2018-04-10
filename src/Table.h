@@ -35,14 +35,18 @@ public:
 
     /** Setters
      */
-    void setPlayers(const vector<Player> &players);
+    void setPlayers(const vector<Player> &players) {
+        Table::players = players;
+    }
 
-    void setPingPong(const Ball &PingPong);
+    void setPingPong(const Ball &PingPong) {
+        Table::PingPong = PingPong;
+    }
+
 
     /** fonction start game, juste pour tester
      *
      */
-    void startGame();
 
 
 

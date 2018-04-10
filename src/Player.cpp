@@ -13,7 +13,7 @@ void Player::removeCup(int id) {
 
 }
 
-vector<Vec3<int>> Player::throwBall(Player joueur, float power, float angle, float lateralOffset){
+vector<Vec3<int>> Player::throwBall(float power, float angle, float lateralOffset){
     double Vx, Vy, Vz; // les vitesses d'origine selon x y et z
     double convertAngle; // l'angle de lance converti entre -Pi/4 et Pi/4
     int convertOffset;  // le décalage de lance convertie dans la table (entre 0 et sizeX)

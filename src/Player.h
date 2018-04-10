@@ -89,7 +89,14 @@ public:
      */
     void removeCup(int id);
 
-    vector<Vec3<int>> throwBall(Player joueur, float power, float angle, float translation);
+    /** Fonction lancé de balle pour un joueur humain
+     *
+     * @param power la puissance du lancé, entre 0 et 1
+     * @param angle l'angle du tire, entre 0 et 1
+     * @param translation la translation latéral du joueur, entre 0 et 1
+     * @return le vecteur qui représente l'ensemble des positions prises par la balle lors du lancé, la coordonnée y représente la profondeur du la table
+     */
+    vector<Vec3<int>> throwBall(float power, float angle, float translation);
 
 
 private:
