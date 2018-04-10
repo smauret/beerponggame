@@ -7,6 +7,7 @@
 #include "Ball.h"
 #include "Player.h"
 #include <string>
+#include <utility>
 #include <vector>
 #include "Vec3.h"
 #include <math.h>
@@ -21,7 +22,19 @@ private:
 public:
     /** Constructeurs
      */
+    explicit Table(vector<Player> players) : players(std::move(players)) {}
 
+    explicit Table(const vector<string> &playersName) {
+        for (const auto &it : playersName) {
+            players.emplace_back(Player(it));
+        }
+    }
+
+    Table(const vector<string> &playersName, int nbOfCups) {
+        for (const auto &it : playersName) {
+            players.emplace_back(Player(it,nbOfCups));
+        }
+    }
 
     /** Getters
      */

@@ -60,6 +60,11 @@ vector<Vec3<int>> Player::throwBall(float power, float angle, float lateralOffse
 }
 
 
+vector<Vec3<int>> Player::throwBall(){
+
+}
+
+
 
 
 

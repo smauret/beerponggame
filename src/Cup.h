@@ -18,6 +18,17 @@ private:
     int hauteur; //en cm
 public:
 
+    /** constructeurs
+ *
+ */
+    Cup() {}
+
+    Cup(int ID, const Vec2i &position, int hauteur, int rayon) : ID(ID), position(position), hauteur(hauteur), rayon(rayon) {}
+
+    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {hauteur = 12; rayon = 10;}
+
+    Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/}
+
     /** getters
      *
      */
@@ -63,15 +74,6 @@ public:
     void setHauteur(int hauteur) {
         Cup::hauteur = hauteur;
     }
-
-public:
-    Cup() {}
-
-    Cup(int ID, const Vec2i &position, int hauteur, int rayon) : ID(ID), position(position), hauteur(hauteur), rayon(rayon) {}
-
-    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {hauteur = 12; rayon = 10;}
-
-    Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/}
 
 };
 

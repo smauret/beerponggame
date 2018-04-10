@@ -11,6 +11,12 @@
 using namespace std;
 
 class Player {
+private:
+    string name;
+    vector<Cup> cups;
+    int cupsLeft;
+    Vec2i tableSize;
+
 public:
     /** Constructeurs
      */
@@ -98,12 +104,12 @@ public:
      */
     vector<Vec3<int>> throwBall(float power, float angle, float translation);
 
-
-private:
-    string name;
-    vector<Cup> cups;
-    int cupsLeft;
-    Vec2i tableSize;
+    /** Fonction lancé de balle pour un joueur computeur
+     *
+     * @return Le vecteur qui represente l'ensemble des positions prises par la balle lors du lancé
+     */
+    // on peu calculer comme dans le cas joueur humain, mais il faudrait remplir le vecteur dans l'autre sens je pense (la balle est lancée depuis l'autre coté de la table)
+    vector<Vec3<int>> throwBall();
 
 };
 
