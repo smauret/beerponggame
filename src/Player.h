@@ -5,6 +5,7 @@
 #pragma once
 #include "Cup.h"
 #include <string>
+#include <utility>
 #include <vector>
 #include "Vec3.h"
 
@@ -14,32 +15,32 @@ class Player {
 private:
     string name;
     vector<Cup> cups;
-    int cupsLeft;
+    int cupsLeft{};
     Vec2i tableSize;
 
 public:
     /** Constructeurs
      */
-    Player(const string &name) : name(name) {}
+    explicit Player(string name) : name(std::move(name)) {}
 
-    Player(const string &name, int nbOfCups) : name(name), cupsLeft(nbOfCups) {
+    Player(string name, int nbOfCups) : name(std::move(name)), cupsLeft(nbOfCups) {
         for (int i=0; i<cupsLeft; i++){
-            cups.push_back(Cup(i));
+            cups.emplace_back(i);
         }
         tableSize = Vec2i(240,60);
         //cout << Player::name << " créé ! :) :) :)" << endl;
     }
 
 
-    Player(const string &name, int nbOfCups, Vec2i tableSize) : name(name), cupsLeft(nbOfCups), tableSize(tableSize) {
+    Player(string name, int nbOfCups, const Vec2i &tableSize) : name(std::move(name)), cupsLeft(nbOfCups), tableSize(tableSize) {
          for (int i=0; i<cupsLeft; i++){
-             cups.push_back(Cup(i));
+             cups.emplace_back(i);
          }
          //cout << Player::name << " créé ! :) :) :)" << endl;
     }
 
 
-    Player() {}
+    Player() = default;
 
     /** Setters
      */
@@ -65,23 +66,23 @@ public:
 
     /** Getters
     */
-    const string &getName() const {
+    string &getName() {
         return name;
     }
 
-    const vector<Cup> &getCups() const {
+    vector<Cup> &getCups() {
         return cups;
     }
 
-    int getNbOfCups() const {
+    int getNbOfCups() {
         return cupsLeft;
     }
 
-    int getCupsLeft() const {
+    int getCupsLeft() {
         return cupsLeft;
     }
 
-    const Vec2i &getTableSize() const {
+    Vec2i &getTableSize() {
         return tableSize;
     }
 

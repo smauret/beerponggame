@@ -26,23 +26,40 @@ public:
 
     explicit Table(const vector<string> &playersName) {
         for (const auto &it : playersName) {
-            players.emplace_back(Player(it));
+            players.emplace_back(it);
         }
     }
 
     Table(const vector<string> &playersName, int nbOfCups) {
         for (const auto &it : playersName) {
-            players.emplace_back(Player(it,nbOfCups));
+            players.emplace_back(it,nbOfCups);
+        }
+    }
+
+    /** par defaut on jous avec 6 cups
+     *
+     * @param playersName
+     * @param tableSize
+     */
+    Table(const vector<string> &playersName, Vec2i tableSize) {
+        for (const auto &it : playersName) {
+            players.emplace_back(it, 6, tableSize);
+        }
+    }
+
+    Table(const vector<string> &playersName, int nbOfCups, const Vec2i &tableSize) {
+        for (const auto &it : playersName) {
+            players.emplace_back(it,nbOfCups,tableSize);
         }
     }
 
     /** Getters
      */
-    const vector<Player> getPlayers() const {
+    vector<Player> getPlayers() const {
         return players;
     }
 
-    const Ball getPingPong() const {
+    Ball getPingPong() const {
         return PingPong;
     }
 

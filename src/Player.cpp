@@ -54,7 +54,7 @@ vector<Vec3<int>> Player::throwBall(float power, float angle, float lateralOffse
         x = (int)floor(Vx * (y - y0) / Vy) + x0;
         z = (int)floor(-9.81*y*y/(Vy*Vy)) + y + z0;
         //cout << "(x,y,z) = (" << x << ", " << y << ", " << z << ")" << endl;
-        throwingPositions.push_back(Vec3<int>(x,y,z));
+        throwingPositions.emplace_back(x,y,z);
     }
     return throwingPositions;
 }
