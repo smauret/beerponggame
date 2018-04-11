@@ -18,7 +18,7 @@ using namespace std;
 class Table {
 private:
     vector<Player> players;
-    Ball PingPong;
+    Ball ball;
 public:
     /** Constructeurs
      */
@@ -59,8 +59,8 @@ public:
         return players;
     }
 
-    Ball getPingPong() const {
-        return PingPong;
+    Ball getBall() const {
+        return ball;
     }
 
     /** Setters
@@ -69,8 +69,8 @@ public:
         Table::players = players;
     }
 
-    void setPingPong(const Ball &PingPong) {
-        Table::PingPong = PingPong;
+    void setBall(const Ball &ball) {
+        Table::ball = ball;
     }
 
 };
