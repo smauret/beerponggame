@@ -10,8 +10,6 @@ void Player::removeCup(int id) {
 
     cups.erase(cups.begin() + i);
     cupsLeft--;
-
-
 }
 
 vector<Vec3<int>> Player::throwBall(float power, float angle, float lateralOffset){
