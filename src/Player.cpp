@@ -66,26 +66,26 @@ vector<Vec3<int>> Player::throwBall(){
 
 vector<Vec2i> Player::cupsPositions(int nbOfCups) {
     vector<Vec2i> positions;
-    if (tableSize.x == 240 && tableSize.y == 41){
+    if (tableSize.x == 240 && tableSize.y == 61){
         if (nbOfCups == 6){
-            positions.emplace_back(19,10);
-            positions.emplace_back(30,10);
-            positions.emplace_back(41,10);
-            positions.emplace_back(24,21);
-            positions.emplace_back(35,21);
-            positions.emplace_back(30,32);
+            positions.emplace_back(22,10);
+            positions.emplace_back(31,10);
+            positions.emplace_back(40,10);
+            positions.emplace_back(26,19);
+            positions.emplace_back(35,19);
+            positions.emplace_back(31,28);
         }
         if (nbOfCups == 10){
-            positions.emplace_back(16,10);
-            positions.emplace_back(26,10);
-            positions.emplace_back(36,10);
-            positions.emplace_back(46,10);
-            positions.emplace_back(21,20);
-            positions.emplace_back(31,20);
-            positions.emplace_back(41,20);
-            positions.emplace_back(26,30);
-            positions.emplace_back(36,30);
-            positions.emplace_back(31,40);
+            positions.emplace_back(18,10);
+            positions.emplace_back(27,10);
+            positions.emplace_back(38,10);
+            positions.emplace_back(47,10);
+            positions.emplace_back(22,19);
+            positions.emplace_back(31,19);
+            positions.emplace_back(40,19);
+            positions.emplace_back(27,28);
+            positions.emplace_back(39,28);
+            positions.emplace_back(31,37);
         }
     }
     return positions;
