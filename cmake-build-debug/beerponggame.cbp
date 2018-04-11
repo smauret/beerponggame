@@ -90,12 +90,6 @@
 		<Unit filename="/home/lucas/CLionProjects/beerponggame/src/Ball.h">
 			<Option target="beerpongproject"/>
 		</Unit>
-		<Unit filename="/home/lucas/CLionProjects/beerponggame/src/BoardGame.cpp">
-			<Option target="beerpongproject"/>
-		</Unit>
-		<Unit filename="/home/lucas/CLionProjects/beerponggame/src/BoardGame.h">
-			<Option target="beerpongproject"/>
-		</Unit>
 		<Unit filename="/home/lucas/CLionProjects/beerponggame/src/Cup.cpp">
 			<Option target="beerpongproject"/>
 		</Unit>
@@ -106,6 +100,12 @@
 			<Option target="beerpongproject"/>
 		</Unit>
 		<Unit filename="/home/lucas/CLionProjects/beerponggame/src/Player.h">
+			<Option target="beerpongproject"/>
+		</Unit>
+		<Unit filename="/home/lucas/CLionProjects/beerponggame/src/Table.cpp">
+			<Option target="beerpongproject"/>
+		</Unit>
+		<Unit filename="/home/lucas/CLionProjects/beerponggame/src/Table.h">
 			<Option target="beerpongproject"/>
 		</Unit>
 		<Unit filename="/home/lucas/CLionProjects/beerponggame/src/Vec2.h">

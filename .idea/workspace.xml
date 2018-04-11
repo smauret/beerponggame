@@ -11,7 +11,23 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="62af1369-5f07-4f71-8bb5-10c1e7281753" name="Default" comment="" />
+    <list default="true" id="62af1369-5f07-4f71-8bb5-10c1e7281753" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/CXX.includecache" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/CXX.includecache" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/DependInfo.cmake" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/build.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/build.make" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/cmake_clean.cmake" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/depend.internal" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/depend.internal" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/depend.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/depend.make" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/link.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/link.txt" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/src/Cup.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/src/Cup.cpp.o" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/src/Player.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/src/Player.cpp.o" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/beerponggame.cbp" afterPath="$PROJECT_DIR$/cmake-build-debug/beerponggame.cbp" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/beerpongproject" afterPath="$PROJECT_DIR$/cmake-build-debug/beerpongproject" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,7 +38,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6223602">
+    <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
@@ -35,11 +51,53 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="Cup.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Cup.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="468">
+                  <caret line="27" column="92" lean-forward="false" selection-start-line="27" selection-start-column="92" selection-end-line="27" selection-end-column="92" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Player.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Player.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-3">
+                  <caret line="93" column="6" lean-forward="false" selection-start-line="93" selection-start-column="6" selection-end-line="93" selection-end-column="6" />
+                  <folding>
+                    <element signature="e#51#67#0" expanded="true" />
+                    <element signature="e#974#1067#0" expanded="false" />
+                    <element signature="e#1073#1147#0" expanded="false" />
+                    <element signature="e#1153#1228#0" expanded="false" />
+                    <element signature="e#1234#1309#0" expanded="false" />
+                    <element signature="e#1315#1403#0" expanded="false" />
+                    <element signature="e#1409#1478#0" expanded="false" />
+                    <element signature="e#1484#1535#0" expanded="false" />
+                    <element signature="e#1541#1591#0" expanded="false" />
+                    <element signature="e#1597#1647#0" expanded="false" />
+                    <element signature="e#1653#1708#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Player.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/Player.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="487">
+                  <caret line="84" column="42" lean-forward="true" selection-start-line="84" selection-start-column="42" selection-end-line="84" selection-end-column="42" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="Table.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Table.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="807">
-                  <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+                <state relative-caret-position="648">
+                  <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
                   <folding>
                     <element signature="e#110#127#0" expanded="true" />
                   </folding>
@@ -47,33 +105,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Table.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Table.cpp">
+          <file leaf-file-name="Ball.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Ball.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="54">
-                  <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Player.h" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/Player.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="307">
-                  <caret line="81" column="15" lean-forward="false" selection-start-line="81" selection-start-column="15" selection-end-line="81" selection-end-column="15" />
-                  <folding>
-                    <element signature="e#51#67#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Player.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Player.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="15" column="36" lean-forward="false" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
+                <state relative-caret-position="306">
+                  <caret line="17" column="25" lean-forward="false" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
                   <folding />
                 </state>
               </provider>
@@ -82,8 +118,8 @@
           <file leaf-file-name="mainLucas.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/mainLucas.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="378">
-                  <caret line="21" column="47" lean-forward="false" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
+                <state relative-caret-position="309">
+                  <caret line="21" column="40" lean-forward="false" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="40" />
                   <folding>
                     <element signature="e#0#19#0" expanded="true" />
                   </folding>
@@ -94,14 +130,23 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="Table.h" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/Table.h">
+        <leaf>
+          <file leaf-file-name="Player.h" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/Player.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="324">
-                  <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+                <state relative-caret-position="231">
+                  <caret line="26" column="34" lean-forward="false" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
                   <folding>
-                    <element signature="e#110#127#0" expanded="true" />
+                    <element signature="e#51#67#0" expanded="true" />
+                    <element signature="e#974#1067#0" expanded="false" />
+                    <element signature="e#1073#1147#0" expanded="false" />
+                    <element signature="e#1153#1228#0" expanded="false" />
+                    <element signature="e#1234#1309#0" expanded="false" />
+                    <element signature="e#1315#1403#0" expanded="false" />
+                    <element signature="e#1409#1478#0" expanded="false" />
+                    <element signature="e#1541#1591#0" expanded="false" />
+                    <element signature="e#1597#1647#0" expanded="false" />
+                    <element signature="e#1653#1708#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -121,13 +166,13 @@
         <option value="$PROJECT_DIR$/src/BoardGame.cpp" />
         <option value="$PROJECT_DIR$/src/Ball.cpp" />
         <option value="$PROJECT_DIR$/src/Ball.h" />
-        <option value="$PROJECT_DIR$/src/Cup.h" />
-        <option value="$PROJECT_DIR$/src/mainLucas.cpp" />
         <option value="$PROJECT_DIR$/src/BoardGame.h" />
-        <option value="$PROJECT_DIR$/src/Table.h" />
         <option value="$PROJECT_DIR$/src/Table.cpp" />
-        <option value="$PROJECT_DIR$/src/Player.cpp" />
+        <option value="$PROJECT_DIR$/src/Table.h" />
+        <option value="$PROJECT_DIR$/src/mainLucas.cpp" />
         <option value="$PROJECT_DIR$/src/Player.h" />
+        <option value="$PROJECT_DIR$/src/Cup.h" />
+        <option value="$PROJECT_DIR$/src/Player.cpp" />
       </list>
     </option>
   </component>
@@ -194,7 +239,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.beerpongproject">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="beerponggame" RUN_TARGET_NAME="beerpongproject" EXPLICIT_BUILD_TARGET_NAME="all">
       <envs />
     </configuration>
     <configuration name="beerpongproject" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="beerponggame" TARGET_NAME="beerpongproject" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="beerponggame" RUN_TARGET_NAME="beerpongproject">
@@ -228,7 +273,9 @@
       <workItem from="1523045813178" duration="1198000" />
       <workItem from="1523304750353" duration="252000" />
       <workItem from="1523306289972" duration="6192000" />
-      <workItem from="1523328900719" duration="4604000" />
+      <workItem from="1523328900719" duration="4678000" />
+      <workItem from="1523393367902" duration="9588000" />
+      <workItem from="1523463020905" duration="5435000" />
     </task>
     <task id="LOCAL-00001" summary="Modif project name">
       <created>1522974285062</created>
@@ -265,23 +312,77 @@
       <option name="project" value="LOCAL" />
       <updated>1523041946772</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Player::removeCup modification">
+      <created>1523393489573</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1523393489573</updated>
+    </task>
+    <task id="LOCAL-00007" summary="implémentation constructeurs, modification structure">
+      <created>1523394887900</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1523394887900</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Modification constructeurs, signature des fonctions: on supprime les const pour les getters car ça complique le travail">
+      <created>1523396553244</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1523396553244</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Petites modifs">
+      <created>1523419872989</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1523419872989</updated>
+    </task>
+    <task id="LOCAL-00010" summary="creation de set de positions de cups pour l'initialisation, 6 cups et 10 cups">
+      <created>1523461469437</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1523461469437</updated>
+    </task>
+    <task id="LOCAL-00011" summary="modification position cups">
+      <created>1523471936015</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1523471936015</updated>
+    </task>
+    <task id="LOCAL-00012" summary="MAJ taille cup a 9cm">
+      <created>1523474658496</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1523474658496</updated>
+    </task>
+    <task id="LOCAL-00013" summary="MAJ taille cup 9 cm">
+      <created>1523474683622</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1523474683622</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24343000" />
+    <option name="totallyTimeSpent" value="39440000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="30" width="1857" height="1092" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13207547" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33026585" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -292,8 +393,29 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33026585" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13207547" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997955" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -317,10 +439,20 @@
     <MESSAGE value="test" />
     <MESSAGE value="Travail lancé balle" />
     <MESSAGE value="fonction lancee de balle basique, retrait de tous les commentaires" />
-    <option name="LAST_COMMIT_MESSAGE" value="fonction lancee de balle basique, retrait de tous les commentaires" />
+    <MESSAGE value="Player::removeCup modification" />
+    <MESSAGE value="implémentation constructeurs, modification structure" />
+    <MESSAGE value="Modification constructeurs, signature des fonctions: on supprime les const pour les getters car ça complique le travail" />
+    <MESSAGE value="Petites modifs" />
+    <MESSAGE value="creation de set de positions de cups pour l'initialisation, 6 cups et 10 cups" />
+    <MESSAGE value="modification position cups" />
+    <MESSAGE value="MAJ taille cup a 9cm" />
+    <MESSAGE value="MAJ taille cup 9 cm" />
+    <option name="LAST_COMMIT_MESSAGE" value="MAJ taille cup 9 cm" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="6" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -420,6 +552,16 @@
           <caret line="56" column="14" lean-forward="false" selection-start-line="56" selection-start-column="11" selection-end-line="56" selection-end-column="14" />
           <folding>
             <element signature="e#51#67#0" expanded="true" />
+            <element signature="e#974#1067#0" expanded="false" />
+            <element signature="e#1073#1147#0" expanded="false" />
+            <element signature="e#1153#1228#0" expanded="false" />
+            <element signature="e#1234#1309#0" expanded="false" />
+            <element signature="e#1315#1403#0" expanded="false" />
+            <element signature="e#1409#1478#0" expanded="false" />
+            <element signature="e#1484#1535#0" expanded="false" />
+            <element signature="e#1541#1591#0" expanded="false" />
+            <element signature="e#1597#1647#0" expanded="false" />
+            <element signature="e#1653#1708#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -616,14 +758,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="15" lean-forward="false" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -660,10 +794,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Ball.h">
+    <entry file="file://$PROJECT_DIR$/src/Table.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="20" />
+        <state relative-caret-position="432">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="15" lean-forward="false" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -675,57 +818,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Cup.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1404">
-          <caret line="79" column="0" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mainLucas.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="47" lean-forward="false" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Table.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="807">
-          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+        <state relative-caret-position="648">
+          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
           <folding>
             <element signature="e#110#127#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Table.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Ball.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state relative-caret-position="306">
+          <caret line="17" column="25" lean-forward="false" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mainLucas.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="21" column="40" lean-forward="false" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Player.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3">
+          <caret line="93" column="6" lean-forward="false" selection-start-line="93" selection-start-column="6" selection-end-line="93" selection-end-column="6" />
+          <folding>
+            <element signature="e#51#67#0" expanded="true" />
+            <element signature="e#974#1067#0" expanded="false" />
+            <element signature="e#1073#1147#0" expanded="false" />
+            <element signature="e#1153#1228#0" expanded="false" />
+            <element signature="e#1234#1309#0" expanded="false" />
+            <element signature="e#1315#1403#0" expanded="false" />
+            <element signature="e#1409#1478#0" expanded="false" />
+            <element signature="e#1484#1535#0" expanded="false" />
+            <element signature="e#1541#1591#0" expanded="false" />
+            <element signature="e#1597#1647#0" expanded="false" />
+            <element signature="e#1653#1708#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Cup.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="27" column="92" lean-forward="false" selection-start-line="27" selection-start-column="92" selection-end-line="27" selection-end-column="92" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="36" lean-forward="false" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
+        <state relative-caret-position="487">
+          <caret line="84" column="42" lean-forward="true" selection-start-line="84" selection-start-column="42" selection-end-line="84" selection-end-column="42" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Player.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="81" column="15" lean-forward="false" selection-start-line="81" selection-start-column="15" selection-end-line="81" selection-end-column="15" />
-          <folding>
-            <element signature="e#51#67#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

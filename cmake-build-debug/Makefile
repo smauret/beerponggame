@@ -150,33 +150,6 @@ src/Ball.cpp.s:
 	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Ball.cpp.s
 .PHONY : src/Ball.cpp.s
 
-src/BoardGame.o: src/BoardGame.cpp.o
-
-.PHONY : src/BoardGame.o
-
-# target to build an object file
-src/BoardGame.cpp.o:
-	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o
-.PHONY : src/BoardGame.cpp.o
-
-src/BoardGame.i: src/BoardGame.cpp.i
-
-.PHONY : src/BoardGame.i
-
-# target to preprocess a source file
-src/BoardGame.cpp.i:
-	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.i
-.PHONY : src/BoardGame.cpp.i
-
-src/BoardGame.s: src/BoardGame.cpp.s
-
-.PHONY : src/BoardGame.s
-
-# target to generate assembly for a file
-src/BoardGame.cpp.s:
-	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.s
-.PHONY : src/BoardGame.cpp.s
-
 src/Cup.o: src/Cup.cpp.o
 
 .PHONY : src/Cup.o
@@ -231,6 +204,33 @@ src/Player.cpp.s:
 	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Player.cpp.s
 .PHONY : src/Player.cpp.s
 
+src/Table.o: src/Table.cpp.o
+
+.PHONY : src/Table.o
+
+# target to build an object file
+src/Table.cpp.o:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Table.cpp.o
+.PHONY : src/Table.cpp.o
+
+src/Table.i: src/Table.cpp.i
+
+.PHONY : src/Table.i
+
+# target to preprocess a source file
+src/Table.cpp.i:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Table.cpp.i
+.PHONY : src/Table.cpp.i
+
+src/Table.s: src/Table.cpp.s
+
+.PHONY : src/Table.s
+
+# target to generate assembly for a file
+src/Table.cpp.s:
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Table.cpp.s
+.PHONY : src/Table.cpp.s
+
 src/mainLucas.o: src/mainLucas.cpp.o
 
 .PHONY : src/mainLucas.o
@@ -270,15 +270,15 @@ help:
 	@echo "... src/Ball.o"
 	@echo "... src/Ball.i"
 	@echo "... src/Ball.s"
-	@echo "... src/BoardGame.o"
-	@echo "... src/BoardGame.i"
-	@echo "... src/BoardGame.s"
 	@echo "... src/Cup.o"
 	@echo "... src/Cup.i"
 	@echo "... src/Cup.s"
 	@echo "... src/Player.o"
 	@echo "... src/Player.i"
 	@echo "... src/Player.s"
+	@echo "... src/Table.o"
+	@echo "... src/Table.i"
+	@echo "... src/Table.s"
 	@echo "... src/mainLucas.o"
 	@echo "... src/mainLucas.i"
 	@echo "... src/mainLucas.s"

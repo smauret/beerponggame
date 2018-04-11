@@ -81,28 +81,28 @@ CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o.provides: CMakeFiles/beerpong
 CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o.provides.build: CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o
 
 
-CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o: CMakeFiles/beerpongproject.dir/flags.make
-CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o: ../src/BoardGame.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucas/CLionProjects/beerponggame/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o -c /home/lucas/CLionProjects/beerponggame/src/BoardGame.cpp
+CMakeFiles/beerpongproject.dir/src/Table.cpp.o: CMakeFiles/beerpongproject.dir/flags.make
+CMakeFiles/beerpongproject.dir/src/Table.cpp.o: ../src/Table.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucas/CLionProjects/beerponggame/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/beerpongproject.dir/src/Table.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/beerpongproject.dir/src/Table.cpp.o -c /home/lucas/CLionProjects/beerponggame/src/Table.cpp
 
-CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucas/CLionProjects/beerponggame/src/BoardGame.cpp > CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.i
+CMakeFiles/beerpongproject.dir/src/Table.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/beerpongproject.dir/src/Table.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucas/CLionProjects/beerponggame/src/Table.cpp > CMakeFiles/beerpongproject.dir/src/Table.cpp.i
 
-CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucas/CLionProjects/beerponggame/src/BoardGame.cpp -o CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.s
+CMakeFiles/beerpongproject.dir/src/Table.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/beerpongproject.dir/src/Table.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucas/CLionProjects/beerponggame/src/Table.cpp -o CMakeFiles/beerpongproject.dir/src/Table.cpp.s
 
-CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o.requires:
+CMakeFiles/beerpongproject.dir/src/Table.cpp.o.requires:
 
-.PHONY : CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o.requires
+.PHONY : CMakeFiles/beerpongproject.dir/src/Table.cpp.o.requires
 
-CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o.provides: CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o.requires
-	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o.provides.build
-.PHONY : CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o.provides
+CMakeFiles/beerpongproject.dir/src/Table.cpp.o.provides: CMakeFiles/beerpongproject.dir/src/Table.cpp.o.requires
+	$(MAKE) -f CMakeFiles/beerpongproject.dir/build.make CMakeFiles/beerpongproject.dir/src/Table.cpp.o.provides.build
+.PHONY : CMakeFiles/beerpongproject.dir/src/Table.cpp.o.provides
 
-CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o.provides.build: CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o
+CMakeFiles/beerpongproject.dir/src/Table.cpp.o.provides.build: CMakeFiles/beerpongproject.dir/src/Table.cpp.o
 
 
 CMakeFiles/beerpongproject.dir/src/Player.cpp.o: CMakeFiles/beerpongproject.dir/flags.make
@@ -180,7 +180,7 @@ CMakeFiles/beerpongproject.dir/src/Cup.cpp.o.provides.build: CMakeFiles/beerpong
 # Object files for target beerpongproject
 beerpongproject_OBJECTS = \
 "CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o" \
-"CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o" \
+"CMakeFiles/beerpongproject.dir/src/Table.cpp.o" \
 "CMakeFiles/beerpongproject.dir/src/Player.cpp.o" \
 "CMakeFiles/beerpongproject.dir/src/Ball.cpp.o" \
 "CMakeFiles/beerpongproject.dir/src/Cup.cpp.o"
@@ -189,7 +189,7 @@ beerpongproject_OBJECTS = \
 beerpongproject_EXTERNAL_OBJECTS =
 
 beerpongproject: CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o
-beerpongproject: CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o
+beerpongproject: CMakeFiles/beerpongproject.dir/src/Table.cpp.o
 beerpongproject: CMakeFiles/beerpongproject.dir/src/Player.cpp.o
 beerpongproject: CMakeFiles/beerpongproject.dir/src/Ball.cpp.o
 beerpongproject: CMakeFiles/beerpongproject.dir/src/Cup.cpp.o
@@ -204,7 +204,7 @@ CMakeFiles/beerpongproject.dir/build: beerpongproject
 .PHONY : CMakeFiles/beerpongproject.dir/build
 
 CMakeFiles/beerpongproject.dir/requires: CMakeFiles/beerpongproject.dir/src/mainLucas.cpp.o.requires
-CMakeFiles/beerpongproject.dir/requires: CMakeFiles/beerpongproject.dir/src/BoardGame.cpp.o.requires
+CMakeFiles/beerpongproject.dir/requires: CMakeFiles/beerpongproject.dir/src/Table.cpp.o.requires
 CMakeFiles/beerpongproject.dir/requires: CMakeFiles/beerpongproject.dir/src/Player.cpp.o.requires
 CMakeFiles/beerpongproject.dir/requires: CMakeFiles/beerpongproject.dir/src/Ball.cpp.o.requires
 CMakeFiles/beerpongproject.dir/requires: CMakeFiles/beerpongproject.dir/src/Cup.cpp.o.requires
