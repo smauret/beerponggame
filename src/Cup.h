@@ -25,7 +25,7 @@ public:
 
     Cup(int ID, const Vec2i &position, int hauteur, int rayon) : ID(ID), position(position), hauteur(hauteur), rayon(rayon) {}
 
-    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {hauteur = 12; rayon = 10;}
+    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {hauteur = 12; rayon = 9;}
 
     Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/}
 
