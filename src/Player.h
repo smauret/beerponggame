@@ -24,11 +24,11 @@ public:
     explicit Player(string name) : name(std::move(name)) {}
 
     Player(string name, int nbOfCups) : name(std::move(name)), cupsLeft(nbOfCups) {
+        vector<Vec2i> positionCups = cupsPositions(nbOfCups);
         for (int i=0; i<cupsLeft; i++){
-            cups.emplace_back(i);
+            cups.emplace_back(i,positionCups[i]);
         }
-        tableSize = Vec2i(240,60);
-        //cout << Player::name << " créé ! :) :) :)" << endl;
+        tableSize = Vec2i(240,61);
     }
 
 
@@ -111,6 +111,14 @@ public:
      */
     // on peu calculer comme dans le cas joueur humain, mais il faudrait remplir le vecteur dans l'autre sens je pense (la balle est lancée depuis l'autre coté de la table)
     vector<Vec3<int>> throwBall();
+
+    /** retourne la liste des positions des cups en fonction du nombre de cups avec lequel on jous
+     *
+     * @param nbOfCups le nombre de cups
+     * @return les positions des cups au début de la partie
+     */
+    vector<Vec2i> cupsPositions(int nbOfCups);
+
 
 };
 

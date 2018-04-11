@@ -64,6 +64,31 @@ vector<Vec3<int>> Player::throwBall(){
 
 }
 
+vector<Vec2i> Player::cupsPositions(int nbOfCups) {
+    vector<Vec2i> positions;
+    if (nbOfCups == 6){
+        positions.emplace_back(21,10);
+        positions.emplace_back(31,10);
+        positions.emplace_back(41,10);
+        positions.emplace_back(26,20);
+        positions.emplace_back(36,20);
+        positions.emplace_back(31,30);
+    }
+    if (nbOfCups == 10){
+        positions.emplace_back(16,10);
+        positions.emplace_back(26,10);
+        positions.emplace_back(36,10);
+        positions.emplace_back(46,10);
+        positions.emplace_back(21,20);
+        positions.emplace_back(31,20);
+        positions.emplace_back(41,20);
+        positions.emplace_back(26,30);
+        positions.emplace_back(36,30);
+        positions.emplace_back(31,40);
+    }
+    return positions;
+}
+
 
 
 

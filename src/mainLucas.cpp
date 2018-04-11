@@ -17,16 +17,23 @@ int main() {
 
     vector<Vec3<int>> throwingPositions2 = board.getPlayers()[1].throwBall(58,0.5,0);
 
-
     Player lucas = Player("Lucas",10);
+    cout << "Test position cups avec 10 cups ______________________________" << endl;
+    for (int i=0; i<lucas.getCups().size(); i++){
+        cout << "Cups position: (" << lucas.getCups()[i].getPosition().x << "," << lucas.getCups()[i].getPosition().y << ")" << endl;
+    }
+
+    /*cout << "Test remove de la cup: ID = 2 ______________________________" << endl;
     for (int i=0; i<lucas.getCups().size(); i++){
         cout << "Cups ID: " << lucas.getCups()[i].getID() << endl;
     }
 
-    lucas.removeCup(5);
+    lucas.removeCup(2);
 
     for (int i=0; i<lucas.getCups().size(); i++){
         cout << "Cups ID: " << lucas.getCups()[i].getID() << endl;
-    }
+    }*/
+
+
     return 0;
 }

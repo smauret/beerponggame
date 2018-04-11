@@ -34,7 +34,6 @@ public:
         for (const auto &it : playersName) {
             players.emplace_back(it,nbOfCups);
         }
-        // Creer des sets de positions des cups en fonction du nombre de celles-ci.
     }
 
     /** par defaut on jous avec 6 cups
