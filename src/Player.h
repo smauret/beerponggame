@@ -24,11 +24,11 @@ public:
     explicit Player(string name) : name(std::move(name)) {}
 
     Player(string name, int nbOfCups) : name(std::move(name)), cupsLeft(nbOfCups) {
+        tableSize = Vec2i(240,61);
         vector<Vec2i> positionCups = cupsPositions(nbOfCups);
         for (int i=0; i<cupsLeft; i++){
             cups.emplace_back(i,positionCups[i]);
         }
-        tableSize = Vec2i(240,61);
     }
 
 
@@ -96,6 +96,8 @@ public:
      */
     void removeCup(int id);
 
+
+
     /** Fonction lancé de balle pour un joueur humain
      *
      * @param power la puissance du lancé, entre 0 et 1
@@ -105,6 +107,8 @@ public:
      */
     vector<Vec3<int>> throwBall(float power, float angle, float translation);
 
+
+
     /** Fonction lancé de balle pour un joueur computeur
      *
      * @return Le vecteur qui represente l'ensemble des positions prises par la balle lors du lancé
@@ -112,12 +116,23 @@ public:
     // on peu calculer comme dans le cas joueur humain, mais il faudrait remplir le vecteur dans l'autre sens je pense (la balle est lancée depuis l'autre coté de la table)
     vector<Vec3<int>> throwBall();
 
+
+
     /** retourne la liste des positions des cups en fonction du nombre de cups avec lequel on jous
      *
      * @param nbOfCups le nombre de cups
      * @return les positions des cups au début de la partie
      */
     vector<Vec2i> cupsPositions(int nbOfCups);
+
+
+    /** Movve the cup to a new position
+     *
+     * @param cupID ID of the cup to moove
+     * @param newPosition The position where to moove the cup
+     * @return true = worked, false = did not work (other cup at the same position for example)
+     */
+    bool mooveCup(int cupID, Vec2i newPosition);
 
 
 };
