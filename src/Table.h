@@ -36,7 +36,7 @@ public:
         }
     }
 
-    /** par defaut on jous avec 6 cups
+    /** default to 6 cups per player
      *
      * @param playersName
      * @param tableSize
