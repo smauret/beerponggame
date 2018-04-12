@@ -62,6 +62,18 @@ vector<Vec3<int>> Player::throwBall(){
 
 }
 
+vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0){
+    vector<Vec3<int>> ballTrajectory;
+    float g = 9.81;
+    int x,z;
+    for (int y=0; y<=tableSize.x; y++){
+        z = round(-0.5 * (g * y * y)/(2 * cos(alpha) * cos(alpha) * v0) + tan(alpha) * y + h);
+        x = round(y * (cos(beta)/cos(alpha)));
+        ballTrajectory.emplace_back(x,y,z);
+    }
+    return ballTrajectory;
+}
+
 vector<Vec2i> Player::cupsPositions(int nbOfCups) {
     vector<Vec2i> positions;
     if (tableSize.x == 240 && tableSize.y == 61){

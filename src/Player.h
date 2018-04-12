@@ -116,7 +116,8 @@ public:
     // on peu calculer comme dans le cas joueur humain, mais il faudrait remplir le vecteur dans l'autre sens je pense (la balle est lancée depuis l'autre coté de la table)
     vector<Vec3<int>> throwBall();
 
-
+    /** Ball trajectory considering its mass*/
+    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0);
 
     /** retourne la liste des positions des cups en fonction du nombre de cups avec lequel on jous
      *

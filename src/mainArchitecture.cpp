@@ -20,7 +20,7 @@ int main() {
     Player lucas = Player("Lucas",10);
     cout << "Test position cups avec 10 cups ______________________________" << endl;
     for (int i=0; i<lucas.getCups().size(); i++){
-        cout << "Cups position: (" << lucas.getCups()[i].getPosition().x << "," << lucas.getCups()[i].getPosition().y << ")" << endl;
+        //cout << "Cups position: (" << lucas.getCups()[i].getPosition().x << "," << lucas.getCups()[i].getPosition().y << ")" << endl;
     }
 
     /*cout << "Test remove de la cup: ID = 2 ______________________________" << endl;
@@ -33,6 +33,11 @@ int main() {
     for (int i=0; i<lucas.getCups().size(); i++){
         cout << "Cups ID: " << lucas.getCups()[i].getID() << endl;
     }*/
+    vector<Vec3<int>> ballTrajectory;
+    ballTrajectory = lucas.throwBall (0.5, 1.5, 0.5, 0.2);
+    for (int i=0; i<=240; i++){
+        cout << "x : " << ballTrajectory[i].getX() << "|y : " << ballTrajectory[i].getY() << "|z : " << ballTrajectory[i].getZ() << endl;
+    }
 
 
     return 0;
