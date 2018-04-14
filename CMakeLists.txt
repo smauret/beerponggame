@@ -19,11 +19,14 @@ if (COMMAND cmake_policy)
 endif ()
 
 
-set (URHO3D_HOME /Users/mac/Documents/Adv.Prog.Tech/BP/Urho3D/cmake-build-debug)
+set (ENV{URHO3D_HOME} include/Urho3D/cmake-build-debug)
 # Set project name
 project (beerponggame)
 # Set CMake modules search path
 set (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
+
+find_package(OpenGL REQUIRED)
+
 # Include UrhoCommon.cmake module after setting project name
 include (UrhoCommon)
 # Define target name
@@ -32,9 +35,8 @@ set (TARGET_NAME mainNajwa.cpp)
 define_source_files (EXTRA_H_FILES ${COMMON_SAMPLE_H_FILES})
 # Setup target with resource copying
 setup_main_executable ()
-#add_executable(beerpongproject src/mainLucas.cpp src/BoardGame.cpp src/BoardGame.h src/Player.cpp src/Player.h src/Ball.cpp src/Ball.h src/Cup.cpp src/Cup.h src/Vec2.h src/Vec3.h mainNajwa.cpp mainNajwa.h Sample.h)
 
 
 add_executable(beerpongproject mainNajwa.cpp mainNajwa.h Sample.h Sample.inl)
-
+target_link_libraries(beerpongproject ${URHO3D_LIBRARIES} ${OPENGL_LIBRARIES} dl)
 

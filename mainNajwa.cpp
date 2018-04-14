@@ -41,7 +41,8 @@
 
 
 #include <iostream>
-#include <cTime>
+//#include <cTime>
+#include <ctime>
 #include <vector>
 #include <Urho3D/UI/Font.h>
 
