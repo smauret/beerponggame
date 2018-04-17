@@ -1,9 +1,5 @@
-cmake_minimum_required(VERSION 3.9)
-#project(beerponggame)
-
-set(CMAKE_CXX_STANDARD 17)
-
-
+cmake_minimum_required(VERSION 3.2.3)
+set(CMAKE_CXX_STANDARD 11)
 
 if (COMMAND cmake_policy)
     # Libraries linked via full path no longer produce linker search paths
@@ -18,25 +14,18 @@ if (COMMAND cmake_policy)
     cmake_policy (SET CMP0063 OLD)
 endif ()
 
-
-set (ENV{URHO3D_HOME} include/Urho3D/cmake-build-debug)
-# Set project name
 project (beerponggame)
+
+# Set URHO3D_HOME environment variable so that CMake can find Urho3D library
+set (ENV{URHO3D_HOME} include/Urho3D/build)
 # Set CMake modules search path
 set (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
-
-find_package(OpenGL REQUIRED)
 
 # Include UrhoCommon.cmake module after setting project name
 include (UrhoCommon)
 # Define target name
-set (TARGET_NAME mainNajwa.cpp)
+set (TARGET_NAME beerpongproject_emptyscene)
 # Define source files
 define_source_files (EXTRA_H_FILES ${COMMON_SAMPLE_H_FILES})
 # Setup target with resource copying
 setup_main_executable ()
-
-
-add_executable(beerpongproject mainNajwa.cpp mainNajwa.h Sample.h Sample.inl)
-target_link_libraries(beerpongproject ${URHO3D_LIBRARIES} ${OPENGL_LIBRARIES} dl)
-
