@@ -139,8 +139,8 @@ void simpleScene::CreateScene()
         // We need to modify the Cup object too !
         // Add cup on table
         Node* cupNode = tableNode->CreateChild("Cup");
-        cupNode->SetPosition(Vector3(0.1f, 1.1f, 0.1f));
-        cupNode->SetScale(Vector3(0.1f, 1.0f, 0.1f));
+        cupNode->SetPosition(Vector3(0.1f, 0.6f, 0.1f));
+        cupNode->SetScale(Vector3(0.05f, 1.0f, 0.05f));
         auto* cupObject = cupNode->CreateComponent<StaticModel>();
         cupObject->SetModel(cache->GetResource<Model>("Models/Krujka.mdl"));
         cupObject->SetMaterial(cache->GetResource<Material>("Materials/Krujka-Me.xml"));
@@ -194,10 +194,6 @@ void simpleScene::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(simpleScene, HandleUpdate));
-
-    // Subscribe HandlePostRenderUpdate() function for processing the post-render update event, during which we request
-    // debug geometry
-    SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(simpleScene, HandlePostRenderUpdate));
 }
 
 // Should be renamed to UpdateScene if the scene evolves too in this method
@@ -263,9 +259,6 @@ void simpleScene::MoveCamera(float timeStep)
     //     scene_->LoadXML(loadFile);
     // }
 
-    // Toggle physics debug geometry with space
-    // if (input->GetKeyPress(KEY_SPACE))
-    // drawDebug_ = !drawDebug_;
 }
 
 void simpleScene::HandleUpdate(StringHash eventType, VariantMap& eventData)

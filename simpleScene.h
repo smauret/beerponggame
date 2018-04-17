@@ -24,8 +24,6 @@ public:
 private:
     /// Construct the scene content.
     void CreateScene();
-    /// Construct an instruction text to the UI.
-    // void CreateInstructions();
     /// Set up a viewport for displaying the scene.
     void SetupViewport();
     /// Subscribe to application-wide logic update and post-render update events.
@@ -36,7 +34,5 @@ private:
     // void SpawnObject();
     /// Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
-    /// Handle the post-render update event.
-    void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData);
 
 };
