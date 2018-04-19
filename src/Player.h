@@ -117,7 +117,7 @@ public:
     vector<Vec3<int>> throwBall();
 
     /** Ball trajectory considering its mass*/
-    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0);
+    vector<Vec3<float>> throwBall (float alpha, float beta, float h, float v0);
 
     /** retourne la liste des positions des cups en fonction du nombre de cups avec lequel on jous
      *

@@ -62,14 +62,15 @@ vector<Vec3<int>> Player::throwBall(){
 
 }
 
-vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0){
-    vector<Vec3<int>> ballTrajectory;
-    float g = 9.81;
-    int x,z;
+vector<Vec3<float>> Player::throwBall (float alpha, float beta, float h, float v0){
+    vector<Vec3<float>> ballTrajectory;
+    float g = 981*0.15; //cm.s-2
+    float x,z;
     for (int y=0; y<=tableSize.x; y++){
-        z = round(-0.5 * (g * y * y)/(2 * cos(alpha) * cos(alpha) * v0) + tan(alpha) * y + h);
-        x = round(y * (cos(beta)/cos(alpha)));
+        z = (float)(-0.5 * (g * y * y)/(cos(alpha) * cos(alpha) * v0 * v0) + tan(alpha) * y + h);
+        x = (y * (cos(beta)/cos(alpha)));
         ballTrajectory.emplace_back(x,y,z);
+        cout << "y =" << y << " || " << /*cos(alpha)*/ (g * y * y)/(cos(alpha) * cos(alpha) * v0 * v0) << " | tan(alpha)*y = " << tan(alpha) * y << " | total = " << z << endl;
     }
     return ballTrajectory;
 }

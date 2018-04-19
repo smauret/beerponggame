@@ -33,10 +33,10 @@ int main() {
     for (int i=0; i<lucas.getCups().size(); i++){
         cout << "Cups ID: " << lucas.getCups()[i].getID() << endl;
     }*/
-    vector<Vec3<int>> ballTrajectory;
-    ballTrajectory = lucas.throwBall (0.5, 1.5, 0.5, 0.2);
+    vector<Vec3<float>> ballTrajectory;
+    ballTrajectory = lucas.throwBall (1.0, 1.5, 100, 100);
     for (int i=0; i<=240; i++){
-        cout << "x : " << ballTrajectory[i].getX() << "|y : " << ballTrajectory[i].getY() << "|z : " << ballTrajectory[i].getZ() << endl;
+        //cout << "x : " << ballTrajectory[i].getX() << "|y : " << ballTrajectory[i].getY() << "|z : " << ballTrajectory[i].getZ() << endl;
     }
 
 
