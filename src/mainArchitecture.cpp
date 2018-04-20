@@ -26,6 +26,7 @@ int main() {
         cout << ", " << cup.getID();
     }
     cout << "." << endl;
+    cout << "test" << endl;
 
 
 
