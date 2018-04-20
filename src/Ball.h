@@ -9,7 +9,19 @@
 class Ball {
 public:
 
-    Ball();
+    Ball() {}
+
+    void setSize(int size) {
+        Ball::size = size;
+    }
+
+    int getSize() const {
+        return size;
+    }
+
+private:
+    int size; // size in cm of the ball
+
 };
 
 
