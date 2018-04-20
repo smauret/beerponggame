@@ -14,10 +14,16 @@ void Player::removeCup(int id) {
 
 
 vector<Vec3<int>> Player::throwBall(){
+    float alpha, beta, h, v0;
+    int startX;
+    alpha = 0.5;
+    beta = static_cast<float>(M_PI / 2);
+
+    return throwBall(alpha, beta, h, v0, startX);
 
 }
 
-vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0){
+vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0, int startX){
     vector<Vec3<int>> ballTrajectory;
     float g = 981; //cm.s-2
     float a = -g/(2*cos(alpha)*cos(alpha)*v0*v0);
@@ -29,8 +35,8 @@ vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0)
     for (int y=0; y<=tableSize.y; y++){
         z = (int)round(a * y * y + b * y + h);
         x = (int)round(y * d);
-        ballTrajectory.emplace_back(x,y,z);
-        cout << "x = " << x << " | y = " << y << " | z = " << z << endl;
+        ballTrajectory.emplace_back(x+startX,y,z);
+        cout << "x = " << ballTrajectory[y].getX() << " | y = " << ballTrajectory[y].getY() << " | z = " << ballTrajectory[y].getZ() << endl;
     }
 
     int cupScored = scoreCup(a, b, c, ballTrajectory);

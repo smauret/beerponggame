@@ -16,7 +16,7 @@ int main() {
     Player lucas = Player("Lucas",10);
     cout << "Test position cups avec 10 cups ______________________________" << endl;
     vector<Vec3<int>> ballTrajectory;
-    ballTrajectory = lucas.throwBall (0.5, M_PI/2.2, 100, 400);
+    ballTrajectory = lucas.throwBall (0.5, static_cast<float>(M_PI / 2), 100, 400, 30);
     for (int i=0; i<=240; i++){
         //cout << "x : " << ballTrajectory[i].getX() << "|y : " << ballTrajectory[i].getY() << "|z : " << ballTrajectory[i].getZ() << endl;
     }
@@ -26,8 +26,6 @@ int main() {
         cout << ", " << cup.getID();
     }
     cout << "." << endl;
-    cout << "test" << endl;
-
 
 
     return 0;

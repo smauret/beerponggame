@@ -108,19 +108,18 @@ public:
      *
      * @return all the positions taken by the ball
      */
-    // on peu calculer comme dans le cas joueur humain, mais il faudrait remplir le vecteur dans l'autre sens je pense (la balle est lancée depuis l'autre coté de la table)
     vector<Vec3<int>> throwBall();
 
 
     /** Throw the ball for a human player
      *
-     * @param alpha lateral angle (in (xz) plan)
-     * @param beta angle between shot and depth (with y)
+     * @param alpha angle between shot and depth (with y)
+     * @param beta lateral angle (in (xz) plan)
      * @param h hight of the ball at throwing
      * @param v0 fast of the throw
      * @return the trajectory vector that contain all the ball positions
      */
-    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0);
+    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0, int startX);
 
     /** Indicate if a ball scored a cup, return othe id of the cup to remove, -1 if no cup should be remooved
      *
@@ -132,10 +131,10 @@ public:
      */
     int scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory);
 
-    /** retourne la liste des positions des cups en fonction du nombre de cups avec lequel on jous
+    /** Give all the positions the cups should take at the beginning of the game, depending on the nulber of cups
      *
-     * @param nbOfCups le nombre de cups
-     * @return les positions des cups au début de la partie
+     * @param nbOfCups number of cups
+     * @return starting positions
      */
     vector<Vec2i> cupsPositions(int nbOfCups);
 
