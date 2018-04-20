@@ -104,18 +104,6 @@ public:
     void removeCup(int id);
 
 
-
-    /** Fonction lancé de balle pour un joueur humain
-     *
-     * @param power la puissance du lancé, entre 0 et 1
-     * @param angle l'angle du tire, entre 0 et 1
-     * @param translation la translation latéral du joueur, entre 0 et 1
-     * @return le vecteur qui représente l'ensemble des positions prises par la balle lors du lancé, la coordonnée y représente la profondeur du la table
-     */
-    vector<Vec3<int>> throwBall(float power, float angle, float translation);
-
-
-
     /** Fonction lancé de balle pour un joueur computeur
      *
      * @return Le vecteur qui represente l'ensemble des positions prises par la balle lors du lancé
@@ -124,8 +112,25 @@ public:
     vector<Vec3<int>> throwBall();
 
 
+    /** throw the ball for a human player
+     *
+     * @param alpha lateral angle (in (xz) plan)
+     * @param beta angle between shot and depth (with y)
+     * @param h hight of the ball at throwing
+     * @param v0 fast of the throw
+     * @return the trajectory vector that contain all the ball positions
+     */
     vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0);
-    bool scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory);
+
+    /** Indicate if a ball scored a cup, return othe id of the cup to remove, -1 if no cup should be remooved
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param ballTrajectory
+     * @return -1 = no score, int > 0 = score cup of id indicated
+     */
+    int scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory);
 
     /** retourne la liste des positions des cups en fonction du nombre de cups avec lequel on jous
      *
