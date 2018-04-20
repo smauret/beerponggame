@@ -86,6 +86,13 @@ public:
         return tableSize;
     }
 
+
+    /** Iterators */
+    typedef vector<Cup>::iterator iterator;
+    typedef vector<Cup>::const_iterator const_iterator;
+    iterator begin() { return cups.begin(); }
+    iterator end() { return cups.end(); }
+
     /** Methods
      *
      */
@@ -116,8 +123,9 @@ public:
     // on peu calculer comme dans le cas joueur humain, mais il faudrait remplir le vecteur dans l'autre sens je pense (la balle est lancée depuis l'autre coté de la table)
     vector<Vec3<int>> throwBall();
 
-    /** Ball trajectory considering its mass*/
-    vector<Vec3<float>> throwBall (float alpha, float beta, float h, float v0);
+
+    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0);
+    bool scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory);
 
     /** retourne la liste des positions des cups en fonction du nombre de cups avec lequel on jous
      *

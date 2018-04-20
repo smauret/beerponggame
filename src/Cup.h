@@ -8,14 +8,15 @@
 
 #include <iostream>
 #include "Vec2.h"
+#include <vector>
 
 class Cup {
 private:
     int ID;
     Vec2i position; //position du centre de la cup
     bool onTable;
-    int rayon; //en cm
-    int hauteur; //en cm
+    int radius; //en cm
+    int height; //en cm
 public:
 
     /** constructeurs
@@ -23,9 +24,9 @@ public:
  */
     Cup() {}
 
-    Cup(int ID, const Vec2i &position, int hauteur, int rayon) : ID(ID), position(position), hauteur(hauteur), rayon(rayon) {}
+    Cup(int ID, const Vec2i &position, int height, int radius) : ID(ID), position(position), height(height), radius(radius) {}
 
-    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {hauteur = 12; rayon = 9;}
+    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {height = 12; radius = 9;}
 
     Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/}
 
@@ -44,12 +45,12 @@ public:
         return onTable;
     }
 
-    int getRayon() const {
-        return rayon;
+    int getRadius() const {
+        return radius;
     }
 
-    int getHauteur() const {
-        return hauteur;
+    int getHeight() const {
+        return height;
     }
 
     /** setters
@@ -67,15 +68,14 @@ public:
         Cup::onTable = onTable;
     }
 
-    void setRayon(int rayon) {
-        Cup::rayon = rayon;
+    void setRadius(int radius) {
+        Cup::radius = radius;
     }
 
-    void setHauteur(int hauteur) {
-        Cup::hauteur = hauteur;
+    void setHeight(int height) {
+        Cup::height = height;
     }
 
 };
-
 
 #endif //BEERPONGPROJECT_CUP_H

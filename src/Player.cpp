@@ -62,17 +62,46 @@ vector<Vec3<int>> Player::throwBall(){
 
 }
 
-vector<Vec3<float>> Player::throwBall (float alpha, float beta, float h, float v0){
-    vector<Vec3<float>> ballTrajectory;
-    float g = 981*0.15; //cm.s-2
-    float x,z;
+vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0){
+    vector<Vec3<int>> ballTrajectory;
+    float g = 981; //cm.s-2
+    float a = -g/(2*cos(alpha)*cos(alpha)*v0*v0);
+    float b = tan(alpha);
+    float c = h - cups[0].getHeight();
+    float d = cos(beta)/cos(alpha);
+    int x,z;
+
     for (int y=0; y<=tableSize.x; y++){
-        z = (float)(-0.5 * (g * y * y)/(cos(alpha) * cos(alpha) * v0 * v0) + tan(alpha) * y + h);
-        x = (y * (cos(beta)/cos(alpha)));
+        z = (int)round(a * y * y + b * y + h);
+        x = (int)round(y * d);
         ballTrajectory.emplace_back(x,y,z);
-        cout << "y =" << y << " || " << /*cos(alpha)*/ (g * y * y)/(cos(alpha) * cos(alpha) * v0 * v0) << " | tan(alpha)*y = " << tan(alpha) * y << " | total = " << z << endl;
+        cout << "x = " << x << " | y = " << y << " | z = " << z << endl;
     }
+
+    Player::scoreCup(a, b, c, ballTrajectory);
+
     return ballTrajectory;
+}
+
+bool Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory){
+    bool score = false;
+    float delta = b * b - 4 * a * c;
+    int y1 = (int)round((-b -sqrtf(delta)) / (2 * a));
+    int y2 = (int)round((-b +sqrtf(delta)) / (2 * a));
+    int ySolution;
+    if(y1 > 0 && y1 > y2)
+        ySolution = y1;
+    else
+        ySolution = y2;
+
+    int xSolution = ballTrajectory[ySolution].getX();
+    for (auto itCup = cups.begin(); itCup != cups.end(); itCup++){
+        cout << itCup->getHeight();
+    }
+
+
+
+    return score;
 }
 
 vector<Vec2i> Player::cupsPositions(int nbOfCups) {
