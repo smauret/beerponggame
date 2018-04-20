@@ -69,8 +69,10 @@ private:
     void HandleDragEnd(StringHash eventType, VariantMap& eventData);
 
     void HandlePlayPressed(StringHash eventType, VariantMap& eventData);
+    double GetRotation(IntVector2 initPosition, IntVector2 endPosition);
+    double GetSpeed(IntVector2 initPos2, IntVector2 endPos2);
 
-    /// Vector to store the mainNajwa for iterating through them.
+        /// Vector to store the mainNajwa for iterating through them.
     Vector<SharedPtr<Sprite> > mainNajwa_;
     IntVector2 dragBeginPosition_;
     IntVector2 BeginPosition_;

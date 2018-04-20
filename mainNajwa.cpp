@@ -66,7 +66,7 @@ void mainNajwa::Start()
     Sample::Start();
 
     // Hook up to the frame update events
-    SubscribeToEvents();
+  //  SubscribeToEvents();
 
     InitControls();
 
@@ -79,23 +79,19 @@ void mainNajwa::CreateDraggableFish()
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
 
-    // Create a draggable Fish button
+    // Create a draggable Ball button
     Button* draggableFish = new Button(context_);
     draggableFish->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
-    draggableFish->SetBlendMode(BLEND_ADD);
+    draggableFish->SetBlendMode(BLEND_ALPHA);
     draggableFish->SetSize(128, 128);
     draggableFish->SetPosition((graphics->GetWidth() - draggableFish->GetWidth()) / 2, 200);
     draggableFish->SetName("Fish");
     ui->GetRoot()->AddChild(draggableFish);
 
-    // Add a tooltip to Fish button
+    // Add a tooltip to Ball button
     ToolTip* toolTip = new ToolTip(context_);
     draggableFish->AddChild(toolTip);
     toolTip->SetPosition(IntVector2(draggableFish->GetWidth() + 5, draggableFish->GetWidth() / 2)); // slightly offset from close button
-    BorderImage* textHolder = new BorderImage(context_);
-    toolTip->AddChild(textHolder);
-    textHolder->SetStyle("ToolTipBorderImage");
-
 
     // Subscribe draggableFish to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
@@ -106,11 +102,9 @@ void mainNajwa::CreateDraggableFish()
 void mainNajwa::HandleDragBegin(StringHash eventType, VariantMap& eventData)
 {
     startTime = std::clock(); //Start timer
-
     // Get UIElement relative position where input (touch or click) occurred (top-left = IntVector2(0,0))
     dragBeginPosition_ = IntVector2(eventData["ElementX"].GetInt(), eventData["ElementY"].GetInt());
     BeginPosition_ = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
-
 }
 
 
@@ -127,39 +121,38 @@ void mainNajwa::HandleDragEnd(StringHash eventType, VariantMap& eventData) // Fo
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
     std::cout << "BEGIN Position X=" <<  BeginPosition_.x_ << " Y=" <<  BeginPosition_.y_ << std::endl;
     std::cout << "END Position X=" <<  dragCurrentPosition.x_ << " Y=" <<  dragCurrentPosition.y_ << std::endl;
-    double distance = sqrt((BeginPosition_.x_  - dragCurrentPosition.x_)^2 + (BeginPosition_.y_  - dragCurrentPosition.y_)^2);
     // Calculate the power based on the time and the distance
+    double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
+    std::cout << "Speed : " << speed << std::endl;
+    double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
+    std::cout << "Rotation angle in degrees : " << rotation_angle* 180.0 / M_PI << std::endl;
+
+
+    UI* ui = GetSubsystem<UI>();
+    ui->GetRoot()->RemoveChild(mainNajwa_[0]);
+}
+
+double mainNajwa::GetSpeed(IntVector2 initPos2, IntVector2 endPos2) {
+    double distance = sqrt((initPos2.x_  - endPos2.x_)*(initPos2.x_  - endPos2.x_) + (initPos2.y_  - endPos2.y_)*(initPos2.y_  - endPos2.y_));
+    double distance_cm = distance * 0.0264583333;
     clock_t endTime = std::clock();
-    double timePassed = (endTime - startTime) / ((double)CLOCKS_PER_SEC/10);
-    std::cout << "Time passed : " << timePassed << std::endl;
-    double speed = distance/timePassed;
+    double timePassed_sec = (endTime - startTime) / ((double)CLOCKS_PER_SEC/10);
+    std::cout << "Time passed : " << timePassed_sec << std::endl;
+    double speed = distance_cm/timePassed_sec;
+    return speed;
+}
 
-
-   // UI* ui = GetSubsystem<UI>();
-   // ui->GetRoot()->RemoveChild(mainNajwa_[0]);
-
-    /*  int position = 0;
-      IntVector2 moving =  IntVector2(528 + position,256 + position);
-      UIElement* draggedElement = static_cast<UIElement*>(eventData["Element"].GetPtr());
-
-      for (int i=0;i<10;i++){
-          moving.x_= moving.x_ + position;
-          draggedElement->SetPosition(moving);
-          draggedElement->SetSize(moving.y_/4, moving.y_/4);
-          std::cout << "moving= " << moving.x_ << std::endl;
-          position = 10;
-          sleep(2);
-      }*/
-
-
+double mainNajwa::GetRotation(IntVector2 initPos2, IntVector2 endPos2) {
+    double sizeVec = sqrt((initPos2.x_ - endPos2.x_)*(initPos2.x_ - endPos2.x_) + (initPos2.y_ - endPos2.y_)*(initPos2.y_ - endPos2.y_));
+  //  std::cout << "Taille vecteur : " << sizeVec << std::endl;
+    double rotation = acos((endPos2.x_-initPos2.x_)/sizeVec);
+    std::cout << "Rotation angle in radians : " << rotation << std::endl;
+    return rotation;
 }
 void mainNajwa::InitControls() {
     UI* ui = GetSubsystem<UI>();
     ResourceCache* cache = GetSubsystem<ResourceCache>();
-
     XMLFile* style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
-
-
     // Create the Window and add it to the UI's root node
     Window* window_ = new Window(context_);
     ui->GetRoot()->AddChild(window_);
@@ -176,21 +169,45 @@ void mainNajwa::InitControls() {
 
     // Create a Button
     Button *button = new Button(context_);
+    // Add controls to Window
+    window_->AddChild(button);
     button->SetName("Button");
     button->SetMinHeight(24);
-
     // Set the text displayed on the button
     Font* font = cache->GetResource<Font>("Fonts/Anonymous Pro.ttf");
     Text* buttonText = button->CreateChild<Text>();
     buttonText->SetFont(font, 12);
     buttonText->SetAlignment(HA_CENTER, VA_CENTER);
     buttonText->SetText("PLAY");
-
-    // Add controls to Window
-    window_->AddChild(button);
-
     // Apply previously set default style
     button->SetStyleAuto();
+    Color* c = new Color(1.0,0.0,0.0,1.0);
+    button->SetColor(*c);
+    button->SetBringToFront(true);
+
+    // Display background image
+    Graphics* graphics = GetSubsystem<Graphics>();
+    // Get rendering window size as floats
+    float width = (float)graphics->GetWidth();
+    float height = (float)graphics->GetHeight();
+    Texture2D* background = cache->GetResource<Texture2D>("Textures/background_beer.jpg");
+    SharedPtr<BorderImage> back(new BorderImage(context_));
+    ui->GetRoot()->AddChild(back);
+    back->SetTexture(background);
+    back->SetSize(width,height);
+    back->SetBringToBack(true);
+    back->SetOpacity(0.3);
+
+    // Title of the first page
+    Text* title = new Text(context_);
+    title->SetText("Welcome to the BeerPong Game !");
+    ui->GetRoot()->AddChild(title);
+    title->SetStyleAuto();
+    title->SetOpacity(1.0);
+    title->SetFont("Fonts/Anonymous Pro.ttf",30);
+    title->SetPosition(((int)width-title->GetSize().x_)/2,(int)height/3);
+
+
     SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(mainNajwa,HandlePlayPressed));
 
 }
@@ -198,13 +215,9 @@ void mainNajwa::InitControls() {
 void mainNajwa::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
 {
     UI* ui = GetSubsystem<UI>();
-
     ui->GetRoot()->RemoveAllChildren();
-
-    // Create the mainNajwa to the user interface
     CreatemainNajwa();
     CreateDraggableFish();
-
 }
 void mainNajwa::CreatemainNajwa()
 {
@@ -216,10 +229,7 @@ void mainNajwa::CreatemainNajwa()
     float width = (float)graphics->GetWidth();
     float height = (float)graphics->GetHeight();
 
-
-
-    // Get the Urho3D fish texture
-    //   Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/UrhoDecal.dds");
+    // Get the cup texture
     Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/beer.png");
 
     for (unsigned i = 0; i < NUM_mainNajwa; ++i)
@@ -228,34 +238,31 @@ void mainNajwa::CreatemainNajwa()
         SharedPtr<Sprite> sprite(new Sprite(context_));
         sprite->SetTexture(decalTex);
 
-        // The UI root element is as big as the rendering window, set random position within it
-        //   sprite->SetPosition(Vector2(Random() * width, Random() * height));
+        // Set position of the cup
         sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
 
         // Set sprite size & hotspot in its center
         sprite->SetSize(IntVector2(128, 128));
         sprite->SetHotSpot(IntVector2(64, 64));
 
-        // Set random color and additive blending mode
-        sprite->SetColor(Color(Random(0.5f) + 0.5f, Random(0.5f) + 0.5f, Random(0.5f) + 0.5f));
-        sprite->SetBlendMode(BLEND_ADD);
+        // Set additive blending mode
+        sprite->SetBlendMode(BLEND_ALPHA);
 
         // Add as a child of the root UI element
         ui->GetRoot()->AddChild(sprite);
-        std::cout << "Position of cup " << i << " : " << ui->GetRoot()->FindChild(sprite) << std::endl;
+        //std::cout << "Position of cup " << i << " : " << ui->GetRoot()->FindChild(sprite) << std::endl;
 
         // Store sprite's velocity as a custom variable
         sprite->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
 
         // Store mainNajwa to our own container for easy movement update iteration
         mainNajwa_.Push(sprite);
-
     }
 
 }
 
 
-void mainNajwa::SubscribeToEvents()
+/*void mainNajwa::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(mainNajwa, HandleUpdate));
@@ -270,4 +277,4 @@ void mainNajwa::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Move mainNajwa, scale movement with time step
     // MovemainNajwa(timeStep);
-}
+}*/
