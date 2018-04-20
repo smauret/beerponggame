@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2008-2017 the Urho3D project.
+# Copyright (c) 2008-2018 the Urho3D project.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,6 @@
 
 set (AUTO_DISCOVER_VARS URHO3D_OPENGL URHO3D_D3D11 URHO3D_SSE URHO3D_DATABASE_ODBC URHO3D_DATABASE_SQLITE URHO3D_LUAJIT URHO3D_TESTING URHO3D_STATIC_RUNTIME)
 set (PATH_SUFFIX Urho3D)
-
 if (CMAKE_PROJECT_NAME STREQUAL Urho3D AND TARGET Urho3D)
     # A special case where library location is already known to be in the build tree of Urho3D project
     set (URHO3D_HOME ${CMAKE_BINARY_DIR})
@@ -324,7 +323,6 @@ else ()
     endif ()
 endif ()
 
-
 if (URHO3D_INCLUDE_DIRS AND URHO3D_LIBRARIES AND URHO3D_LIB_TYPE AND URHO3D_COMPILE_RESULT)
     set (URHO3D_FOUND 1)
     if (NOT FOUND_MESSAGE)
@@ -347,7 +345,6 @@ elseif (Urho3D_FIND_REQUIRED)
     endif ()
     message (FATAL_ERROR
         "Could NOT find compatible Urho3D library in Urho3D SDK installation or build tree. "
-        "URHO HOME = [${URHO3D_HOME}]"
         "Use URHO3D_HOME environment variable or build option to specify the location of the non-default SDK installation or build tree. ${NOT_FOUND_MESSAGE} ${TRY_COMPILE_OUT}")
 endif ()
 
