@@ -120,14 +120,11 @@ void mainNajwa::HandleDragMove(StringHash eventType, VariantMap& eventData)
 void mainNajwa::HandleDragEnd(StringHash eventType, VariantMap& eventData) // For reference (not used here)
 {
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
-    std::cout << "BEGIN Position X=" <<  BeginPosition_.x_ << " Y=" <<  BeginPosition_.y_ << std::endl;
-    std::cout << "END Position X=" <<  dragCurrentPosition.x_ << " Y=" <<  dragCurrentPosition.y_ << std::endl;
     // Calculate the power based on the time and the distance
     double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
     std::cout << "Speed : " << speed << std::endl;
     double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
     std::cout << "Rotation angle in degrees : " << rotation_angle* 180.0 / M_PI << std::endl;
-
 
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveChild(mainNajwa_[0]);
