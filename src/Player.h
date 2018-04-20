@@ -119,7 +119,7 @@ public:
      * @param v0 fast of the throw
      * @return the trajectory vector that contain all the ball positions
      */
-    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0, int startX);
+    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0, float startX);
 
     /** Indicate if a ball scored a cup, return othe id of the cup to remove, -1 if no cup should be remooved
      *
