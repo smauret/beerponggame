@@ -24,7 +24,7 @@ public:
     explicit Player(string name) : name(std::move(name)) {}
 
     Player(string name, int nbOfCups) : name(std::move(name)), cupsLeft(nbOfCups) {
-        tableSize = Vec2i(240,61);
+        tableSize = Vec2i(61,240);
         vector<Vec2i> positionCups = cupsPositions(nbOfCups);
         for (int i=0; i<cupsLeft; i++){
             cups.emplace_back(i,positionCups[i]);

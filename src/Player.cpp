@@ -71,7 +71,7 @@ vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0)
     float d = cos(beta)/cos(alpha);
     int x,z;
 
-    for (int y=0; y<=tableSize.x; y++){
+    for (int y=0; y<=tableSize.y; y++){
         z = (int)round(a * y * y + b * y + h);
         x = (int)round(y * d);
         ballTrajectory.emplace_back(x,y,z);
@@ -98,16 +98,20 @@ bool Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTraje
     int radius = cups[0].getRadius();
 
     for (auto itCup = cups.begin(); itCup != cups.end(); itCup++){
+        //cout << "x sol = " << xSolution << "  y sol = " << ySolution << " cup x = " << itCup->getPosition().x << " cup y = " << itCup->getPosition().y <<endl;
         bool onTable = itCup->isOnTable();
         if (onTable == false)
             score = false;
         else{
             Vec2i posCup = itCup->getPosition();
-            float d = 3;
-            cout << d;
+            float d = sqrtf((xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y));
+            cout << "Cup id: " << itCup->getID() << " d = " << d << endl;
+            if (d < radius){
+                score = true;
+                break;
+            }
         }
     }
-
 
 
     return score;
@@ -115,26 +119,26 @@ bool Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTraje
 
 vector<Vec2i> Player::cupsPositions(int nbOfCups) {
     vector<Vec2i> positions;
-    if (tableSize.x == 240 && tableSize.y == 61){
+    if (tableSize.y == 240 && tableSize.x == 61){
         if (nbOfCups == 6){
-            positions.emplace_back(22,10);
-            positions.emplace_back(31,10);
-            positions.emplace_back(40,10);
-            positions.emplace_back(26,19);
-            positions.emplace_back(35,19);
-            positions.emplace_back(31,28);
+            positions.emplace_back(22,tableSize.y-10);
+            positions.emplace_back(31,tableSize.y-10);
+            positions.emplace_back(40,tableSize.y-10);
+            positions.emplace_back(26,tableSize.y-19);
+            positions.emplace_back(35,tableSize.y-19);
+            positions.emplace_back(31,tableSize.y-28);
         }
         if (nbOfCups == 10){
-            positions.emplace_back(18,10);
-            positions.emplace_back(27,10);
-            positions.emplace_back(38,10);
-            positions.emplace_back(47,10);
-            positions.emplace_back(22,19);
-            positions.emplace_back(31,19);
-            positions.emplace_back(40,19);
-            positions.emplace_back(27,28);
-            positions.emplace_back(39,28);
-            positions.emplace_back(31,37);
+            positions.emplace_back(18,tableSize.y-10);
+            positions.emplace_back(27,tableSize.y-10);
+            positions.emplace_back(38,tableSize.y-10);
+            positions.emplace_back(47,tableSize.y-10);
+            positions.emplace_back(22,tableSize.y-19);
+            positions.emplace_back(31,tableSize.y-19);
+            positions.emplace_back(40,tableSize.y-19);
+            positions.emplace_back(27,tableSize.y-28);
+            positions.emplace_back(39,tableSize.y-28);
+            positions.emplace_back(31,tableSize.y-37);
         }
     }
     return positions;
