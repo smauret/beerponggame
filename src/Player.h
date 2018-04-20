@@ -104,15 +104,15 @@ public:
     void removeCup(int id);
 
 
-    /** Fonction lancé de balle pour un joueur computeur
+    /** Throw the ball for a computer
      *
-     * @return Le vecteur qui represente l'ensemble des positions prises par la balle lors du lancé
+     * @return all the positions taken by the ball
      */
     // on peu calculer comme dans le cas joueur humain, mais il faudrait remplir le vecteur dans l'autre sens je pense (la balle est lancée depuis l'autre coté de la table)
     vector<Vec3<int>> throwBall();
 
 
-    /** throw the ball for a human player
+    /** Throw the ball for a human player
      *
      * @param alpha lateral angle (in (xz) plan)
      * @param beta angle between shot and depth (with y)
