@@ -95,8 +95,17 @@ bool Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTraje
         ySolution = y2;
 
     int xSolution = ballTrajectory[ySolution].getX();
+    int radius = cups[0].getRadius();
+
     for (auto itCup = cups.begin(); itCup != cups.end(); itCup++){
-        cout << itCup->getHeight();
+        bool onTable = itCup->isOnTable();
+        if (onTable == false)
+            score = false;
+        else{
+            Vec2i posCup = itCup->getPosition();
+            float d = 3;
+            cout << d;
+        }
     }
 
 

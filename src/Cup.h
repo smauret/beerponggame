@@ -22,13 +22,13 @@ public:
     /** constructeurs
  *
  */
-    Cup() {}
+    Cup() {onTable = true;}
 
-    Cup(int ID, const Vec2i &position, int height, int radius) : ID(ID), position(position), height(height), radius(radius) {}
+    Cup(int ID, const Vec2i &position, int height, int radius) : ID(ID), position(position), height(height), radius(radius) {onTable = true;}
 
-    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {height = 12; radius = 9;}
+    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {height = 12; radius = 9; onTable = true;}
 
-    Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/}
+    Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/onTable = true;}
 
     /** getters
      *
