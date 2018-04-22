@@ -39,6 +39,10 @@ vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0,
         x = (int)round(y * d + startX);
         ballTrajectory.emplace_back(x,y,z);
         cout << "x = " << ballTrajectory[y].getX() << " | y = " << ballTrajectory[y].getY() << " | z = " << ballTrajectory[y].getZ() << endl;
+        if (z < 11) {
+            // stop when the ball is lower than the height of a cup: we don't need more information on the trajectory
+            break;
+        }
     }
 
     int cupScored = scoreCup(a, b, c, ballTrajectory);
@@ -51,24 +55,16 @@ vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0,
 }
 
 int Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory){
+    // only test the last element in ballTrajectory due to its construction
     int score = -1;
-    float delta = b * b - 4 * a * c;
-    int y1, y2;
-    y1 = (int)round((-b -sqrtf(delta)) / (2 * a));
-    y2 = (int)round((-b +sqrtf(delta)) / (2 * a));
-    int ySolution;
-    if(y1 > 0 && y1 > y2)
-        ySolution = y1;
-    else
-        ySolution = y2;
 
-    int xSolution = ballTrajectory[ySolution].getX();
+    int xSolution = ballTrajectory.back().getX();
+    int ySolution = ballTrajectory.back().getY();
     int radius = cups[0].getRadius();
 
     for (auto &cup : cups) {
-        //cout << "x sol = " << xSolution << "  y sol = " << ySolution << " cup x = " << itCup->getPosition().x << " cup y = " << itCup->getPosition().y <<endl;
-        bool onTable = cup.isOnTable();
         if (cup.isOnTable()) {
+            // The cup has not been scored yet
             Vec2i posCup = cup.getPosition();
             float d = sqrtf((xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y));
             cout << "Cup id: " << cup.getID() << " d = " << d << endl;
