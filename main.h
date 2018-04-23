@@ -71,6 +71,7 @@ private:
     /// Handle drag end for the fish button.
     void HandleDragEnd(StringHash eventType, VariantMap& eventData);
 
+    void HandleReturnPressed(StringHash eventType, VariantMap& eventData);
     void HandlePlayPressed(StringHash eventType, VariantMap& eventData);
     double GetRotation(IntVector2 initPosition, IntVector2 endPosition);
     double GetSpeed(IntVector2 initPos2, IntVector2 endPos2);
