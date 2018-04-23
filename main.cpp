@@ -56,7 +56,7 @@ static const unsigned NUM_main = 2;
 static const StringHash VAR_VELOCITY("Velocity");
 
 
-URHO3D_DEFINE_APPLICATION_MAIN(main)
+URHO3D_DEFINE_APPLICATION_MAIN(main);
 
 main::main(Context* context) :
         Sample(context),
@@ -144,8 +144,8 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     lucas_.get_z_graphics(ballTrajectory, graphicsTrajectory_);
     lucas_.get_x_graphics(ballTrajectory, graphicsTrajectory_);
     /*for(int i=0;i<graphicsTrajectory_.size();i++) {
-        std::cout << "x : " << graphicsTrajectory_[i].getX() << " | z : " << graphicsTrajectory_[i].getZ() << std::endl;
-    } */
+        std::cout << "x : " << graphicsTrajectory_[i].getX() << " | ball Size (y) = " << graphicsTrajectory_[i].getY() << " | z : " << graphicsTrajectory_[i].getZ() << std::endl;
+    }*/
 
     UI* ui = GetSubsystem<UI>();
     //ui->GetRoot()->RemoveChild(main_[0]);

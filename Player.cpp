@@ -152,10 +152,31 @@ void Player::get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>>
             graphicsTrajectory[i].setX((int)floor(witdh_pixel_middle - (pixel_width/2) + x_shift));
             //cout << "x = " << ballTrajectory[i].getX() << " | zG = " << graphicsTrajectory[i].getZ() << " | alpha = " << alpha << " | largeur pixel = "<< pixel_width << " | décalage en x = " << x_shift << " | xGraphic = " << graphicsTrajectory[i].getX() << endl;
         }
-        inverse_z_graphics(graphicsTrajectory);
+        get_ball_size(graphicsTrajectory);
     } else {
         cout << "Trajectoire de la balle en cm: " << ballTrajectory.size() << "| vecteur pour la trajectoire en graphique : " << graphicsTrajectory.size() << endl;
     }
+}
+
+void Player::get_ball_size(vector<Vec3<int>> &graphicsTrajectory) {
+    int ball_size_cm = 4; // diametre of the ball
+    auto ball_size_end_cm = (int)floor(ball_size_cm/2);
+    int width_table_cm = 60;
+    int width_pixel_table_max = 1024;
+    auto width_pixel_ball_max = (int)floor((double)ball_size_cm/width_table_cm*width_pixel_table_max);
+    auto width_pixel_ball_min = (int)floor(width_pixel_ball_max/2); // numlérateur = ratio entre haut de la table et bas de la table
+    int height_tabe_pixel = 768; // window height / 2
+
+    for (auto &i : graphicsTrajectory) {
+        // get zG depending on YA
+        int zG = i.getZ();
+        // Get width in pixel depending on zG
+        double alpha = (double)(height_tabe_pixel - zG)/height_tabe_pixel;
+        auto pixel_width = (int)floor(alpha*(width_pixel_ball_max-width_pixel_ball_min) + width_pixel_ball_min);
+        i.setY(pixel_width);
+        //cout << "zG = " << zG << " | alpha = " << alpha << " | ball size = " << pixel_width << " | minimum pixel size " << width_pixel_ball_max << endl;
+    }
+    inverse_z_graphics(graphicsTrajectory);
 }
 
 void Player::inverse_z_graphics(vector<Vec3<int>> &graphicsTrajectory)
