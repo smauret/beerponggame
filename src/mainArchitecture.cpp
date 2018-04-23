@@ -31,10 +31,10 @@ int main() {
     for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory.emplace_back(0,0,0);
     }
-    lucas.cm_to_pixel_depth(ballTrajectory, graphicsTrajectory);
+    lucas.get_z_graphics(ballTrajectory, graphicsTrajectory);
     lucas.get_x_graphics(ballTrajectory, graphicsTrajectory);
     for (int i=0; i<ballTrajectory.size(); i++){
-        //cout << "x : " << graphicsTrajectory[i].getX() << " | z : " << graphicsTrajectory[i].getZ() << endl;
+        cout << "x : " << graphicsTrajectory[i].getX() << " | z : " << graphicsTrajectory[i].getZ() << endl;
     }
 
 

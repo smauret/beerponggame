@@ -113,10 +113,10 @@ bool Player::mooveCup(int cupID, Vec2i newPosition) {
 }
 
 
-void Player::cm_to_pixel_depth(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory) {
+void Player::get_z_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory) {
     if (ballTrajectory.size() == graphicsTrajectory.size()) {
         int size_cm = 240; // depth in pixel of the table
-        int size_pixels = 1000; // height i pixel of the table
+        int size_pixels = 768; // height i pixel of the table
         double factor_a = 1;
         double factor_b = (size_pixels-1)/log(size_cm + 1);
         // function has the shape: f(x) = factor_a + factor_b + log(x+1)
@@ -133,10 +133,10 @@ void Player::cm_to_pixel_depth(vector<Vec3<int>> &ballTrajectory, vector<Vec3<in
 // supposed to be called after the cm_to_pixel_depth function
 void Player::get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory){
     if (ballTrajectory.size() == graphicsTrajectory.size()) {
-        int width_pixel_max = 2600; // width of the table max, also witdh of the window
+        int width_pixel_max = 1024; // width of the table max, also witdh of the window
         int witdh_pixel_middle = (int)floor(width_pixel_max/2);
-        int width_pixel_min = 1300;
-        int heigth_pixel_table = 1000;
+        int width_pixel_min = 512;
+        int heigth_pixel_table = 768;
         int width_cm = 60;
 
 
@@ -151,19 +151,31 @@ void Player::get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>>
             double x_shift = pixel_width*ballTrajectory[i].getX()/width_cm; // maybe <0 or bigger that the table (ball out of the table) => handle
             // We don't k ow where the left of the table start, lets start from the middle
             graphicsTrajectory[i].setX((int)floor(witdh_pixel_middle - (pixel_width/2) + x_shift));
-            cout << "x = " << ballTrajectory[i].getX() << " | zG = " << graphicsTrajectory[i].getZ() << " | alpha = " << alpha << " | largeur pixel = "<< pixel_width << " | décalage en x = " << x_shift << " | xGraphic = " << graphicsTrajectory[i].getX() << endl;
-
-
-
-
-            //cout << "yA = " << ballTrajectory[i].getY() << " | zG = " << graphicsTrajectory[i].getZ() << endl;
-
+            //cout << "x = " << ballTrajectory[i].getX() << " | zG = " << graphicsTrajectory[i].getZ() << " | alpha = " << alpha << " | largeur pixel = "<< pixel_width << " | décalage en x = " << x_shift << " | xGraphic = " << graphicsTrajectory[i].getX() << endl;
         }
     } else {
         cout << "Trajectoire de la balle en cm: " << ballTrajectory.size() << "| vecteur pour la trajectoire en graphique : " << graphicsTrajectory.size() << endl;
     }
 }
 
+void Player::get_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory) {
+
+
+
+
+
+    inverse_z_graphics(graphicsTrajectory);
+}
+
+
+
+void Player::inverse_z_graphics(vector<Vec3<int>> &graphicsTrajectory)
+{
+    int zmax = 768;
+    for (auto &pos3D : graphicsTrajectory) {
+        pos3D.setZ(zmax-pos3D.getZ());
+    }
+}
 
 
 
