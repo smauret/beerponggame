@@ -72,8 +72,7 @@ void main::Start()
     // Hook up to the frame update events
    // SubscribeToEvents();
     // Najwa's push
-    // Najwa's push
-    // lucas's push
+    // SECOND TEST
     // Lucas again push
     InitControls();
 
