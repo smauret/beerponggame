@@ -27,19 +27,19 @@
 
 
 
-/// Moving mainNajwa example.
+/// Moving main example.
 /// This sample demonstrates:
 ///     - Adding Sprite elements to the UI
 ///     - Storing custom data (sprite velocity) inside UI elements
-///     - Handling frame update events in which the mainNajwa are moved
-class mainNajwa : public Sample
+///     - Handling frame update events in which the main are moved
+class main : public Sample
 {
     // Enable type information.
-    URHO3D_OBJECT(mainNajwa, Sample);
+    URHO3D_OBJECT(main, Sample);
 
 public:
     /// Construct.
-    mainNajwa(Context* context);
+    main(Context* context);
 
     /// Setup after engine initialization and before running the main loop.
     virtual void Start();
@@ -55,16 +55,16 @@ protected:
     }
 
 private:
-    /// Construct the mainNajwa.
-    void CreatemainNajwa();
-    /// Move the mainNajwa using the delta time step given.
-    void MovemainNajwa(float timeStep);
+    /// Construct the main.
+    void Createmain();
+    /// Move the main using the delta time step given.
+    void Movemain(float timeStep);
     /// Subscribe to application-wide logic update events.
     void SubscribeToEvents();
     /// Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
     void InitControls();
-    void CreateDraggableFish();
+    void CreatedraggableBall();
     void HandleDragBegin(StringHash eventType, VariantMap& eventData);
     /// Handle drag move for the fish button.
     void HandleDragMove(StringHash eventType, VariantMap& eventData);
@@ -76,8 +76,8 @@ private:
     double GetSpeed(IntVector2 initPos2, IntVector2 endPos2);
     IntVector3 GetInitPosCm(IntVector2 initPos);
 
-        /// Vector to store the mainNajwa for iterating through them.
-    Vector<SharedPtr<Sprite> > mainNajwa_;
+        /// Vector to store the main for iterating through them.
+    Vector<SharedPtr<Sprite> > main_;
     IntVector2 dragBeginPosition_;
     IntVector2 BeginPosition_;
     clock_t startTime;

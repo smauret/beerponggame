@@ -29,7 +29,7 @@
 #include <Urho3D/Urho2D/Sprite2D.h>
 
 
-#include "mainNajwa.h"
+#include "main.h"
 
 
 #include <Urho3D/DebugNew.h>
@@ -49,23 +49,23 @@
 
 
 
-// Number of mainNajwa to draw
-static const unsigned NUM_mainNajwa = 2;
+// Number of main to draw
+static const unsigned NUM_main = 2;
 
 // Custom variable identifier for storing sprite velocity within the UI element
 static const StringHash VAR_VELOCITY("Velocity");
 
 
-URHO3D_DEFINE_APPLICATION_MAIN(mainNajwa)
+URHO3D_DEFINE_APPLICATION_MAIN(main)
 
-mainNajwa::mainNajwa(Context* context) :
+main::main(Context* context) :
         Sample(context),
         dragBeginPosition_(IntVector2::ZERO),
         BeginPosition_(IntVector2::ZERO)
 {
 }
 
-void mainNajwa::Start()
+void main::Start()
 {
     Sample::Start();
 
@@ -77,33 +77,33 @@ void mainNajwa::Start()
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
 }
-void mainNajwa::CreateDraggableFish()
+void main::CreatedraggableBall()
 {
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
 
     // Create a draggable Ball button
-    Button* draggableFish = new Button(context_);
-    draggableFish->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
-    draggableFish->SetBlendMode(BLEND_ALPHA);
-    draggableFish->SetSize(128, 128);
-    draggableFish->SetPosition(3*(graphics->GetWidth() - draggableFish->GetWidth()) / 4, 200);
-    draggableFish->SetName("Fish");
-    ui->GetRoot()->AddChild(draggableFish);
+    Button* draggableBall = new Button(context_);
+    draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
+    draggableBall->SetBlendMode(BLEND_ALPHA);
+    draggableBall->SetSize(128, 128);
+    draggableBall->SetPosition(3*(graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
+    draggableBall->SetName("Ball");
+    ui->GetRoot()->AddChild(draggableBall);
 
     // Add a tooltip to Ball button
     ToolTip* toolTip = new ToolTip(context_);
-    draggableFish->AddChild(toolTip);
-    toolTip->SetPosition(IntVector2(draggableFish->GetWidth() + 5, draggableFish->GetWidth() / 2)); // slightly offset from close button
+    draggableBall->AddChild(toolTip);
+    toolTip->SetPosition(IntVector2(draggableBall->GetWidth() + 5, draggableBall->GetWidth() / 2)); // slightly offset from close button
 
-    // Subscribe draggableFish to Drag Events (in order to make it draggable)
+    // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
-    SubscribeToEvent(draggableFish, E_DRAGBEGIN, URHO3D_HANDLER(mainNajwa, HandleDragBegin));
-    SubscribeToEvent(draggableFish, E_DRAGMOVE, URHO3D_HANDLER(mainNajwa, HandleDragMove));
-    SubscribeToEvent(draggableFish, E_DRAGEND, URHO3D_HANDLER(mainNajwa, HandleDragEnd));
+    SubscribeToEvent(draggableBall, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
+    SubscribeToEvent(draggableBall, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
+    SubscribeToEvent(draggableBall, E_DRAGEND, URHO3D_HANDLER(main, HandleDragEnd));
 }
-void mainNajwa::HandleDragBegin(StringHash eventType, VariantMap& eventData)
+void main::HandleDragBegin(StringHash eventType, VariantMap& eventData)
 {
     startTime = std::clock(); //Start timer
     // Get UIElement relative position where input (touch or click) occurred (top-left = IntVector2(0,0))
@@ -112,7 +112,7 @@ void mainNajwa::HandleDragBegin(StringHash eventType, VariantMap& eventData)
 }
 
 
-void mainNajwa::HandleDragMove(StringHash eventType, VariantMap& eventData)
+void main::HandleDragMove(StringHash eventType, VariantMap& eventData)
 {
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
     UIElement* draggedElement = static_cast<UIElement*>(eventData["Element"].GetPtr());
@@ -120,25 +120,21 @@ void mainNajwa::HandleDragMove(StringHash eventType, VariantMap& eventData)
     draggedElement->SetSize(dragCurrentPosition.y_/4, dragCurrentPosition.y_/4);
 }
 
-void mainNajwa::HandleDragEnd(StringHash eventType, VariantMap& eventData)
+void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 {
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
     // Calculate the power based on the time and the distance
     double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
     std::cout << "Speed : " << speed << std::endl;
+    // Calculate the rotation angle 
     double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
     std::cout << "Rotation angle in degrees : " << rotation_angle* 180.0 / M_PI << std::endl;
 
     // Calculate trajectory
-
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
-
-  //  vector<Vec3<int>> ballTrajectory = lucas_.throwBall(0.5, rotation_angle, (float)(dragCurrentPosition.y_), speed*100, (float)(BeginPosition_.x_));
-
     vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (float)(finalPositionCm.y_), speed*100, (float)(finalPositionCm.x_));
     float a = (float)(finalPositionCm.y_);
     std::cout << "Z INITIAL : " << a << std::endl;
-
     for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory_.emplace_back(0,0,0);
     }
@@ -147,20 +143,16 @@ void mainNajwa::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     /*for(int i=0;i<graphicsTrajectory_.size();i++) {
         std::cout << "x : " << graphicsTrajectory_[i].getX() << " | z : " << graphicsTrajectory_[i].getZ() << std::endl;
     } */
-   /* for(int i=0;i<100;i++){
-        ballTrajectory_.emplace_back(i*10,i*10,0);
-        std::cout << "REMPLISSAGE " << ballTrajectory_[i].getX() << std::endl;
-    }*/
 
     UI* ui = GetSubsystem<UI>();
-    //ui->GetRoot()->RemoveChild(mainNajwa_[0]);
+    //ui->GetRoot()->RemoveChild(main_[0]);
 
     draggedElement_ = static_cast<UIElement*>(eventData["Element"].GetPtr());
     SubscribeToEvents();
 
 }
 
-double mainNajwa::GetSpeed(IntVector2 initPos2, IntVector2 endPos2) {
+double main::GetSpeed(IntVector2 initPos2, IntVector2 endPos2) {
     double distance = sqrt((initPos2.x_  - endPos2.x_)*(initPos2.x_  - endPos2.x_) + (initPos2.y_  - endPos2.y_)*(initPos2.y_  - endPos2.y_));
     double distance_cm = distance * 0.027;//64583333;
     clock_t endTime = std::clock();
@@ -172,7 +164,7 @@ double mainNajwa::GetSpeed(IntVector2 initPos2, IntVector2 endPos2) {
 
 
 
-double mainNajwa::GetRotation(IntVector2 initPos2, IntVector2 endPos2) {
+double main::GetRotation(IntVector2 initPos2, IntVector2 endPos2) {
     double sizeVec = sqrt((initPos2.x_ - endPos2.x_)*(initPos2.x_ - endPos2.x_) + (initPos2.y_ - endPos2.y_)*(initPos2.y_ - endPos2.y_));
   //  std::cout << "Taille vecteur : " << sizeVec << std::endl;
     double rotation = acos((endPos2.x_-initPos2.x_)/sizeVec);
@@ -182,7 +174,7 @@ double mainNajwa::GetRotation(IntVector2 initPos2, IntVector2 endPos2) {
 
 // Function to translate a point in graphics (pixels) to a point on the table (cm)
 // Assumption : 90° view
-IntVector3 mainNajwa::GetInitPosCm(IntVector2 initPos){
+IntVector3 main::GetInitPosCm(IntVector2 initPos){
     // Size of the table in cm
     int widthCm = 60;
     // Width of the window in pixels
@@ -199,7 +191,7 @@ IntVector3 mainNajwa::GetInitPosCm(IntVector2 initPos){
     return initPosCm;
 }
 
-void mainNajwa::InitControls() {
+void main::InitControls() {
     UI* ui = GetSubsystem<UI>();
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     XMLFile* style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
@@ -258,11 +250,11 @@ void mainNajwa::InitControls() {
     title->SetPosition(((int)width-title->GetSize().x_)/2,(int)height/3);
 
 
-    SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(mainNajwa,HandlePlayPressed));
+    SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(main,HandlePlayPressed));
 
 }
 
-void mainNajwa::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
+void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
 {
     // Create player
     lucas_ = Player("Lucas",10);
@@ -271,10 +263,10 @@ void mainNajwa::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     // Graphics
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
-    CreatemainNajwa();
-    CreateDraggableFish();
+    Createmain();
+    CreatedraggableBall();
 }
-void mainNajwa::CreatemainNajwa()
+void main::Createmain()
 {
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
@@ -287,7 +279,7 @@ void mainNajwa::CreatemainNajwa()
     // Get the cup texture
     Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/beer.png");
 
-    for (unsigned i = 0; i < NUM_mainNajwa; ++i)
+    for (unsigned i = 0; i < NUM_main; ++i)
     {
         // Create a new sprite, set it to use the texture
         SharedPtr<Sprite> sprite(new Sprite(context_));
@@ -310,20 +302,20 @@ void mainNajwa::CreatemainNajwa()
         // Store sprite's velocity as a custom variable
         sprite->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
 
-        // Store mainNajwa to our own container for easy movement update iteration
-        mainNajwa_.Push(sprite);
+        // Store main to our own container for easy movement update iteration
+        main_.Push(sprite);
     }
 
 }
 
 
-void mainNajwa::SubscribeToEvents()
+void main::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
-    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(mainNajwa, HandleUpdate));
+    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
 }
 
-void mainNajwa::HandleUpdate(StringHash eventType, VariantMap& eventData)
+void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
     using namespace Update;
 
@@ -340,6 +332,6 @@ void mainNajwa::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
 
 
-    // Move mainNajwa, scale movement with time step
-    // MovemainNajwa(timeStep);
+    // Move main, scale movement with time step
+    // Movemain(timeStep);
 }
