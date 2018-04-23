@@ -135,7 +135,7 @@ void Player::get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>>
     if (ballTrajectory.size() == graphicsTrajectory.size()) {
         int width_pixel_max = 1024; // width of the table max, also witdh of the window
         int witdh_pixel_middle = (int)floor(width_pixel_max/2);
-        int width_pixel_min = 512;
+        int width_pixel_min = (int)floor(width_pixel_max/2);
         int heigth_pixel_table = 768;
         int width_cm = 60;
 
@@ -158,9 +158,16 @@ void Player::get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>>
     }
 }
 
-void Player::get_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory) {
+void Player::get_ball_size(vector<Vec3<int>> &graphicsTrajectory) {
+    int ball_size_cm = 4; // diametre of the ball
+    auto ball_size_end_cm = (int)floor(ball_size_cm/2);
+    int width_cm = 60;
+    int width_pixel_max = 1024;
+    auto width_pixel_min = (int)floor(width_pixel_max/2);
 
+    for(int i = 0; i<graphicsTrajectory.size(); i++;){
 
+    }
 
 
 

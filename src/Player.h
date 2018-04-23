@@ -161,9 +161,10 @@ public:
      */
     void get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
+    void get_ball_size(vector<Vec3<int>> &graphicsTrajectory);
+
     void inverse_z_graphics(vector<Vec3<int>> &graphicsTrajectory);
 
-    void get_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 };
 
 
