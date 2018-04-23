@@ -56,7 +56,7 @@ static const unsigned NUM_main = 2;
 static const StringHash VAR_VELOCITY("Velocity");
 
 
-URHO3D_DEFINE_APPLICATION_MAIN(main)
+URHO3D_DEFINE_APPLICATION_MAIN(main);
 
 main::main(Context* context) :
         Sample(context),
@@ -71,6 +71,7 @@ void main::Start()
 
     // Hook up to the frame update events
    // SubscribeToEvents();
+    //Lucas's push
 
     InitControls();
 
