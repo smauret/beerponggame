@@ -147,7 +147,19 @@ public:
      */
     bool mooveCup(int cupID, Vec2i newPosition);
 
+    /** Find the correct zGraphic values depending on the yArchitecture values, write them in a vector of 2d points for graphics purpose
+     *
+     * @param ballTrajectory the vector containing the position of the ball over the time, in cm (Architecture)
+     * @param graphicsTrajectory The vector of 2D points for the graphic trajectory, write only x values in it
+     */
+    void cm_to_pixel_depth(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
+    /** Get xGraphic value for graphics from the architecture trajectory
+     *
+     * @param ballTrajectory The vector containing the position of the ball over the time, in cm (Architecture)
+     * @param graphicsTrajectory The vector of 2D points for the graphic trajectory, write only x values in it
+     */
+    void get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 };
 
 
