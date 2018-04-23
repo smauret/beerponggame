@@ -71,7 +71,7 @@ void main::Start()
 
     // Hook up to the frame update events
    // SubscribeToEvents();
-    // Najwa's push
+    // lucas's push
     InitControls();
 
     // Set the mouse mode to use in the sample
