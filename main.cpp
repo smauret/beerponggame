@@ -74,6 +74,7 @@ void main::Start()
     // Najwa's push
     // Najwa's push
     // lucas's push
+    // SECOND TEST
     InitControls();
 
     // Set the mouse mode to use in the sample
