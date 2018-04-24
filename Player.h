@@ -175,7 +175,8 @@ public:
      */
     void get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
-    void inverse_z_graphics(vector<Vec3<int>> &graphicsTrajectory);
+    // include zArchi in zGraphics, and return zGrahic to make it start with the upper left corner (and not the bottom left one)
+    void include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
-    void get_ball_size(vector<Vec3<int>> &graphicsTrajectory);
+    void get_ball_size(vector<Vec3<int>> &ballTrajectory,vector<Vec3<int>> &graphicsTrajectory);
 };

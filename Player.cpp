@@ -153,13 +153,13 @@ void Player::get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>>
             graphicsTrajectory[i].setX((int)floor(witdh_pixel_middle - (pixel_width/2) + x_shift));
             //cout << "x = " << ballTrajectory[i].getX() << " | zG = " << graphicsTrajectory[i].getZ() << " | alpha = " << alpha << " | largeur pixel = "<< pixel_width << " | décalage en x = " << x_shift << " | xGraphic = " << graphicsTrajectory[i].getX() << endl;
         }
-        get_ball_size(graphicsTrajectory);
+        get_ball_size(ballTrajectory, graphicsTrajectory);
     } else {
         cout << "Trajectoire de la balle en cm: " << ballTrajectory.size() << "| vecteur pour la trajectoire en graphique : " << graphicsTrajectory.size() << endl;
     }
 }
 
-void Player::get_ball_size(vector<Vec3<int>> &graphicsTrajectory) {
+void Player::get_ball_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory) {
     int ball_size_cm = 4; // diametre of the ball
     auto ball_size_end_cm = (int)floor(ball_size_cm/2);
     int width_table_cm = 60;
@@ -177,13 +177,35 @@ void Player::get_ball_size(vector<Vec3<int>> &graphicsTrajectory) {
         i.setY(pixel_width);
         //cout << "zG = " << zG << " | alpha = " << alpha << " | ball size = " << pixel_width << " | minimum pixel size " << width_pixel_ball_max << endl;
     }
-    inverse_z_graphics(graphicsTrajectory);
+    include_zArchi_graphics(ballTrajectory, graphicsTrajectory);
 }
 
-void Player::inverse_z_graphics(vector<Vec3<int>> &graphicsTrajectory)
-{
-    int zmax = 768;
-    for (auto &i : graphicsTrajectory) {
-        i.setZ(zmax - i.getZ());
+void Player::include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory){
+    int width_table_cm = 60;
+    int width_pixel_table_max = 1024;
+    // at the bottom of the screen
+    auto cm_to_pixel_max = (int)floor(1.0/width_table_cm*width_pixel_table_max);
+    double ration_top_bottom = 1.0/2;
+    // at the top of the screen
+    auto cm_to_pixel_min = (int)floor(cm_to_pixel_max*ration_top_bottom); // numlérateur = ratio entre haut de la table et bas de la table
+    int height_tabe_pixel = 768; // window height / 2
+
+    for (int i=0; i<ballTrajectory.size(); i++) {
+        // get zG depending on YA (to know the reduction in cm)
+        int zG = graphicsTrajectory[i].getZ();
+        // Get cm in pixel depending on zG
+        double alpha = (double)(height_tabe_pixel - zG)/height_tabe_pixel;
+        auto cm_to_pixel = (int)floor(alpha*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
+        // reverse zG
+        graphicsTrajectory[i].setZ(height_tabe_pixel - graphicsTrajectory[i].getZ());
+        cout << "zG = " << graphicsTrajectory[i].getZ() << " | cm to pixel = " << cm_to_pixel;
+        // include zArchitecture, "-" in the formula because the zG start from the upper left corner
+        // pour le moment déconne: prendre en compte les vrai valeur pour al taille de la table, et voir comment faire pour que ça soit bien
+        int new_zG = graphicsTrajectory[i].getZ() - (int)floor(ballTrajectory[i].getZ()*cm_to_pixel*0.5);
+        //graphicsTrajectory[i].setZ(new_zG);
+
+        cout << " | zA = " << ballTrajectory[i].getZ() << " | zG after = " << graphicsTrajectory[i].getZ() << endl;
+
+
     }
 }
