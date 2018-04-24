@@ -414,7 +414,7 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         k=k+1;
     } else {
         draggedElement_->SetPosition(1024/2, 768/2);
-     //   graphicsTrajectory_.clear();
+        graphicsTrajectory_.clear();
         std::cout << "CLEARED" << std::endl;
         UnsubscribeFromEvent(E_UPDATE);
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
