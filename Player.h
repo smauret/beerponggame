@@ -17,7 +17,17 @@ private:
     vector<Cup> cups;
     int cupsLeft{};
     Vec2i tableSize;
-
+/*
+    int windows_width_pixel;
+    int windows_height_pixel;
+    int ball_size_max_cm;
+    int ball_size_min_cm;
+    int ball_size_max_pixel;
+    int ball_size_min_pixel;
+    int ball_size_max_cm;
+    int ball_size_min_cm;
+    double ratio_min_max;
+*/
 public:
     /** Constructeurs
      */
@@ -119,7 +129,8 @@ public:
      * @param v0 fast of the throw
      * @return the trajectory vector that contain all the ball positions
      */
-    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0, float startX);
+    vector<Vec3<int>> throwBall(double alpha, double beta, double h, double v0, double startX, int startY,
+                                int &cupScored);
 
     /** Indicate if a ball scored a cup, return othe id of the cup to remove, -1 if no cup should be remooved
      *
@@ -129,7 +140,7 @@ public:
      * @param ballTrajectory
      * @return -1 = no score, int > 0 = score cup of id indicated
      */
-    int scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory);
+    int scoreCup(double &a, double &b, double &c, vector<Vec3<int>> &ballTrajectory);
 
     /** Give all the positions the cups should take at the beginning of the game, depending on the nulber of cups
      *

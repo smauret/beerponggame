@@ -14,38 +14,39 @@ void Player::removeCup(int id) {
 
 
 vector<Vec3<int>> Player::throwBall(){
-    float alpha, beta, h, v0, startX;
+    double alpha, beta, h, v0, startX;
     alpha = 0.5;
-    beta = static_cast<float>(M_PI / 2);
+    beta = static_cast<double>(M_PI / 2);
     h=0.0;
     v0=0;
     startX = 0;
 
-    return throwBall(alpha, beta, h, v0, startX);
+    return throwBall(alpha, beta, h, v0, startX, 0, reinterpret_cast<int &>(startX));
 
 }
 
-vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0, float startX){
+vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double v0, double startX, int startY,
+                                    int &cupScored){
     vector<Vec3<int>> ballTrajectory;
-    float g = 981; //cm.s-2
-    float a = -g/(2*cos(alpha)*cos(alpha)*v0*v0);
-    float b = tan(alpha);
-    float c = h - cups[0].getHeight();
-    float d = cos(beta)/cos(alpha);
+    double g = 981; //cm.s-2
+    double a = -g/(2*cos(alpha)*cos(alpha)*v0*v0);
+    double b = tan(alpha);
+    double c = h - cups[0].getHeight();
+    double d = cos(beta)/cos(alpha);
     int x,z;
 
     for (int y=0; y<tableSize.y; y++){
         z = (int)round(a * y * y + b * y + h);
         x = (int)round(y * d + startX);
-        ballTrajectory.emplace_back(x,y,z);
+        ballTrajectory.emplace_back(x,y + startY,z);
         //cout << "x = " << ballTrajectory[y].getX() << " | y = " << ballTrajectory[y].getY() << " | z = " << ballTrajectory[y].getZ() << endl;
-        if (z < 11) {
+        if (z < 11 || (y+startY)>239) {
             // stop when the ball is lower than the height of a cup: we don't need more information on the trajectory
             break;
         }
     }
 
-    int cupScored = scoreCup(a, b, c, ballTrajectory);
+    cupScored = scoreCup(a, b, c, ballTrajectory);
 
     if (cupScored > -1) {
         removeCup(cupScored);
@@ -54,7 +55,8 @@ vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0,
     return ballTrajectory;
 }
 
-int Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory){
+
+int Player::scoreCup(double &a, double &b, double &c, vector<Vec3<int>> &ballTrajectory){
     // only test the last element in ballTrajectory due to its construction
     int score = -1;
 
@@ -67,7 +69,7 @@ int Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajec
         if (cup.isOnTable()) {
             // The cup has not been scored yet
             Vec2i posCup = cup.getPosition();
-            float d = (xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y);
+            double d = (xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y);
             cout << "Cup id: " << cup.getID() << " d = " << d << endl;
             if (d < radius2){
                 score = cup.getID();
@@ -76,7 +78,6 @@ int Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajec
         }
 
     }
-
     return score;
 }
 
