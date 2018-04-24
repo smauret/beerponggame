@@ -103,29 +103,19 @@ void main::CreatedraggableBall()
 }
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
-    UI* ui = GetSubsystem<UI>();
-
     int x = GetSubsystem<Input>()->GetMousePosition().x_;
     int y = GetSubsystem<Input>()->GetMousePosition().y_;
-    std::cout << "x = " << x << " y = " << y << std::endl;
-
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
 
+    // Subscribe draggableBall to Drag Events (in order to make it draggable)
+    // See "Event list" in documentation's Main Page for reference on available Events and their eventData
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
     SubscribeToEvent(draggedElement_, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
     SubscribeToEvent(draggedElement_, E_DRAGEND, URHO3D_HANDLER(main, HandleDragEnd));
-   // uielem_[6]->SetPosition(100, 100);
-    // Subscribe draggableBall to Drag Events (in order to make it draggable)
-    // See "Event list" in documentation's Main Page for reference on available Events and their eventData
-
 }
 
 void main::HandleDragBegin(StringHash eventType, VariantMap& eventData)
 {
-    std::cout << "COUCOU" << std::endl;
-
-    std::cout << "CAVA?" << std::endl;
-
     startTime = std::clock(); //Start timer
     // Get UIElement relative position where input (touch or click) occurred (top-left = IntVector2(0,0))
     dragBeginPosition_ = IntVector2(eventData["ElementX"].GetInt(), eventData["ElementY"].GetInt());
@@ -136,12 +126,10 @@ void main::HandleDragBegin(StringHash eventType, VariantMap& eventData)
 void main::HandleDragMove(StringHash eventType, VariantMap& eventData)
 {
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
-  //  UIElement* draggedElement = static_cast<UIElement*>(eventData["Element"].GetPtr());
 
     draggedElement_ = static_cast<UIElement*>(eventData["Element"].GetPtr());
     draggedElement_ ->SetPosition(dragCurrentPosition - dragBeginPosition_);
     draggedElement_ ->SetSize(dragCurrentPosition.y_/4, dragCurrentPosition.y_/4);
-
 }
 
 void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
@@ -180,26 +168,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     UnsubscribeFromEvent(E_MOUSEBUTTONDOWN);
 
     SubscribeToEvents();
-
 }
-
-/*double main::GetSpeed(IntVector2 initPos2, IntVector2 endPos2) {
-    double distance = sqrt((initPos2.x_  - endPos2.x_)*(initPos2.x_  - endPos2.x_) + (initPos2.y_  - endPos2.y_)*(initPos2.y_  - endPos2.y_));
-    double distance_cm = distance * 0.027;//64583333;
-    clock_t endTime = std::clock();
-    double timePassed_sec = (endTime - startTime) / ((double)CLOCKS_PER_SEC/10);
-    std::cout << "Time passed : " << timePassed_sec << std::endl;
-    double speed = distance_cm/timePassed_sec;
-    return speed;
-}
-
-double main::GetRotation(IntVector2 initPos2, IntVector2 endPos2) {
-    double sizeVec = sqrt((initPos2.x_ - endPos2.x_)*(initPos2.x_ - endPos2.x_) + (initPos2.y_ - endPos2.y_)*(initPos2.y_ - endPos2.y_));
-  //  std::cout << "Taille vecteur : " << sizeVec << std::endl;
-    double rotation = acos((endPos2.x_-initPos2.x_)/sizeVec);
-    std::cout << "Rotation angle in radians : " << rotation << std::endl;
-    return rotation;
-}*/
 
 // Function to translate a point in graphics (pixels) to a point on the table (cm)
 // Assumption : 90° view
