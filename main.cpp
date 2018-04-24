@@ -158,12 +158,18 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
-    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (float)(finalPositionCm.y_), speed*100, (float)(finalPositionCm.x_));
-  /*  for (int i=0; i<ballTrajectory.size(); i++) {
+    // int that
+    int cupScored = -1;
+    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.y_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
+    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 50, 0, cupScored);
+    for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }*/
     lucas_.get_z_graphics(ballTrajectory, graphicsTrajectory_);
     lucas_.get_x_graphics(ballTrajectory, graphicsTrajectory_);
+    /*for(int i=0;i<ballTrajectory.size();i++) {
+        //std::cout << "x : " << ballTrajectory[i].getX() << " | y : " << ballTrajectory[i].getY() << " | z : " << ballTrajectory[i].getZ() << std::endl;
+    }*/
 
     UI* ui = GetSubsystem<UI>();
     //ui->GetRoot()->RemoveChild(main_[0]);

@@ -1,5 +1,4 @@
 #
-#
 # Copyright (c) 2008-2018 the Urho3D project.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy

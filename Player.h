@@ -17,7 +17,17 @@ private:
     vector<Cup> cups;
     int cupsLeft{};
     Vec2i tableSize;
-
+/*
+    int windows_width_pixel;
+    int windows_height_pixel;
+    int ball_size_max_cm;
+    int ball_size_min_cm;
+    int ball_size_max_pixel;
+    int ball_size_min_pixel;
+    int ball_size_max_cm;
+    int ball_size_min_cm;
+    double ratio_min_max;
+*/
 public:
     /** Constructeurs
      */
@@ -117,9 +127,13 @@ public:
      * @param beta lateral angle (in (xz) plan)
      * @param h hight of the ball at throwing
      * @param v0 fast of the throw
+     * @param startX the initial condition in x for the trajectory
+     * @param startY the initial condition in y for the trajectory
+     * @param cupScored to stock the cup scored, -1 = no cup scored, otherwhise it's the ID of the cup scored
      * @return the trajectory vector that contain all the ball positions
      */
-    vector<Vec3<int>> throwBall (float alpha, float beta, float h, float v0, float startX);
+    vector<Vec3<int>> throwBall(double alpha, double beta, double h, double v0, double startX, int startY,
+                                int &cupScored);
 
     /** Indicate if a ball scored a cup, return othe id of the cup to remove, -1 if no cup should be remooved
      *
@@ -129,7 +143,7 @@ public:
      * @param ballTrajectory
      * @return -1 = no score, int > 0 = score cup of id indicated
      */
-    int scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory);
+    int scoreCup(double &a, double &b, double &c, vector<Vec3<int>> &ballTrajectory);
 
     /** Give all the positions the cups should take at the beginning of the game, depending on the nulber of cups
      *
@@ -161,5 +175,8 @@ public:
      */
     void get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
-    void inverse_z_graphics(vector<Vec3<int>> &graphicsTrajectory);
+    // include zArchi in zGraphics, and return zGrahic to make it start with the upper left corner (and not the bottom left one)
+    void include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
+
+    void get_ball_size(vector<Vec3<int>> &ballTrajectory,vector<Vec3<int>> &graphicsTrajectory);
 };

@@ -14,38 +14,39 @@ void Player::removeCup(int id) {
 
 
 vector<Vec3<int>> Player::throwBall(){
-    float alpha, beta, h, v0, startX;
+    double alpha, beta, h, v0, startX;
     alpha = 0.5;
-    beta = static_cast<float>(M_PI / 2);
+    beta = static_cast<double>(M_PI / 2);
     h=0.0;
     v0=0;
     startX = 0;
 
-    return throwBall(alpha, beta, h, v0, startX);
+    return throwBall(alpha, beta, h, v0, startX, 0, reinterpret_cast<int &>(startX));
 
 }
 
-vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0, float startX){
+vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double v0, double startX, int startY,
+                                    int &cupScored){
     vector<Vec3<int>> ballTrajectory;
-    float g = 981; //cm.s-2
-    float a = -g/(2*cos(alpha)*cos(alpha)*v0*v0);
-    float b = tan(alpha);
-    float c = h - cups[0].getHeight();
-    float d = cos(beta)/cos(alpha);
+    double g = 981; //cm.s-2
+    double a = -g/(2*cos(alpha)*cos(alpha)*v0*v0);
+    double b = tan(alpha);
+    double c = h - cups[0].getHeight();
+    double d = cos(beta)/cos(alpha);
     int x,z;
 
     for (int y=0; y<tableSize.y; y++){
         z = (int)round(a * y * y + b * y + h);
         x = (int)round(y * d + startX);
-        ballTrajectory.emplace_back(x,y,z);
+        ballTrajectory.emplace_back(x,y + startY,z);
         //cout << "x = " << ballTrajectory[y].getX() << " | y = " << ballTrajectory[y].getY() << " | z = " << ballTrajectory[y].getZ() << endl;
-        if (z < 11) {
+        if (z < 11 || (y+startY)>239) {
             // stop when the ball is lower than the height of a cup: we don't need more information on the trajectory
             break;
         }
     }
 
-    int cupScored = scoreCup(a, b, c, ballTrajectory);
+    cupScored = scoreCup(a, b, c, ballTrajectory);
 
     if (cupScored > -1) {
         removeCup(cupScored);
@@ -54,7 +55,8 @@ vector<Vec3<int>> Player::throwBall (float alpha, float beta, float h, float v0,
     return ballTrajectory;
 }
 
-int Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajectory){
+
+int Player::scoreCup(double &a, double &b, double &c, vector<Vec3<int>> &ballTrajectory){
     // only test the last element in ballTrajectory due to its construction
     int score = -1;
 
@@ -67,7 +69,7 @@ int Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajec
         if (cup.isOnTable()) {
             // The cup has not been scored yet
             Vec2i posCup = cup.getPosition();
-            float d = (xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y);
+            double d = (xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y);
             cout << "Cup id: " << cup.getID() << " d = " << d << endl;
             if (d < radius2){
                 score = cup.getID();
@@ -76,7 +78,6 @@ int Player::scoreCup(float &a, float &b, float &c, vector<Vec3<int>> &ballTrajec
         }
 
     }
-
     return score;
 }
 
@@ -152,16 +153,59 @@ void Player::get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>>
             graphicsTrajectory[i].setX((int)floor(witdh_pixel_middle - (pixel_width/2) + x_shift));
             //cout << "x = " << ballTrajectory[i].getX() << " | zG = " << graphicsTrajectory[i].getZ() << " | alpha = " << alpha << " | largeur pixel = "<< pixel_width << " | décalage en x = " << x_shift << " | xGraphic = " << graphicsTrajectory[i].getX() << endl;
         }
-        inverse_z_graphics(graphicsTrajectory);
+        get_ball_size(ballTrajectory, graphicsTrajectory);
     } else {
         cout << "Trajectoire de la balle en cm: " << ballTrajectory.size() << "| vecteur pour la trajectoire en graphique : " << graphicsTrajectory.size() << endl;
     }
 }
 
-void Player::inverse_z_graphics(vector<Vec3<int>> &graphicsTrajectory)
-{
-    int zmax = 768;
+void Player::get_ball_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory) {
+    int ball_size_cm = 4; // diametre of the ball
+    auto ball_size_end_cm = (int)floor(ball_size_cm/2);
+    int width_table_cm = 60;
+    int width_pixel_table_max = 1024;
+    auto width_pixel_ball_max = (int)floor((double)ball_size_cm/width_table_cm*width_pixel_table_max);
+    auto width_pixel_ball_min = (int)floor(width_pixel_ball_max/2); // numlérateur = ratio entre haut de la table et bas de la table
+    int height_tabe_pixel = 768; // window height / 2
+
     for (auto &i : graphicsTrajectory) {
-        i.setZ(zmax - i.getZ());
+        // get zG depending on YA
+        int zG = i.getZ();
+        // Get width in pixel depending on zG
+        double alpha = (double)(height_tabe_pixel - zG)/height_tabe_pixel;
+        auto pixel_width = (int)floor(alpha*(width_pixel_ball_max-width_pixel_ball_min) + width_pixel_ball_min);
+        i.setY(pixel_width);
+        //cout << "zG = " << zG << " | alpha = " << alpha << " | ball size = " << pixel_width << " | minimum pixel size " << width_pixel_ball_max << endl;
+    }
+    include_zArchi_graphics(ballTrajectory, graphicsTrajectory);
+}
+
+void Player::include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory){
+    int width_table_cm = 60;
+    int width_pixel_table_max = 1024;
+    // at the bottom of the screen
+    auto cm_to_pixel_max = (int)floor(1.0/width_table_cm*width_pixel_table_max);
+    double ration_top_bottom = 1.0/2;
+    // at the top of the screen
+    auto cm_to_pixel_min = (int)floor(cm_to_pixel_max*ration_top_bottom); // numlérateur = ratio entre haut de la table et bas de la table
+    int height_tabe_pixel = 768; // window height / 2
+
+    for (int i=0; i<ballTrajectory.size(); i++) {
+        // get zG depending on YA (to know the reduction in cm)
+        int zG = graphicsTrajectory[i].getZ();
+        // Get cm in pixel depending on zG
+        double alpha = (double)(height_tabe_pixel - zG)/height_tabe_pixel;
+        auto cm_to_pixel = (int)floor(alpha*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
+        // reverse zG
+        graphicsTrajectory[i].setZ(height_tabe_pixel - graphicsTrajectory[i].getZ());
+        cout << "zG = " << graphicsTrajectory[i].getZ() << " | cm to pixel = " << cm_to_pixel;
+        // include zArchitecture, "-" in the formula because the zG start from the upper left corner
+        // pour le moment déconne: prendre en compte les vrai valeur pour al taille de la table, et voir comment faire pour que ça soit bien
+        int new_zG = graphicsTrajectory[i].getZ() - (int)floor(ballTrajectory[i].getZ()*cm_to_pixel*0.5);
+        //graphicsTrajectory[i].setZ(new_zG);
+
+        cout << " | zA = " << ballTrajectory[i].getZ() << " | zG after = " << graphicsTrajectory[i].getZ() << endl;
+
+
     }
 }
