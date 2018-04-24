@@ -164,7 +164,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 50, 0, cupScored);
     for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
-    }*/
+    }
     lucas_.get_z_graphics(ballTrajectory, graphicsTrajectory_);
     lucas_.get_x_graphics(ballTrajectory, graphicsTrajectory_);
     /*for(int i=0;i<ballTrajectory.size();i++) {
@@ -446,6 +446,8 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         k=k+1;
     } else {
         draggedElement_->SetPosition(1024/2, 768/2);
+        graphicsTrajectory_.clear();
+        std::cout << "CLEARED" << std::endl;
         UnsubscribeFromEvent(E_UPDATE);
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
     }
