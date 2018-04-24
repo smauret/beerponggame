@@ -56,7 +56,7 @@ static const unsigned NUM_main = 6;
 static const StringHash VAR_VELOCITY("Velocity");
 
 
-URHO3D_DEFINE_APPLICATION_MAIN(main);
+URHO3D_DEFINE_APPLICATION_MAIN(main)
 
 main::main(Context* context) :
         Sample(context),
@@ -85,7 +85,7 @@ void main::CreatedraggableBall()
     SharedPtr<Button> draggableBall (new Button(context_));
     draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
     draggableBall->SetBlendMode(BLEND_ALPHA);
-    draggableBall->SetSize(128, 128);
+    draggableBall->SetSize(68, 68);
     draggableBall->SetPosition(3*(graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
     draggableBall->SetName("Ball");
     ui->GetRoot()->AddChild(draggableBall);
@@ -96,14 +96,10 @@ void main::CreatedraggableBall()
     draggedElement_ = draggableBall;
     toolTip->SetPosition(IntVector2(draggableBall->GetWidth() + 5, draggableBall->GetWidth() / 2)); // slightly offset from close button
 
-    /*for (int i=0; i<240; i++) {
-        graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
-    }*/
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
-  //  SubscribeToEvent(E_MOUSEMOVE, URHO3D_HANDLER(main,HandleMove));
+
     uielem_.Push(draggableBall);
-    // Subscribe draggableBall to Drag Events (in order to make it draggable)
-    // See "Event list" in documentation's Main Page for reference on available Events and their eventData
+
 }
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
@@ -119,6 +115,8 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     SubscribeToEvent(draggedElement_, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
     SubscribeToEvent(draggedElement_, E_DRAGEND, URHO3D_HANDLER(main, HandleDragEnd));
    // uielem_[6]->SetPosition(100, 100);
+    // Subscribe draggableBall to Drag Events (in order to make it draggable)
+    // See "Event list" in documentation's Main Page for reference on available Events and their eventData
 
 }
 
@@ -443,10 +441,11 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     if(k<graphicsTrajectory_.size()){
         draggedElement_->SetPosition(graphicsTrajectory_[k].getX(), graphicsTrajectory_[k].getZ());
+        draggedElement_->SetSize(graphicsTrajectory_[k].getY(),graphicsTrajectory_[k].getY());
         k=k+1;
     } else {
         draggedElement_->SetPosition(1024/2, 768/2);
-        graphicsTrajectory_.clear();
+     //   graphicsTrajectory_.clear();
         std::cout << "CLEARED" << std::endl;
         UnsubscribeFromEvent(E_UPDATE);
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
