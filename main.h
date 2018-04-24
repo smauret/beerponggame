@@ -55,30 +55,50 @@ protected:
     }
 
 private:
-    /// Construct the main.
-    void Createmain();
+    /// Construct the main
+    void InitBoardGame();
     /// Move the main using the delta time step given.
     void Movemain(float timeStep);
     /// Subscribe to application-wide logic update events.
     void SubscribeToEvents();
     /// Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
-    void InitControls();
+    void InitWelcomePage();
     void CreatedraggableBall();
+    void CreateReturnButton();
+
     void HandleDragBegin(StringHash eventType, VariantMap& eventData);
     /// Handle drag move for the fish button.
     void HandleDragMove(StringHash eventType, VariantMap& eventData);
     /// Handle drag end for the fish button.
     void HandleDragEnd(StringHash eventType, VariantMap& eventData);
-
     void HandleReturnPressed(StringHash eventType, VariantMap& eventData);
     void HandlePlayPressed(StringHash eventType, VariantMap& eventData);
-    double GetRotation(IntVector2 initPosition, IntVector2 endPosition);
-    double GetSpeed(IntVector2 initPos2, IntVector2 endPos2);
+    void HandleMouse(StringHash eventType, VariantMap& eventData);
+
+
+    double GetRotation(IntVector2 initPos2, IntVector2 endPos2){
+        double sizeVec = sqrt((initPos2.x_ - endPos2.x_)*(initPos2.x_ - endPos2.x_) + (initPos2.y_ - endPos2.y_)*(initPos2.y_ - endPos2.y_));
+        //  std::cout << "Taille vecteur : " << sizeVec << std::endl;
+        double rotation = acos((endPos2.x_-initPos2.x_)/sizeVec);
+        std::cout << "Rotation angle in radians : " << rotation << std::endl;
+        return rotation;
+    }
+    double GetSpeed(IntVector2 initPos2, IntVector2 endPos2){
+        double distance = sqrt((initPos2.x_  - endPos2.x_)*(initPos2.x_  - endPos2.x_) + (initPos2.y_  - endPos2.y_)*(initPos2.y_  - endPos2.y_));
+        double distance_cm = distance * 0.027;//64583333;
+        clock_t endTime = std::clock();
+        double timePassed_sec = (endTime - startTime) / ((double)CLOCKS_PER_SEC/10);
+        std::cout << "Time passed : " << timePassed_sec << std::endl;
+        double speed = distance_cm/timePassed_sec;
+        return speed;
+    };
     IntVector3 GetInitPosCm(IntVector2 initPos);
 
         /// Vector to store the main for iterating through them.
     Vector<SharedPtr<Sprite> > main_;
+    Vector<SharedPtr<UIElement> > uielem_;
+
     IntVector2 dragBeginPosition_;
     IntVector2 BeginPosition_;
     clock_t startTime;
