@@ -56,7 +56,7 @@ static const unsigned NUM_main = 6;
 static const StringHash VAR_VELOCITY("Velocity");
 
 
-URHO3D_DEFINE_APPLICATION_MAIN(main)
+URHO3D_DEFINE_APPLICATION_MAIN(main);
 
 main::main(Context* context) :
         Sample(context),
@@ -96,9 +96,9 @@ void main::CreatedraggableBall()
     draggedElement_ = draggableBall;
     toolTip->SetPosition(IntVector2(draggableBall->GetWidth() + 5, draggableBall->GetWidth() / 2)); // slightly offset from close button
 
-    for (int i=0; i<240; i++) {
+    /*for (int i=0; i<240; i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
-    }
+    }*/
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
   //  SubscribeToEvent(E_MOUSEMOVE, URHO3D_HANDLER(main,HandleMove));
     uielem_.Push(draggableBall);

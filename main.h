@@ -87,7 +87,7 @@ private:
     double GetSpeed(IntVector2 initPos2, IntVector2 endPos2){
         double distance = sqrt((initPos2.x_  - endPos2.x_)*(initPos2.x_  - endPos2.x_) + (initPos2.y_  - endPos2.y_)*(initPos2.y_  - endPos2.y_));
         double distance_cm = distance * 0.027;//64583333;
-        clock_t endTime = std::clock();
+        clock_t endTime = clock();
         double timePassed_sec = (endTime - startTime) / ((double)CLOCKS_PER_SEC/10);
         std::cout << "Time passed : " << timePassed_sec << std::endl;
         double speed = distance_cm/timePassed_sec;
