@@ -127,6 +127,9 @@ public:
      * @param beta lateral angle (in (xz) plan)
      * @param h hight of the ball at throwing
      * @param v0 fast of the throw
+     * @param startX the initial condition in x for the trajectory
+     * @param startY the initial condition in y for the trajectory
+     * @param cupScored to stock the cup scored, -1 = no cup scored, otherwhise it's the ID of the cup scored
      * @return the trajectory vector that contain all the ball positions
      */
     vector<Vec3<int>> throwBall(double alpha, double beta, double h, double v0, double startX, int startY,
