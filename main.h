@@ -94,6 +94,7 @@ private:
         return speed;
     };
     IntVector3 GetInitPosCm(IntVector2 initPos);
+    void ThrowResult(int cupScored);
 
         /// Vector to store the main for iterating through them.
     Vector<SharedPtr<Sprite> > main_;
