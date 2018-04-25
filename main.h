@@ -35,7 +35,7 @@
 class main : public Sample
 {
     // Enable type information.
-    URHO3D_OBJECT(main, Sample);
+URHO3D_OBJECT(main, Sample);
 
 public:
     /// Construct.
@@ -47,11 +47,11 @@ public:
 protected:
     /// Return XML patch instructions for screen joystick layout for a specific sample app, if any.
     virtual String GetScreenJoystickPatchString() const { return
-        "<patch>"
-        "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Hat0']]\">"
-        "        <attribute name=\"Is Visible\" value=\"false\" />"
-        "    </add>"
-        "</patch>";
+                "<patch>"
+                        "    <add sel=\"/element/element[./attribute[@name='Name' and @value='Hat0']]\">"
+                        "        <attribute name=\"Is Visible\" value=\"false\" />"
+                        "    </add>"
+                        "</patch>";
     }
 
 private:
@@ -94,8 +94,9 @@ private:
         return speed;
     };
     IntVector3 GetInitPosCm(IntVector2 initPos);
+    void ThrowResult(int cupScored);
 
-        /// Vector to store the main for iterating through them.
+    /// Vector to store the main for iterating through them.
     Vector<SharedPtr<Sprite> > main_;
     Vector<SharedPtr<UIElement> > uielem_;
 

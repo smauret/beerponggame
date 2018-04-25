@@ -17,33 +17,39 @@ private:
     vector<Cup> cups;
     int cupsLeft{};
     Vec2i tableSize;
-/*
-    int windows_width_pixel;
-    int windows_height_pixel;
+
+    int window_width_pixel;
+    int window_height_pixel;
+    double ratio_min_max;
+    int table_width_max_cm;
+    int table_width_min_cm;
+    int table_width_max_pixel;
+    int table_width_min_pixel;
+    int table_length_cm;
+    int table_length_pixel_zAxis;
     int ball_size_max_cm;
     int ball_size_min_cm;
     int ball_size_max_pixel;
     int ball_size_min_pixel;
-    int ball_size_max_cm;
-    int ball_size_min_cm;
-    double ratio_min_max;
-*/
+
+
 public:
     /** Constructeurs
      */
     explicit Player(string name) : name(std::move(name)) {}
 
     Player(string name, int nbOfCups) : name(std::move(name)), cupsLeft(nbOfCups) {
-        tableSize = Vec2i(61,240);
+        tableSize = Vec2i(61, 240);
         vector<Vec2i> positionCups = cupsPositions(nbOfCups);
-        for (int i=0; i<cupsLeft; i++){
-            cups.emplace_back(i,positionCups[i]);
+        for (int i = 0; i < cupsLeft; i++) {
+            cups.emplace_back(i, positionCups[i]);
         }
     }
 
 
-    Player(string name, int nbOfCups, const Vec2i &tableSize) : name(std::move(name)), cupsLeft(nbOfCups), tableSize(tableSize) {
-        for (int i=0; i<cupsLeft; i++){
+    Player(string name, int nbOfCups, const Vec2i &tableSize) : name(std::move(name)), cupsLeft(nbOfCups),
+                                                                tableSize(tableSize) {
+        for (int i = 0; i < cupsLeft; i++) {
             cups.emplace_back(i);
         }
         //cout << Player::name << " créé ! :) :) :)" << endl;
@@ -100,7 +106,9 @@ public:
     /** Iterators */
     typedef vector<Cup>::iterator iterator;
     typedef vector<Cup>::const_iterator const_iterator;
+
     iterator begin() { return cups.begin(); }
+
     iterator end() { return cups.end(); }
 
     /** Methods
@@ -178,5 +186,8 @@ public:
     // include zArchi in zGraphics, and return zGrahic to make it start with the upper left corner (and not the bottom left one)
     void include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
-    void get_ball_size(vector<Vec3<int>> &ballTrajectory,vector<Vec3<int>> &graphicsTrajectory);
+    void get_ball_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
+
+
+    void get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 };
