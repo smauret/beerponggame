@@ -108,7 +108,6 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
 
-
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
@@ -131,7 +130,7 @@ void main::HandleDragMove(StringHash eventType, VariantMap& eventData)
 
     draggedElement_ = static_cast<UIElement*>(eventData["Element"].GetPtr());
     draggedElement_ ->SetPosition(dragCurrentPosition - dragBeginPosition_);
-    draggedElement_ ->SetSize(dragCurrentPosition.y_/4, dragCurrentPosition.y_/4);
+    draggedElement_ ->SetSize(std::min(dragCurrentPosition.y_/4,68), std::min(dragCurrentPosition.y_/4,68));
 }
 
 void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
@@ -140,7 +139,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate the power based on the time and the distance
     double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
     std::cout << "Speed : " << speed << std::endl;
-    // Calculate the rotation angle
+    // Calculate the rotation angle 
     double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
     std::cout << "Rotation angle in degrees : " << rotation_angle* 180.0 / M_PI << std::endl;
 
@@ -169,11 +168,11 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 
 void main::ThrowResult(int cupScored){
     UI* ui = GetSubsystem<UI>();
-    //SharedPtr<Text> throwResult(new Text(context_));
+  //  SharedPtr<Text> throwResult(new Text(context_));
     if(cupScored == -1){
         ui->GetRoot()->RemoveChild(uielem_[4]);
         SharedPtr<Text> textUpdate(new Text(context_));
-        textUpdate->SetText("Welcome to the beeg pong game \n Failed = +0 Point");
+        textUpdate->SetText("Welcome to the beer pong game \nFailed = +0 Point");
         textUpdate->SetStyleAuto();
         textUpdate->SetOpacity(1.0);
         textUpdate->SetFont("Fonts/Anonymous Pro.ttf",30);
@@ -188,7 +187,7 @@ void main::ThrowResult(int cupScored){
         ui->GetRoot()->RemoveChild(uielem_[4]);
 
         SharedPtr<Text> textUpdate(new Text(context_));
-        textUpdate->SetText("Welcome to the beer pong game \n Success = +1 Point !  ");
+        textUpdate->SetText("Welcome to the beer pong game \nSuccess = +1 Point !  ");
 
         textUpdate->SetStyleAuto();
         textUpdate->SetOpacity(1.0);
@@ -308,6 +307,7 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
     InitBoardGame();
+    CreatedraggableBall();
 }
 
 void main::InitBoardGame()
@@ -322,13 +322,13 @@ void main::InitBoardGame()
 
     // TODO ajouter l'image de background
     // Display Background picture
-   /*  Texture2D* backTex = cache->GetResource<Texture2D>("Textures/background_beer.jpg");
-     SharedPtr<BorderImage> backBoard(new BorderImage(context_));
-     ui->GetRoot()->AddChild(backBoard);
-     backBoard->SetTexture(backTex);
-     backBoard->SetSize(width,height);
-     backBoard->SetBringToBack(true);*/
-    // backBoard->SetBlendMode(BLEND_ADD);
+   /* Texture2D* backTex = cache->GetResource<Texture2D>("Textures/background_beer.jpg");
+    SharedPtr<BorderImage> backBoard(new BorderImage(context_));
+    ui->GetRoot()->AddChild(backBoard);
+    backBoard->SetTexture(backTex);
+    backBoard->SetSize(width,height);
+    backBoard->SetBringToBack(true);*/
+   // backBoard->SetBlendMode(BLEND_ADD);
 
     //backBoard->SetPosition(0,317);
 
@@ -340,11 +340,11 @@ void main::InitBoardGame()
     table->SetSize(width,height/2);
     table->SetBringToBack(true);
     table->SetPosition(0,317);
-    //  table->SetBlendMode(BLEND_ALPHA);
+  //  table->SetBlendMode(BLEND_ALPHA);
 
     // TODO ajouter table à uielem_
-    //  back->SetOpacity(0.3);
-    //  uielem_.Push(back);
+  //  back->SetOpacity(0.3);
+  //  uielem_.Push(back);
 
 
     // Get the cup texture
@@ -365,7 +365,7 @@ void main::InitBoardGame()
         sprite->SetTexture(decalTex);
 
         // Set position of the cup
-        // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
+       // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
         sprite->SetPosition(positionCups[i].x, positionCups[i].y);
 
         // Set sprite size & hotspot in its center
@@ -405,12 +405,12 @@ void main::InitBoardGame()
     title1->SetFont("Fonts/Anonymous Pro.ttf",30);
     title1->SetPosition(0,100);
     title1->SetBringToBack(true);
-    // uielem_.Push(textWindow);
+    uielem_.Push(textWindow);
     textWindow->AddChild(title1);
     ui->GetRoot()->AddChild(textWindow);
 
-    CreatedraggableBall();
     CreateReturnButton();
+
 }
 
 void main::CreateReturnButton(){
@@ -464,9 +464,6 @@ void main::SubscribeToEvents()
 
 void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
-    // using namespace Update;
-    // Take the frame time step, which is stored as a float
-    //float timeStep = eventData[P_TIMESTEP].GetFloat();
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
@@ -478,12 +475,9 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         k=k+1;
     } else {
         draggedElement_->SetPosition(1024/2, 768/2);
+        draggedElement_->SetSize(68,68);
         graphicsTrajectory_.clear();
         UnsubscribeFromEvent(E_UPDATE);
-
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
-
     }
-    // Move main, scale movement with time step
-    // Movemain(timeStep);
 }
