@@ -70,7 +70,7 @@ int Player::scoreCup(double &a, double &b, double &c, vector<Vec3<int>> &ballTra
             // The cup has not been scored yet
             Vec2i posCup = cup.getPosition();
             double d = (xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y);
-            cout << "Cup id: " << cup.getID() << " d = " << d << endl;
+            cout << "Cup id: " << cup.getID() << " d = " << d << " Cups x: " << cup.getPosition().x << " Cups y: " << cup.getPosition().y << endl;
             if (d < radius2){
                 score = cup.getID();
                 break;
@@ -122,10 +122,10 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
         ratio_min_max = 1.0/2;
         table_width_max_cm = 60;
         table_width_min_cm = (int)floor((double)table_width_max_cm*ratio_min_max);
-        table_width_max_pixel = 1024;
+        table_width_max_pixel = 889;
         table_width_min_pixel = (int)floor((double)table_width_max_pixel*ratio_min_max);
         table_length_cm = 240;
-        table_length_pixel_zAxis = 384;
+        table_length_pixel_zAxis = 461;
         ball_size_max_cm = 8;
         ball_size_min_cm = (int)floor(ball_size_max_cm*ratio_min_max);
         ball_size_max_pixel = (int)floor((double)ball_size_max_cm/table_width_max_cm*table_width_max_pixel);;
@@ -135,12 +135,12 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
 
 
         double factor_a = 1;
-        double factor_b = (table_length_pixel_zAxis-1)/log10(table_length_cm + 1);
+        double factor_b = (table_length_pixel_zAxis-1)/log(table_length_cm + 1);
         double factor_c = table_length_pixel_zAxis/table_length_cm;
         // function has the shape: f(x) = factor_a + factor_b + log(x+1)
         for (int i = 0; i<ballTrajectory.size(); i++) {
             // Calculate zG depending on yA
-            auto zG = (int)floor(factor_a + factor_b * log10(1 + ballTrajectory[i].getY()));
+            auto zG = (int)floor(factor_a + factor_b * log(1 + ballTrajectory[i].getY()));
             //auto zGBall = (int)floor(factor_a + factor_c * ballTrajectory[i].getY()); // for ball zisize variation
             //zGBall = zG;
 
@@ -168,7 +168,7 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
             // reverse zG
             // include zArchitecture, "-" in the formula because the zG start from the upper left corner
             // pour le moment déconne: prendre en compte les vrai valeur pour al taille de la table, et voir comment faire pour que ça soit bien
-            int new_zG = window_height_pixel -(zG + (int)floor((zG*cm_to_pixel)*0.1));
+            int new_zG = window_height_pixel -(zG + (int)floor((ballTrajectory[i].getZ()*cm_to_pixel)*0.3));
             //int new_zG = window_height_pixel -(zG);
             ////cout << " | zA = " << ballTrajectory[i].getZ() << " | zG after = " << graphicsTrajectory[i].getZ() << endl;
             graphicsTrajectory[i].setZ(new_zG);

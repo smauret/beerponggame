@@ -146,11 +146,10 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     int cupScored = -1;
-   // vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), finalPositionCm.y_, cupScored);
-  //  vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 50, 0, cupScored);
+    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
     vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 410, 40, 0, cupScored);
     ThrowResult(cupScored);
-std::cout << "Cup scored " << cupScored << std::endl;
+    std::cout << "Cup scored " << cupScored << std::endl;
     for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
@@ -332,19 +331,19 @@ void main::InitBoardGame()
     ui->GetRoot()->AddChild(backBoard);
     backBoard->SetTexture(backTex);
     backBoard->SetSize(width,height);
-    backBoard->SetBringToBack(true);
-    backBoard->SetBlendMode(BLEND_ADD);
-    backBoard->SetPosition(0,317);*/
+    backBoard->SetBringToBack(true);*/
+   // backBoard->SetBlendMode(BLEND_ADD);
+
+    //backBoard->SetPosition(0,317);
 
     // Display table image
     Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
     SharedPtr<BorderImage> table(new BorderImage(context_));
     ui->GetRoot()->AddChild(table);
     table->SetTexture(tableTex);
-    table->SetSize(889,461);
+    table->SetSize(width,height/2);
     table->SetBringToBack(true);
-    table->SetPosition((1024)/2,height - 461);
-    table->SetAlignment(HA_CENTER, VA_CENTER);
+    table->SetPosition(0,317);
   //  table->SetBlendMode(BLEND_ALPHA);
 
     // TODO ajouter table à uielem_
@@ -464,8 +463,8 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         draggedElement_->SetSize(graphicsTrajectory_[k].getY(),graphicsTrajectory_[k].getY());
         k=k+1;
     } else {
-        draggedElement_->SetPosition(1024/2, 768/2);
-        draggedElement_->SetSize(68,68);
+        //draggedElement_->SetPosition(1024/2, 768/2);
+        //draggedElement_->SetSize(68,68);
         graphicsTrajectory_.clear();
         UnsubscribeFromEvent(E_UPDATE);
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
