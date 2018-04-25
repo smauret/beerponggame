@@ -50,11 +50,6 @@ protected:
 private:
     /** Create the main page of the game : Cups , table, score window, background */
     void InitBoardGame();
-
-    /// Subscribe to application-wide logic update events.
-    void SubscribeToEvents();
-
-
     /** Create the welcome page of the game : Background, play window and button, title */
     void InitWelcomePage();
     /** Create the draggable ping pong ball */

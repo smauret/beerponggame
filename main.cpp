@@ -146,10 +146,11 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     int cupScored = -1;
-    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), finalPositionCm.y_, cupScored);
-    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 50, 0, cupScored);
+   // vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), finalPositionCm.y_, cupScored);
+  //  vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 50, 0, cupScored);
+    vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 410, 40, 0, cupScored);
     ThrowResult(cupScored);
-
+std::cout << "Cup scored " << cupScored << std::endl;
     for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
@@ -164,7 +165,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     UnsubscribeFromEvent(E_DRAGEND);
     UnsubscribeFromEvent(E_MOUSEBUTTONDOWN);
 
-    SubscribeToEvents();
+    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
 }
 
 void main::ThrowResult(int cupScored){
@@ -198,6 +199,7 @@ void main::ThrowResult(int cupScored){
         uielem_[4]->RemoveAllChildren();
         uielem_[4]->AddChild(textUpdate);
         ui->GetRoot()->AddChild(uielem_[4]);
+        ui->GetRoot()->RemoveChild(main_[cupScored]);
     }
 }
 
@@ -303,8 +305,9 @@ void main::HandleReturnPressed(StringHash eventType, VariantMap& eventData)
 
 void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
 {
+    //Player[2] players;
     // Create player
-    lucas_ = Player("Lucas",10);
+    lucas_ = Player("Lucas",6);
     // Graphics
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
@@ -329,23 +332,22 @@ void main::InitBoardGame()
     ui->GetRoot()->AddChild(backBoard);
     backBoard->SetTexture(backTex);
     backBoard->SetSize(width,height);
-    backBoard->SetBringToBack(true);*/
-   // backBoard->SetBlendMode(BLEND_ADD);
-
-    //backBoard->SetPosition(0,317);
+    backBoard->SetBringToBack(true);
+    backBoard->SetBlendMode(BLEND_ADD);
+    backBoard->SetPosition(0,317);*/
 
     // Display table image
     Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
     SharedPtr<BorderImage> table(new BorderImage(context_));
     ui->GetRoot()->AddChild(table);
     table->SetTexture(tableTex);
-    table->SetSize(width,height/2);
+    table->SetSize(889,461);
     table->SetBringToBack(true);
-    table->SetPosition(0,317);
+    table->SetPosition((1024)/2,height - 461);
+    table->SetAlignment(HA_CENTER, VA_CENTER);
   //  table->SetBlendMode(BLEND_ALPHA);
 
     // TODO ajouter table à uielem_
-  //  back->SetOpacity(0.3);
   //  uielem_.Push(back);
 
     // Get the cup texture
@@ -415,7 +417,6 @@ void main::InitBoardGame()
 
 void main::CreateReturnButton(){
     ResourceCache* cache = GetSubsystem<ResourceCache>();
-    Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
 
     //Create return button
@@ -456,19 +457,8 @@ void main::CreateReturnButton(){
     uielem_.Push(buttonReturn);
 }
 
-void main::SubscribeToEvents()
-{
-    // Subscribe HandleUpdate() function for processing update events
-    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
-}
-
 void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
-    ResourceCache* cache = GetSubsystem<ResourceCache>();
-    Graphics* graphics = GetSubsystem<Graphics>();
-    UI* ui = GetSubsystem<UI>();
-
-
     if(k<graphicsTrajectory_.size()){
         draggedElement_->SetPosition(graphicsTrajectory_[k].getX(), graphicsTrajectory_[k].getZ());
         draggedElement_->SetSize(graphicsTrajectory_[k].getY(),graphicsTrajectory_[k].getY());
