@@ -348,7 +348,6 @@ void main::InitBoardGame()
   //  back->SetOpacity(0.3);
   //  uielem_.Push(back);
 
-
     // Get the cup texture
     Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
     vector<Vec2i> positionCups;
@@ -412,7 +411,6 @@ void main::InitBoardGame()
     ui->GetRoot()->AddChild(textWindow);
 
     CreateReturnButton();
-
 }
 
 void main::CreateReturnButton(){
