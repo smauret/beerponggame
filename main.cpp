@@ -146,8 +146,8 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     int cupScored = -1;
-    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), finalPositionCm.y_, cupScored);
-    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 50, 0, cupScored);
+    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
+    vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 410, 40, 0, cupScored);
     ThrowResult(cupScored);
 
     for (int i=0; i<ballTrajectory.size(); i++) {
@@ -304,7 +304,7 @@ void main::HandleReturnPressed(StringHash eventType, VariantMap& eventData)
 void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
 {
     // Create player
-    lucas_ = Player("Lucas",10);
+    lucas_ = Player("Lucas",6);
     // Graphics
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
