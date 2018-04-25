@@ -153,8 +153,9 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
-    lucas_.get_z_graphics(ballTrajectory, graphicsTrajectory_);
-    lucas_.get_x_graphics(ballTrajectory, graphicsTrajectory_);
+    lucas_.get_xzSize_graphics(ballTrajectory, graphicsTrajectory_);
+    //lucas_.get_z_graphics(ballTrajectory, graphicsTrajectory_);
+    //lucas_.get_x_graphics(ballTrajectory, graphicsTrajectory_);
     //ui->GetRoot()->RemoveChild(main_[0]);;
     k=0;
 
