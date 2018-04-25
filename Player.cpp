@@ -168,7 +168,7 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
             int new_zG = window_height_pixel -(graphicsTrajectory[i].getZ());
             ////cout << " | zA = " << ballTrajectory[i].getZ() << " | zG after = " << graphicsTrajectory[i].getZ() << endl;
             graphicsTrajectory[i].setZ(new_zG);
-            cout << "xA : " << ballTrajectory[i].getX() << " | xG : " << graphicsTrajectory[i].getX() << " | yA : " << " | alpahe : " << alpha << ballTrajectory[i].getY() << " | yG : " << graphicsTrajectory[i].getY()<< " | zA : " << ballTrajectory[i].getZ() << " | zG : " << graphicsTrajectory[i].getZ() << endl << endl;
+            cout << "xA : " << ballTrajectory[i].getX() << " | xG : " << graphicsTrajectory[i].getX() << " | yA : " << ballTrajectory[i].getY() << " | alpahe : " << alpha << ballTrajectory[i].getY() << " | yG : " << graphicsTrajectory[i].getY()<< " | zA : " << ballTrajectory[i].getZ() << " | zG : " << graphicsTrajectory[i].getZ() << endl << endl;
 
             // cout << " | length table pixel = " << table_length_pixel_zAxis << " | zG = " << zG << " | alpha = " << alpha << " | ball size = " << pixel_width << " | minimum ball pixel size = " << ball_size_min_pixel << endl;
 
