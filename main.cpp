@@ -146,7 +146,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     int cupScored = -1;
-    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.y_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
+    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), finalPositionCm.y_, cupScored);
     //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 50, 0, cupScored);
     ThrowResult(cupScored);
 
@@ -217,6 +217,7 @@ IntVector3 main::GetInitPosCm(IntVector2 initPos){
     initPosCm.z_ = ((heightPix - 1) - initPos.y_)*(heightCm - 1)/(heightPix - 1);
     // yA = tan(90 - 45)*sqrt(xA^2 + zA^2)
     initPosCm.y_ = tan(M_PI/4) * sqrt(initPosCm.x_*initPosCm.x_ + initPosCm.y_*initPosCm.y_);
+    cout << "lancé: x : " << initPosCm.x_ << " | y : " << initPosCm.y_ << " | z : " << initPosCm.z_ << endl;
     return initPosCm;
 }
 
