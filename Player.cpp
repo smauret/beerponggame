@@ -122,10 +122,10 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
         ratio_min_max = 1.0/2;
         table_width_max_cm = 60;
         table_width_min_cm = (int)floor((double)table_width_max_cm*ratio_min_max);
-        table_width_max_pixel = 1024;
+        table_width_max_pixel = 889;
         table_width_min_pixel = (int)floor((double)table_width_max_pixel*ratio_min_max);
         table_length_cm = 240;
-        table_length_pixel_zAxis = 384;
+        table_length_pixel_zAxis = 461;
         ball_size_max_cm = 8;
         ball_size_min_cm = (int)floor(ball_size_max_cm*ratio_min_max);
         ball_size_max_pixel = (int)floor((double)ball_size_max_cm/table_width_max_cm*table_width_max_pixel);;
@@ -168,7 +168,7 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
             // reverse zG
             // include zArchitecture, "-" in the formula because the zG start from the upper left corner
             // pour le moment déconne: prendre en compte les vrai valeur pour al taille de la table, et voir comment faire pour que ça soit bien
-            int new_zG = window_height_pixel -(zG + (int)floor((ballTrajectory[i].getZ()*cm_to_pixel)*0.1));
+            int new_zG = window_height_pixel -(zG + (int)floor((ballTrajectory[i].getZ()*cm_to_pixel)*0.3));
             //int new_zG = window_height_pixel -(zG);
             ////cout << " | zA = " << ballTrajectory[i].getZ() << " | zG after = " << graphicsTrajectory[i].getZ() << endl;
             graphicsTrajectory[i].setZ(new_zG);
