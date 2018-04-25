@@ -231,6 +231,14 @@ void main::InitWelcomePage() {
     // Set the loaded style as default style
     ui->GetRoot()->SetDefaultStyle(style);
 
+    Graphics* graphics = GetSubsystem<Graphics>();
+    // Get rendering window size as floats
+    //graphics->ToggleFullscreen();
+    bool verif = graphics->SetMode(1024,768,0,0,0,0,0,0,0,0,60);
+    float width = (float)graphics->GetWidth();
+    float height = (float)graphics->GetHeight();
+    cout << "verif: " << verif << " width : " << (float)graphics->GetWidth() << " & height " << (float)graphics->GetHeight();
+
     // Set Window size and layout settings
     window_->SetMinWidth(384);
     window_->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
@@ -260,10 +268,6 @@ void main::InitWelcomePage() {
 
 
     // Display background image
-    Graphics* graphics = GetSubsystem<Graphics>();
-    // Get rendering window size as floats
-    float width = (float)graphics->GetWidth();
-    float height = (float)graphics->GetHeight();
     Texture2D* background = cache->GetResource<Texture2D>("Textures/background_beer.jpg");
     SharedPtr<BorderImage> back(new BorderImage(context_));
     ui->GetRoot()->AddChild(back);
