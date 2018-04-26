@@ -157,11 +157,11 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     }
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
-    int cupScored = -1;
+    cupScored = -1;
     //vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
     vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 405, 30, 0, cupScored);
-    ThrowResult(cupScored);
+    //ThrowResult(cupScored);
     std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
@@ -483,6 +483,7 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         //draggedElement_->SetPosition(1024/2, 768/2);
         //draggedElement_->SetSize(68,68);
         graphicsTrajectory_.clear();
+        ThrowResult(cupScored);
         UnsubscribeFromEvent(E_UPDATE);
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
     }

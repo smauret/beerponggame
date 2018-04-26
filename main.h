@@ -128,6 +128,6 @@ private:
     UIElement* draggedElement_;
     vector<Vec3<int>> graphicsTrajectory_;
     int k=0;
-
+    int cupScored = -1;
 
 };
