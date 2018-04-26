@@ -40,7 +40,7 @@ vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double 
         x = (int)round(y * d + startX);
         ballTrajectory.emplace_back(x,y + startY,z);
         //cout << "x = " << ballTrajectory[y].getX() << " | y = " << ballTrajectory[y].getY() << " | z = " << ballTrajectory[y].getZ() << endl;
-        if (z < 11 || (y+startY)>239 || x<0 || x>59) {
+        if (z < 13 || (y+startY)>239 || x<0 || x>59) {
             // stop when the ball is lower than the height of a cup: we don't need more information on the trajectory
             break;
         }
@@ -159,6 +159,25 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
             // Calculate the ball size
             pixel_width = (int)floor(alphaBall*(ball_size_max_pixel-ball_size_min_pixel) + ball_size_min_pixel);
             graphicsTrajectory[i].setY(pixel_width);
+
+
+            // récuperer les tailles de cups
+           /* int zCup1 = (int)floor(factor_a + factor_b * log(1 + 230));
+            int zCup2 = (int)floor(factor_a + factor_b * log(1 + 221));
+            int zCup3 = (int)floor(factor_a + factor_b * log(1 + 212));
+            cout << "Z cup1 " << zCup1 << " Z cup2 " << zCup2 << " Z cup3 " << zCup3 << endl;
+            double alphaCup1 = (double)(table_length_pixel_zAxis - zCup1)/table_length_pixel_zAxis;
+            double alphaCup2 = (double)(table_length_pixel_zAxis - zCup2)/table_length_pixel_zAxis;
+            double alphaCup3 = (double)(table_length_pixel_zAxis - zCup3)/table_length_pixel_zAxis;
+            cout << "alpha cup1 " << alphaCup1 << " alpha cup2 " << alphaCup2 << " alpha cup3 " << alphaCup3 << endl;
+
+            auto cm_to_pixelCup1 = (int)floor(alphaCup1*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
+            auto cm_to_pixelCup2 = (int)floor(alphaCup2*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
+            auto cm_to_pixelCup3 = (int)floor(alphaCup3*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
+            cout << "Cup du fond : " << 12*cm_to_pixelCup1  << " Cup du milieu : " << 12*cm_to_pixelCup2 << " Cup de devant : " << 12*cm_to_pixelCup3 << endl;
+*/
+
+
 
             // include zA
             // Get cm in pixel depending on zG
