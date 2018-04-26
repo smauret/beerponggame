@@ -147,9 +147,9 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     int cupScored = -1;
     //vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 410, 40, 0, cupScored);
+    vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 30, 0, cupScored);
     ThrowResult(cupScored);
-    std::cout << "Cup scored " << cupScored << std::endl;
+    std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }

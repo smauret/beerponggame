@@ -15,7 +15,7 @@ private:
     int ID;
     Vec2i position; //position du centre de la cup
     bool onTable;
-    int radius; //en cm
+    float radius; //en cm
     int height; //en cm
 public:
 
@@ -26,7 +26,7 @@ public:
 
     Cup(int ID, const Vec2i &position, int height, int radius) : ID(ID), position(position), height(height), radius(radius) {onTable = true;}
 
-    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {height = 12; radius = 9; onTable = true;}
+    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {height = 12; radius = 4.5; onTable = true;}
 
     Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/onTable = true;}
 

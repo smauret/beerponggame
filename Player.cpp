@@ -62,9 +62,9 @@ int Player::scoreCup(double &a, double &b, double &c, vector<Vec3<int>> &ballTra
 
     int xSolution = ballTrajectory.back().getX();
     int ySolution = ballTrajectory.back().getY();
-    int radius = cups[0].getRadius();
+    float radius = cups[0].getRadius();
     int radius2 = radius*radius;
-
+    cout << "radius square = " << radius2 << "  radius = " << radius << "  x = " << xSolution << "  y = " << ySolution << endl;
     for (auto &cup : cups) {
         if (cup.isOnTable()) {
             // The cup has not been scored yet
@@ -90,7 +90,7 @@ vector<Vec2i> Player::cupsPositions(int nbOfCups) {
             positions.emplace_back(40,tableSize.y-10);
             positions.emplace_back(26,tableSize.y-19);
             positions.emplace_back(35,tableSize.y-19);
-            positions.emplace_back(31,tableSize.y-28);
+            positions.emplace_back(30,tableSize.y-28);
         }
         if (nbOfCups == 10){
             positions.emplace_back(18,tableSize.y-10);
@@ -191,7 +191,7 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
             //int new_zG = window_height_pixel -(zG);
             ////cout << " | zA = " << ballTrajectory[i].getZ() << " | zG after = " << graphicsTrajectory[i].getZ() << endl;
             graphicsTrajectory[i].setZ(new_zG);
-            cout << "xA : " << ballTrajectory[i].getX() << " | xG : " << graphicsTrajectory[i].getX() << " | yA : " << ballTrajectory[i].getY() << " | alpha : " << alpha << ballTrajectory[i].getY() << " | yG : " << graphicsTrajectory[i].getY()<< " | zA : " << ballTrajectory[i].getZ() << " | Pixel to cm : " << cm_to_pixel << " | zG before : " << zG << " | zG : " << graphicsTrajectory[i].getZ() << endl << endl;
+            //cout << "xA : " << ballTrajectory[i].getX() << " | xG : " << graphicsTrajectory[i].getX() << " | yA : " << ballTrajectory[i].getY() << " | alpha : " << alpha << ballTrajectory[i].getY() << " | yG : " << graphicsTrajectory[i].getY()<< " | zA : " << ballTrajectory[i].getZ() << " | Pixel to cm : " << cm_to_pixel << " | zG before : " << zG << " | zG : " << graphicsTrajectory[i].getZ() << endl << endl;
 
             // cout << " | length table pixel = " << table_length_pixel_zAxis << " | zG = " << zG << " | alpha = " << alpha << " | ball size = " << pixel_width << " | minimum ball pixel size = " << ball_size_min_pixel << endl;
 
