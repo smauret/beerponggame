@@ -139,15 +139,28 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate the power based on the time and the distance
     double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
     std::cout << "Speed : " << speed << std::endl;
-    // Calculate the rotation angle 
+    if(speed > 100 && speed < 1500){
+        double restSpeed = speed /10;
+        speed = 350+restSpeed;
+    }
+    std::cout << "Speed : " << speed << std::endl;
+    // Calculate the rotation angle
     double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
     std::cout << "Rotation angle in degrees : " << rotation_angle* 180.0 / M_PI << std::endl;
-
+    if(rotation_angle<0.7848){
+        rotation_angle=0.7848;
+    }else if(rotation_angle>2.3544){
+        rotation_angle=2.3544;
+    }else{
+        double rest = (rotation_angle - 0.7848)/9;
+        rotation_angle = 1.4388 + rest;
+    }
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     int cupScored = -1;
     //vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 400, 30, 0, cupScored);
+    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 405, 30, 0, cupScored);
     ThrowResult(cupScored);
     std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory.size(); i++) {

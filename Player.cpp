@@ -63,14 +63,14 @@ int Player::scoreCup(double &a, double &b, double &c, vector<Vec3<int>> &ballTra
     int xSolution = ballTrajectory.back().getX();
     int ySolution = ballTrajectory.back().getY();
     float radius = cups[0].getRadius();
-    int radius2 = radius*radius;
+    float radius2 = radius*radius;
     cout << "radius square = " << radius2 << "  radius = " << radius << "  x = " << xSolution << "  y = " << ySolution << endl;
     for (auto &cup : cups) {
         if (cup.isOnTable()) {
             // The cup has not been scored yet
             Vec2i posCup = cup.getPosition();
             double d = (xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y);
-            cout << "Cup id: " << cup.getID() << " d = " << d << " Cups x: " << cup.getPosition().x << " Cups y: " << cup.getPosition().y << endl;
+            cout << "Cup id: " << cup.getID() << " d = " << sqrt(d) << " d square= " << d << " Cups x: " << cup.getPosition().x << " Cups y: " << cup.getPosition().y << endl;
             if (d < radius2){
                 score = cup.getID();
                 break;
