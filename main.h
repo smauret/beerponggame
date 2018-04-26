@@ -83,7 +83,7 @@ private:
         double sizeVec = sqrt((initPos2.x_ - endPos2.x_)*(initPos2.x_ - endPos2.x_) + (initPos2.y_ - endPos2.y_)*(initPos2.y_ - endPos2.y_));
         //  std::cout << "Taille vecteur : " << sizeVec << std::endl;
         double rotation = acos((endPos2.x_-initPos2.x_)/sizeVec);
-        std::cout << "Rotation angle in radians : " << rotation << std::endl;
+        //std::cout << "Rotation angle in radians : " << rotation << std::endl;
         return rotation;
     }
 
@@ -99,7 +99,7 @@ private:
         double distance_cm = distance;//64583333;
         clock_t endTime = clock();
         double timePassed_sec = (endTime - startTime) / ((double)CLOCKS_PER_SEC/10);
-        std::cout << "Time passed : " << timePassed_sec << std::endl;
+        //std::cout << "Time passed : " << timePassed_sec << std::endl;
         double speed = distance_cm/timePassed_sec;
         return speed;
     };

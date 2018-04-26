@@ -81,25 +81,31 @@ void main::CreatedraggableBall()
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
 
-    // Create a draggable Ball button
-    SharedPtr<Button> draggableBall (new Button(context_));
-    draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
-    draggableBall->SetBlendMode(BLEND_ALPHA);
-    draggableBall->SetSize(68, 68);
-    draggableBall->SetPosition(3*(graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
-    draggableBall->SetName("Ball");
-    ui->GetRoot()->AddChild(draggableBall);
+    if(uielem_.Size() < 9) {
+        // Create a draggable Ball button
+        SharedPtr<Button> draggableBall(new Button(context_));
+        draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
+        draggableBall->SetBlendMode(BLEND_ALPHA);
+        draggableBall->SetSize(68, 68);
+        draggableBall->SetPosition(3 * (graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
+        draggableBall->SetName("Ball");
+        ui->GetRoot()->AddChild(draggableBall);
 
-    // Add a tooltip to Ball button
-    ToolTip* toolTip = new ToolTip(context_);
-    draggableBall->AddChild(toolTip);
-    draggedElement_ = draggableBall;
-    toolTip->SetPosition(IntVector2(draggableBall->GetWidth() + 5, draggableBall->GetWidth() / 2)); // slightly offset from close button
-
+/*        // Add a tooltip to Ball button
+        ToolTip *toolTip = new ToolTip(context_);
+        draggableBall->AddChild(toolTip);
+        toolTip->SetPosition(IntVector2(draggableBall->GetWidth() + 5,
+                                        draggableBall->GetWidth() / 2)); // slightly offset from close button*/
+        draggedElement_ = draggableBall;
+        uielem_.Push(draggableBall);
+    }else{
+        draggedElement_ = uielem_[8];
+        ui->GetRoot()->AddChild(uielem_[8]);
+    }
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
 
-    uielem_.Push(draggableBall);
 
+    cout << "Create draggable ball" << "  uielem_ size : " << uielem_.Size() << endl;
 }
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
@@ -135,18 +141,19 @@ void main::HandleDragMove(StringHash eventType, VariantMap& eventData)
 
 void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 {
+    cout << "Handle drag end" << endl;
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
     // Calculate the power based on the time and the distance
     double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
-    std::cout << "Speed : " << speed << std::endl;
+    //std::cout << "Speed : " << speed << std::endl;
     if(speed > 100 && speed < 1500){
         double restSpeed = speed /10;
         speed = 350+restSpeed;
     }
-    std::cout << "Speed : " << speed << std::endl;
+    //std::cout << "Speed : " << speed << std::endl;
     // Calculate the rotation angle
     double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
-    std::cout << "Rotation angle in degrees : " << rotation_angle* 180.0 / M_PI << std::endl;
+    //std::cout << "Rotation angle in degrees : " << rotation_angle* 180.0 / M_PI << std::endl;
     if(rotation_angle<0.7848){
         rotation_angle=0.7848;
     }else if(rotation_angle>2.3544){
@@ -181,10 +188,14 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 }
 
 void main::ThrowResult(int cupScored){
+    cout << "Throw result " << "  size uielem_ : " << uielem_.Size()<< endl;
+
     UI* ui = GetSubsystem<UI>();
+
   //  SharedPtr<Text> throwResult(new Text(context_));
     if(cupScored == -1){
-        ui->GetRoot()->RemoveChild(uielem_[4]);
+        cout << "Remove text box success -1" << endl;
+        ui->GetRoot()->RemoveChild(uielem_[5]);
         SharedPtr<Text> textUpdate(new Text(context_));
         textUpdate->SetText("Welcome to the beer pong game \nFailed = +0 Point");
         textUpdate->SetStyleAuto();
@@ -192,13 +203,13 @@ void main::ThrowResult(int cupScored){
         textUpdate->SetFont("Fonts/Anonymous Pro.ttf",30);
         textUpdate->SetPosition(0,300);
         textUpdate->SetBringToBack(true);
-        uielem_[4]->RemoveAllChildren();
-        uielem_[4]->AddChild(textUpdate);
-        ui->GetRoot()->AddChild(uielem_[4]);
+        uielem_[5]->RemoveAllChildren();
+        uielem_[5]->AddChild(textUpdate);
+        ui->GetRoot()->AddChild(uielem_[5]);
 
     }else{
-
-        ui->GetRoot()->RemoveChild(uielem_[4]);
+        cout << "Remove text box success" << endl;
+        ui->GetRoot()->RemoveChild(uielem_[5]);
 
         SharedPtr<Text> textUpdate(new Text(context_));
         textUpdate->SetText("Welcome to the beer pong game \nSuccess = +1 Point !  ");
@@ -208,9 +219,9 @@ void main::ThrowResult(int cupScored){
         textUpdate->SetFont("Fonts/Anonymous Pro.ttf",30);
         textUpdate->SetPosition(0,300);
         textUpdate->SetBringToBack(true);
-        uielem_[4]->RemoveAllChildren();
-        uielem_[4]->AddChild(textUpdate);
-        ui->GetRoot()->AddChild(uielem_[4]);
+        uielem_[5]->RemoveAllChildren();
+        uielem_[5]->AddChild(textUpdate);
+        ui->GetRoot()->AddChild(uielem_[5]);
         ui->GetRoot()->RemoveChild(main_[cupScored]);
     }
 }
@@ -231,11 +242,12 @@ IntVector3 main::GetInitPosCm(IntVector2 initPos){
     initPosCm.z_ = ((heightPix - 1) - initPos.y_)*(heightCm - 1)/(heightPix - 1);
     // yA = tan(90 - 45)*sqrt(xA^2 + zA^2)
     initPosCm.y_ = tan(M_PI/4) * sqrt(initPosCm.x_*initPosCm.x_ + initPosCm.y_*initPosCm.y_);
-    cout << "lancé: x : " << initPosCm.x_ << " | y : " << initPosCm.y_ << " | z : " << initPosCm.z_ << endl;
+    //cout << "lancé: x : " << initPosCm.x_ << " | y : " << initPosCm.y_ << " | z : " << initPosCm.z_ << endl;
     return initPosCm;
 }
 
 void main::InitWelcomePage() {
+
     UI* ui = GetSubsystem<UI>();
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     XMLFile* style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
@@ -251,7 +263,7 @@ void main::InitWelcomePage() {
     bool verif = graphics->SetMode(1024,768,0,0,0,0,0,0,0,0,60);
     float width = (float)graphics->GetWidth();
     float height = (float)graphics->GetHeight();
-    cout << "verif: " << verif << " width : " << (float)graphics->GetWidth() << " & height " << (float)graphics->GetHeight();
+    //cout << "verif: " << verif << " width : " << (float)graphics->GetWidth() << " & height " << (float)graphics->GetHeight();
 
     // Set Window size and layout settings
     window_->SetMinWidth(384);
@@ -300,12 +312,14 @@ void main::InitWelcomePage() {
     title->SetFont("Fonts/Anonymous Pro.ttf",30);
     title->SetPosition(((int)width-title->GetSize().x_)/2,(int)height/3);
     uielem_.Push(title);
+    cout << "Init Welcome Page" << "  size uielem_ : " << uielem_.Size() << endl;
 
     SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(main,HandlePlayPressed));
 }
 
 void main::HandleReturnPressed(StringHash eventType, VariantMap& eventData)
 {
+    cout << "Handle press return" << "   uielem_ size : " << uielem_.Size() << endl;
     UI* ui = GetSubsystem<UI>();
     // Remove play screen
     ui->GetRoot()->RemoveAllChildren();
@@ -321,6 +335,7 @@ void main::HandleReturnPressed(StringHash eventType, VariantMap& eventData)
 
 void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
 {
+    cout << "event press play" << "   uielem_ size : " << uielem_.Size() << endl;
     //Player[2] players;
     // Create player
     lucas_ = Player("Lucas",6);
@@ -333,6 +348,7 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
 
 void main::InitBoardGame()
 {
+
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
@@ -354,17 +370,20 @@ void main::InitBoardGame()
     //backBoard->SetPosition(0,317);
 
     // Display table image
-    Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
-    SharedPtr<BorderImage> table(new BorderImage(context_));
-    ui->GetRoot()->AddChild(table);
-    table->SetTexture(tableTex);
-    table->SetSize(width,height/2);
-    table->SetBringToBack(true);
-    table->SetPosition(0,317);
-  //  table->SetBlendMode(BLEND_ALPHA);
-
-    // TODO ajouter table à uielem_
-  //  uielem_.Push(back);
+    if(uielem_.Size() < 8){
+        Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
+        SharedPtr<BorderImage> table(new BorderImage(context_));
+        ui->GetRoot()->AddChild(table);
+        table->SetTexture(tableTex);
+        table->SetSize(width,height/2);
+        table->SetBringToBack(true);
+        table->SetPosition(0,317);
+        uielem_.Push(table);
+    }else
+    {
+        uielem_[4]->SetBringToBack(true);
+        ui->GetRoot()->AddChild(uielem_[4]);
+    }
 
     // Get the cup texture
     Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
@@ -406,71 +425,84 @@ void main::InitBoardGame()
 
     }
 
+    if(uielem_.Size() < 8) {
+        SharedPtr<Window> textWindow(new Window(context_));
+        // Set Window size and layout settings
+        // TODO : Adapter la taille de la window au contenu ?
 
-    SharedPtr<Window> textWindow(new Window(context_));
-    // Set Window size and layout settings
-    // TODO : Adapter la taille de la window au contenu ?
+        textWindow->SetMaxWidth(250);
+        textWindow->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
+        textWindow->SetPosition(0, 200);
+        textWindow->SetName("textWindow");
+        textWindow->SetStyleAuto();
 
-    textWindow->SetMaxWidth(250);
-    textWindow->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
-    textWindow->SetPosition(0, 200);
-    textWindow->SetName("textWindow");
-    textWindow->SetStyleAuto();
-
-    SharedPtr<Text> title1(new Text(context_));
-    title1->SetText("Welcome to the BeerPong Game !");
-    title1->SetStyleAuto();
-    title1->SetOpacity(1.0);
-    title1->SetFont("Fonts/Anonymous Pro.ttf",30);
-    title1->SetPosition(0,100);
-    title1->SetBringToBack(true);
-    uielem_.Push(textWindow);
-    textWindow->AddChild(title1);
-    ui->GetRoot()->AddChild(textWindow);
+        SharedPtr<Text> title1(new Text(context_));
+        title1->SetText("Welcome to the BeerPong Game !");
+        title1->SetStyleAuto();
+        title1->SetOpacity(1.0);
+        title1->SetFont("Fonts/Anonymous Pro.ttf", 30);
+        title1->SetPosition(0, 100);
+        title1->SetBringToBack(true);
+        uielem_.Push(textWindow);
+        textWindow->AddChild(title1);
+        ui->GetRoot()->AddChild(textWindow);
+    }else{
+        ui->GetRoot()->AddChild(uielem_[5]);
+    }
+    cout << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
 
     CreateReturnButton();
 }
 
 void main::CreateReturnButton(){
+
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
 
-    //Create return button
-    XMLFile* style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
-    // Create the Window and add it to the UI's root node
-    SharedPtr<Window> windowReturn_(new Window(context_));
-    ui->GetRoot()->AddChild(windowReturn_);
+    if(uielem_.Size() < 8) {
+        //Create return button
+        XMLFile *style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
+        // Create the Window and add it to the UI's root node
+        SharedPtr<Window> windowReturn_(new Window(context_));
+        ui->GetRoot()->AddChild(windowReturn_);
 
-    // Set the loaded style as default style
-    ui->GetRoot()->SetDefaultStyle(style);
+        // Set the loaded style as default style
+        ui->GetRoot()->SetDefaultStyle(style);
 
-    // Set Window size and layout settings
-    windowReturn_->SetMinWidth(100);
-    windowReturn_->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
-    //  window_->SetAlignment(HA_CENTER, VA_CENTER);
-    windowReturn_->SetAlignment(HA_LEFT, VA_TOP);
-    windowReturn_->SetName("Window");
-    windowReturn_->SetStyleAuto();
-    uielem_.Push(windowReturn_);
+        // Set Window size and layout settings
+        windowReturn_->SetMinWidth(100);
+        windowReturn_->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
+        //  window_->SetAlignment(HA_CENTER, VA_CENTER);
+        windowReturn_->SetAlignment(HA_LEFT, VA_TOP);
+        windowReturn_->SetName("Window");
+        windowReturn_->SetStyleAuto();
+        uielem_.Push(windowReturn_);
 
-    // Create a Button
-    SharedPtr<Button> buttonReturn (new Button(context_));
-    // Add controls to Window
-    windowReturn_->AddChild(buttonReturn);
-    buttonReturn->SetName("ButtonReturn");
-    buttonReturn->SetMinHeight(24);
-    // Set the text displayed on the button
-    Font* font = cache->GetResource<Font>("Fonts/Anonymous Pro.ttf");
-    Text* buttonText = buttonReturn->CreateChild<Text>();
-    buttonText->SetFont(font, 12);
-    buttonText->SetAlignment(HA_CENTER, VA_CENTER);
-    buttonText->SetText("RETURN");
-    // Apply previously set default style
-    buttonReturn->SetStyleAuto();
-    Color* c = new Color(1.0,0.0,0.0,1.0);
-    buttonReturn->SetColor(*c);
-    SubscribeToEvent(buttonReturn, E_RELEASED, URHO3D_HANDLER(main,HandleReturnPressed));
-    uielem_.Push(buttonReturn);
+        // Create a Button
+        SharedPtr<Button> buttonReturn(new Button(context_));
+        // Add controls to Window
+        windowReturn_->AddChild(buttonReturn);
+        buttonReturn->SetName("ButtonReturn");
+        buttonReturn->SetMinHeight(24);
+        // Set the text displayed on the button
+        Font *font = cache->GetResource<Font>("Fonts/Anonymous Pro.ttf");
+        Text *buttonText = buttonReturn->CreateChild<Text>();
+        buttonText->SetFont(font, 12);
+        buttonText->SetAlignment(HA_CENTER, VA_CENTER);
+        buttonText->SetText("RETURN");
+        // Apply previously set default style
+        buttonReturn->SetStyleAuto();
+        Color *c = new Color(1.0, 0.0, 0.0, 1.0);
+        buttonReturn->SetColor(*c);
+
+        uielem_.Push(buttonReturn);
+    }else{
+        uielem_[6]->AddChild(uielem_[7]);
+        ui->GetRoot()->AddChild(uielem_[6]);
+    }
+    SubscribeToEvent(uielem_[7], E_RELEASED, URHO3D_HANDLER(main, HandleReturnPressed));
+    cout << "Create return button" << "   size uielem_ : " << uielem_.Size() << endl;
+    //ui->GetRoot()->RemoveChild(uielem_[6]);
 }
 
 void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
