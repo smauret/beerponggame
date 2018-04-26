@@ -91,11 +91,6 @@ void main::CreatedraggableBall()
         draggableBall->SetName("Ball");
         ui->GetRoot()->AddChild(draggableBall);
 
-/*        // Add a tooltip to Ball button
-        ToolTip *toolTip = new ToolTip(context_);
-        draggableBall->AddChild(toolTip);
-        toolTip->SetPosition(IntVector2(draggableBall->GetWidth() + 5,
-                                        draggableBall->GetWidth() / 2)); // slightly offset from close button*/
         draggedElement_ = draggableBall;
         uielem_.Push(draggableBall);
     }else{
@@ -103,8 +98,6 @@ void main::CreatedraggableBall()
         ui->GetRoot()->AddChild(uielem_[8]);
     }
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
-
-
     cout << "Create draggable ball" << "  uielem_ size : " << uielem_.Size() << endl;
 }
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
@@ -395,35 +388,40 @@ void main::InitBoardGame()
     positionCups.emplace_back(553 + 38 , 292 + 50);
     positionCups.emplace_back(512 + 38 , 325 + 50);
 
-    for (unsigned i = 0; i < NUM_main; ++i)
-    {
-        // Create a new sprite, set it to use the texture
-        SharedPtr<Sprite> sprite(new Sprite(context_));
 
-        sprite->SetTexture(decalTex);
+    for (unsigned i = 0; i < NUM_main; ++i) {
+        if(uielem_.Size() < 8) {
+            // Create a new sprite, set it to use the texture
+            SharedPtr<Sprite> sprite(new Sprite(context_));
 
-        // Set position of the cup
-       // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
-        sprite->SetPosition(positionCups[i].x, positionCups[i].y);
+            sprite->SetTexture(decalTex);
 
-        // Set sprite size & hotspot in its center
-        sprite->SetSize(IntVector2(76, 100));
-        sprite->SetHotSpot(IntVector2(64, 64));
+            // Set position of the cup
+            // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
+            sprite->SetPosition(positionCups[i].x, positionCups[i].y);
 
-        // Set additive blending mode
-        sprite->SetBlendMode(BLEND_ALPHA);
+            // Set sprite size & hotspot in its center
+            sprite->SetSize(IntVector2(76, 100));
+            sprite->SetHotSpot(IntVector2(64, 64));
 
-        // Add as a child of the root UI element
-        ui->GetRoot()->AddChild(sprite);
-        //std::cout << "Position of cup " << i << " : " << ui->GetRoot()->FindChild(sprite) << std::endl;
+            // Set additive blending mode
+            sprite->SetBlendMode(BLEND_ALPHA);
 
-        // Store sprite's velocity as a custom variable
-        sprite->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
+            // Add as a child of the root UI element
+            ui->GetRoot()->AddChild(sprite);
+            //std::cout << "Position of cup " << i << " : " << ui->GetRoot()->FindChild(sprite) << std::endl;
 
-        // Store main to our own container for easy movement update iteration
-        main_.Push(sprite);
+            // Store sprite's velocity as a custom variable
+            sprite->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
+
+            // Store main to our own container for easy movement update iteration
+            main_.Push(sprite);
+        }else{
+            ui->GetRoot()->AddChild(main_[i]);
+        }
 
     }
+
 
     if(uielem_.Size() < 8) {
         SharedPtr<Window> textWindow(new Window(context_));
@@ -450,6 +448,7 @@ void main::InitBoardGame()
         ui->GetRoot()->AddChild(uielem_[5]);
     }
     cout << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
+    cout << "   size main_ : " << main_.Size() << endl;
 
     CreateReturnButton();
 }
