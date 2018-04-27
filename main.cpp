@@ -80,7 +80,6 @@ void main::CreatedraggableBall()
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
-
     if(uielem_.Size() < 10) {
         // Create a draggable Ball button
         SharedPtr<Button> draggableBall(new Button(context_));
@@ -89,12 +88,28 @@ void main::CreatedraggableBall()
         draggableBall->SetSize(68, 68);
         draggableBall->SetPosition(3 * (graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
         draggableBall->SetName("Ball");
-        ui->GetRoot()->AddChild(draggableBall);
 
+        draggableBall->SetPriority(1000);
+
+        ui->GetRoot()->AddChild(draggableBall);
         draggedElement_ = draggableBall;
         uielem_.Push(draggableBall);
     }else{
         cout << "   Adding ball again" << endl;
+
+/*        // Create a draggable Ball button
+        SharedPtr<Button> draggableBall(new Button(context_));
+        draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
+        draggableBall->SetBlendMode(BLEND_ALPHA);
+        draggableBall->SetSize(68, 68);
+        draggableBall->SetPosition(3 * (graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
+        draggableBall->SetName("Ball");
+        ui->GetRoot()->AddChild(draggableBall);
+
+        draggedElement_ = draggableBall;*/
+
+
+        //draggedElement_ = uielem_[9];
         ui->GetRoot()->AddChild(uielem_[9]);
     }
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
@@ -338,6 +353,7 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     // Graphics
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
+    ui->GetRoot()->SetSortChildren(true);
     InitBoardGame();
     CreatedraggableBall();
 }
@@ -366,7 +382,7 @@ void main::InitBoardGame()
     //backBoard->SetPosition(0,317);
 
     // Display table image
-    if(uielem_.Size() < 8){
+    if(uielem_.Size() < 10){
         Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
         SharedPtr<BorderImage> table(new BorderImage(context_));
         table->SetTexture(tableTex);
@@ -377,6 +393,7 @@ void main::InitBoardGame()
         uielem_.Push(table);
     }else
     {
+        //uielem_[4]->SetBringToBack(true);
         ui->GetRoot()->AddChild(uielem_[4]);
     }
 
@@ -392,7 +409,7 @@ void main::InitBoardGame()
 
 
     for (unsigned i = 0; i < NUM_main; ++i) {
-        if(uielem_.Size() < 8) {
+        if(uielem_.Size() < 10) {
             // Create a new sprite, set it to use the texture
             SharedPtr<Sprite> sprite(new Sprite(context_));
 
@@ -424,7 +441,7 @@ void main::InitBoardGame()
 
     }
 
-
+    //Window score in boardgame
     if(uielem_.Size() < 10) {
         SharedPtr<Window> textWindow(new Window(context_));
         // Set Window size and layout settings
@@ -452,7 +469,7 @@ void main::InitBoardGame()
         uielem_[5]->AddChild(uielem_[6]);
         ui->GetRoot()->AddChild(uielem_[5]);
     }
-    cout << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
+    cout << endl << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
 
     CreateReturnButton();
 }
@@ -467,7 +484,7 @@ void main::CreateReturnButton(){
         XMLFile *style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
         // Create the Window and add it to the UI's root node
         SharedPtr<Window> windowReturn_(new Window(context_));
-        ui->GetRoot()->AddChild(windowReturn_);
+
 
         // Set the loaded style as default style
         ui->GetRoot()->SetDefaultStyle(style);
@@ -497,9 +514,10 @@ void main::CreateReturnButton(){
         buttonReturn->SetStyleAuto();
         Color *c = new Color(1.0, 0.0, 0.0, 1.0);
         buttonReturn->SetColor(*c);
-
+        ui->GetRoot()->AddChild(windowReturn_);
         uielem_.Push(buttonReturn);
     }else{
+        uielem_[7]->RemoveAllChildren();
         uielem_[7]->AddChild(uielem_[8]);
         ui->GetRoot()->AddChild(uielem_[7]);
     }
