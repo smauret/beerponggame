@@ -81,7 +81,7 @@ void main::CreatedraggableBall()
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
 
-    if(uielem_.Size() < 9) {
+    if(uielem_.Size() < 10) {
         // Create a draggable Ball button
         SharedPtr<Button> draggableBall(new Button(context_));
         draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
@@ -94,8 +94,8 @@ void main::CreatedraggableBall()
         draggedElement_ = draggableBall;
         uielem_.Push(draggableBall);
     }else{
-        draggedElement_ = uielem_[8];
-        ui->GetRoot()->AddChild(uielem_[8]);
+        cout << "   Adding ball again" << endl;
+        ui->GetRoot()->AddChild(uielem_[9]);
     }
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
     cout << "Create draggable ball" << "  uielem_ size : " << uielem_.Size() << endl;
@@ -366,15 +366,14 @@ void main::InitBoardGame()
     if(uielem_.Size() < 8){
         Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
         SharedPtr<BorderImage> table(new BorderImage(context_));
-        ui->GetRoot()->AddChild(table);
         table->SetTexture(tableTex);
         table->SetSize(width,height/2);
         table->SetBringToBack(true);
         table->SetPosition(0,317);
+        ui->GetRoot()->AddChild(table);
         uielem_.Push(table);
     }else
     {
-        uielem_[4]->SetBringToBack(true);
         ui->GetRoot()->AddChild(uielem_[4]);
     }
 
@@ -423,7 +422,7 @@ void main::InitBoardGame()
     }
 
 
-    if(uielem_.Size() < 8) {
+    if(uielem_.Size() < 10) {
         SharedPtr<Window> textWindow(new Window(context_));
         // Set Window size and layout settings
         // TODO : Adapter la taille de la window au contenu ?
@@ -443,12 +442,14 @@ void main::InitBoardGame()
         title1->SetBringToBack(true);
         uielem_.Push(textWindow);
         textWindow->AddChild(title1);
+        uielem_.Push(title1);
         ui->GetRoot()->AddChild(textWindow);
     }else{
+        uielem_[5]->RemoveAllChildren();
+        uielem_[5]->AddChild(uielem_[6]);
         ui->GetRoot()->AddChild(uielem_[5]);
     }
     cout << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
-    cout << "   size main_ : " << main_.Size() << endl;
 
     CreateReturnButton();
 }
@@ -458,7 +459,7 @@ void main::CreateReturnButton(){
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
 
-    if(uielem_.Size() < 8) {
+    if(uielem_.Size() < 10) {
         //Create return button
         XMLFile *style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
         // Create the Window and add it to the UI's root node
@@ -496,10 +497,10 @@ void main::CreateReturnButton(){
 
         uielem_.Push(buttonReturn);
     }else{
-        uielem_[6]->AddChild(uielem_[7]);
-        ui->GetRoot()->AddChild(uielem_[6]);
+        uielem_[7]->AddChild(uielem_[8]);
+        ui->GetRoot()->AddChild(uielem_[7]);
     }
-    SubscribeToEvent(uielem_[7], E_RELEASED, URHO3D_HANDLER(main, HandleReturnPressed));
+    SubscribeToEvent(uielem_[8], E_RELEASED, URHO3D_HANDLER(main, HandleReturnPressed));
     cout << "Create return button" << "   size uielem_ : " << uielem_.Size() << endl;
     //ui->GetRoot()->RemoveChild(uielem_[6]);
 }
