@@ -40,7 +40,7 @@ vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double 
         x = (int)round(y * d + startX);
         ballTrajectory.emplace_back(x,y + startY,z);
         //cout << "x = " << ballTrajectory[y].getX() << " | y = " << ballTrajectory[y].getY() << " | z = " << ballTrajectory[y].getZ() << endl;
-        if (z < 13 || (y+startY)>239 || x<0 || x>59) {
+        if (z < 1 || (y+startY)>239 || x<0 || x>59) {
             // stop when the ball is lower than the height of a cup: we don't need more information on the trajectory
             break;
         }
