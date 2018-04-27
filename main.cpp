@@ -89,27 +89,13 @@ void main::CreatedraggableBall()
         draggableBall->SetPosition(3 * (graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
         draggableBall->SetName("Ball");
 
-        draggableBall->SetPriority(1000);
+        draggableBall->SetPriority(410);
 
         ui->GetRoot()->AddChild(draggableBall);
         draggedElement_ = draggableBall;
         uielem_.Push(draggableBall);
     }else{
         cout << "   Adding ball again" << endl;
-
-/*        // Create a draggable Ball button
-        SharedPtr<Button> draggableBall(new Button(context_));
-        draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
-        draggableBall->SetBlendMode(BLEND_ALPHA);
-        draggableBall->SetSize(68, 68);
-        draggableBall->SetPosition(3 * (graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
-        draggableBall->SetName("Ball");
-        ui->GetRoot()->AddChild(draggableBall);
-
-        draggedElement_ = draggableBall;*/
-
-
-        //draggedElement_ = uielem_[9];
         ui->GetRoot()->AddChild(uielem_[9]);
     }
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
@@ -390,6 +376,7 @@ void main::InitBoardGame()
         table->SetBringToBack(true);
         table->SetPosition(0,317);
         ui->GetRoot()->AddChild(table);
+        table->SetPriority(110);
         uielem_.Push(table);
     }else
     {
@@ -425,6 +412,14 @@ void main::InitBoardGame()
 
             // Set additive blending mode
             sprite->SetBlendMode(BLEND_ALPHA);
+
+            //Set priority
+            if(i < 3)
+                sprite->SetPriority(210);
+            else if(i < 5)
+                sprite->SetPriority(220);
+            else
+                sprite->SetPriority(230);
 
             // Add as a child of the root UI element
             ui->GetRoot()->AddChild(sprite);
@@ -463,6 +458,7 @@ void main::InitBoardGame()
         uielem_.Push(textWindow);
         textWindow->AddChild(title1);
         uielem_.Push(title1);
+        textWindow->SetPriority(310);
         ui->GetRoot()->AddChild(textWindow);
     }else{
         uielem_[5]->RemoveAllChildren();
@@ -514,6 +510,7 @@ void main::CreateReturnButton(){
         buttonReturn->SetStyleAuto();
         Color *c = new Color(1.0, 0.0, 0.0, 1.0);
         buttonReturn->SetColor(*c);
+        windowReturn_->SetPriority(310);
         ui->GetRoot()->AddChild(windowReturn_);
         uielem_.Push(buttonReturn);
     }else{
