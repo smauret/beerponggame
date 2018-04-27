@@ -366,6 +366,16 @@ void main::InitBoardGame()
    // backBoard->SetBlendMode(BLEND_ADD);
 
     //backBoard->SetPosition(0,317);
+    // Display background image
+    Texture2D* background = cache->GetResource<Texture2D>("Textures/playa.jpg");
+    SharedPtr<BorderImage> back(new BorderImage(context_));
+    ui->GetRoot()->AddChild(back);
+    back->SetTexture(background);
+    back->SetSize(width,height);
+    back->SetBringToBack(true);
+    back->SetOpacity(1);
+    back->SetPriority(10);
+    //uielem_.Push(back);
 
     // Display table image
     if(uielem_.Size() < 10){
