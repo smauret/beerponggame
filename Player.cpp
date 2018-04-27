@@ -195,6 +195,9 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
 
             // cout << " | length table pixel = " << table_length_pixel_zAxis << " | zG = " << zG << " | alpha = " << alpha << " | ball size = " << pixel_width << " | minimum ball pixel size = " << ball_size_min_pixel << endl;
 
+            if (i == ballTrajectory.size()-1){
+                cout << "ball arrival : " << "x= " << ballTrajectory[i].getX() << "   y= " << ballTrajectory[i].getY() <<"   z= " << ballTrajectory[i].getZ() << endl;
+            }
         }
     } else {
         cout << "Trajectoire de la balle en cm: " << ballTrajectory.size() << "| vecteur pour la trajectoire en graphique : " << graphicsTrajectory.size() << endl;

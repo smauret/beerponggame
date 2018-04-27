@@ -175,7 +175,6 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     //lucas_.get_x_graphics(ballTrajectory, graphicsTrajectory_);
     //ui->GetRoot()->RemoveChild(main_[0]);;
     k=0;
-
     UnsubscribeFromEvent(E_DRAGBEGIN);
     UnsubscribeFromEvent(E_DRAGMOVE);
     UnsubscribeFromEvent(E_DRAGEND);
@@ -539,6 +538,15 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         draggedElement_->SetPosition(graphicsTrajectory_[k].getX(), graphicsTrajectory_[k].getZ());
         draggedElement_->SetSize(graphicsTrajectory_[k].getY(),graphicsTrajectory_[k].getY());
         k=k+1;
+        if (k > 225)
+            draggedElement_->SetPriority(205);
+        else if (k > 216)
+            draggedElement_->SetPriority(215);
+        else if (k > 208)
+            draggedElement_->SetPriority(225);
+        else
+            draggedElement_->SetPriority(410);
+
     } else {
         //draggedElement_->SetPosition(1024/2, 768/2);
         //draggedElement_->SetSize(68,68);
