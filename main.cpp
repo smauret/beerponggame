@@ -146,15 +146,20 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     //std::cout << "Speed : " << speed << std::endl;
     // Calculate the rotation angle
     double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
+    cout << "Rotation angl before : " << rotation_angle*180/M_PI << " | rotation angle after : ";
     //std::cout << "Rotation angle in degrees : " << rotation_angle* 180.0 / M_PI << std::endl;
-    if(rotation_angle<0.7848){
+    /*if(rotation_angle<0.7848){
         rotation_angle=0.7848;
     }else if(rotation_angle>2.3544){
         rotation_angle=2.3544;
     }else{
         double rest = (rotation_angle - 0.7848)/9;
         rotation_angle = 1.4388 + rest;
-    }
+        cout << rotation_angle << endl;
+    }*/
+    rotation_angle = M_PI/2 + (rotation_angle - M_PI/2) / 12;
+    cout << rotation_angle*180/M_PI << endl;
+
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
