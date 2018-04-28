@@ -42,7 +42,9 @@ public:
         tableSize = Vec2i(61, 240);
         vector<Vec2i> positionCups = cupsPositions(nbOfCups);
         for (int i = 0; i < cupsLeft; i++) {
-            cups.emplace_back(i, positionCups[i]);
+            Cup c (i, positionCups[i]);
+            cups.emplace_back(c);
+            //cups.emplace_back(i, positionCups[i]);
         }
     }
 
@@ -88,6 +90,10 @@ public:
 
     vector<Cup> &getCups() {
         return cups;
+    }
+
+    Cup getCup(int id){
+        return cups[id];
     }
 
     int getNbOfCups() {

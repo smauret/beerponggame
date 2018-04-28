@@ -4,14 +4,13 @@
 
 #include "Player.h"
 
-void Player::removeCup(int id) {
+/*void Player::removeCup(int id) {
     int i = 0;
     while ((i < cups.size()) && (cups[i].getID() != id)) i++;
 
     cups.erase(cups.begin() + i);
     cupsLeft--;
-}
-
+}*/
 
 vector<Vec3<int>> Player::throwBall(){
     double alpha, beta, h, v0, startX;
@@ -48,9 +47,9 @@ vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double 
 
     cupScored = scoreCup(a, b, c, ballTrajectory);
 
-    if (cupScored > -1) {
+/*    if (cupScored > -1) {
         removeCup(cupScored);
-    }
+    }*/
 
     return ballTrajectory;
 }
