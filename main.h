@@ -127,6 +127,7 @@ private:
     Player lucas_;
     UIElement* draggedElement_;
     vector<Vec3<int>> graphicsTrajectory_;
+    vector<Vec3<int>> ballTrajectory_;
     int k=0;
     int cupScored = -1;
 

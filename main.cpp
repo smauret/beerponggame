@@ -80,7 +80,6 @@ void main::CreatedraggableBall()
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
-
     if(uielem_.Size() < 10) {
         // Create a draggable Ball button
         SharedPtr<Button> draggableBall(new Button(context_));
@@ -89,8 +88,10 @@ void main::CreatedraggableBall()
         draggableBall->SetSize(68, 68);
         draggableBall->SetPosition(3 * (graphics->GetWidth() - draggableBall->GetWidth()) / 4, 200);
         draggableBall->SetName("Ball");
-        ui->GetRoot()->AddChild(draggableBall);
 
+        draggableBall->SetPriority(410);
+
+        ui->GetRoot()->AddChild(draggableBall);
         draggedElement_ = draggableBall;
         uielem_.Push(draggableBall);
     }else{
@@ -106,7 +107,7 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     int y = GetSubsystem<Input>()->GetMousePosition().y_;
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
-
+    draggedElement_->SetPriority(410);
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
@@ -161,20 +162,19 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
-    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
-    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 405, 30, 0, cupScored);
+    //vector<Vec3<int>> ballTrajectory_ = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
+    ballTrajectory_ = lucas_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    //vector<Vec3<int>> ballTrajectory_ = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 405, 30, 0, cupScored);
     //ThrowResult(cupScored);
     std::cout << "Cup scored " << cupScored << std::endl << std::endl;
-    for (int i=0; i<ballTrajectory.size(); i++) {
+    for (int i=0; i<ballTrajectory_.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
-    lucas_.get_xzSize_graphics(ballTrajectory, graphicsTrajectory_);
-    //lucas_.get_z_graphics(ballTrajectory, graphicsTrajectory_);
-    //lucas_.get_x_graphics(ballTrajectory, graphicsTrajectory_);
+    lucas_.get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_);
+    //lucas_.get_z_graphics(ballTrajectory_, graphicsTrajectory_);
+    //lucas_.get_x_graphics(ballTrajectory_, graphicsTrajectory_);
     //ui->GetRoot()->RemoveChild(main_[0]);;
     k=0;
-
     UnsubscribeFromEvent(E_DRAGBEGIN);
     UnsubscribeFromEvent(E_DRAGMOVE);
     UnsubscribeFromEvent(E_DRAGEND);
@@ -187,7 +187,6 @@ void main::ThrowResult(int cupScored){
     cout << "Throw result " << "  size uielem_ : " << uielem_.Size()<< endl;
 
     UI* ui = GetSubsystem<UI>();
-
   //  SharedPtr<Text> throwResult(new Text(context_));
     if(cupScored == -1){
         cout << "Remove text box success -1" << endl;
@@ -338,6 +337,7 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     // Graphics
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
+    ui->GetRoot()->SetSortChildren(true);
     InitBoardGame();
     CreatedraggableBall();
 }
@@ -364,9 +364,19 @@ void main::InitBoardGame()
    // backBoard->SetBlendMode(BLEND_ADD);
 
     //backBoard->SetPosition(0,317);
+    // Display background image
+    Texture2D* background = cache->GetResource<Texture2D>("Textures/playa.jpg");
+    SharedPtr<BorderImage> back(new BorderImage(context_));
+    ui->GetRoot()->AddChild(back);
+    back->SetTexture(background);
+    back->SetSize(width,height);
+    back->SetBringToBack(true);
+    back->SetOpacity(1);
+    back->SetPriority(10);
+    //uielem_.Push(back);
 
     // Display table image
-    if(uielem_.Size() < 8){
+    if(uielem_.Size() < 10){
         Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
         SharedPtr<BorderImage> table(new BorderImage(context_));
         table->SetTexture(tableTex);
@@ -374,9 +384,11 @@ void main::InitBoardGame()
         table->SetBringToBack(true);
         table->SetPosition(0,317);
         ui->GetRoot()->AddChild(table);
+        table->SetPriority(110);
         uielem_.Push(table);
     }else
     {
+        //uielem_[4]->SetBringToBack(true);
         ui->GetRoot()->AddChild(uielem_[4]);
     }
 
@@ -392,7 +404,7 @@ void main::InitBoardGame()
 
 
     for (unsigned i = 0; i < NUM_main; ++i) {
-        if(uielem_.Size() < 8) {
+        if(uielem_.Size() < 10) {
             // Create a new sprite, set it to use the texture
             SharedPtr<Sprite> sprite(new Sprite(context_));
 
@@ -409,6 +421,14 @@ void main::InitBoardGame()
             // Set additive blending mode
             sprite->SetBlendMode(BLEND_ALPHA);
 
+            //Set priority
+            if(i < 3)
+                sprite->SetPriority(210);
+            else if(i < 5)
+                sprite->SetPriority(220);
+            else
+                sprite->SetPriority(230);
+
             // Add as a child of the root UI element
             ui->GetRoot()->AddChild(sprite);
             //std::cout << "Position of cup " << i << " : " << ui->GetRoot()->FindChild(sprite) << std::endl;
@@ -424,7 +444,7 @@ void main::InitBoardGame()
 
     }
 
-
+    //Window score in boardgame
     if(uielem_.Size() < 10) {
         SharedPtr<Window> textWindow(new Window(context_));
         // Set Window size and layout settings
@@ -446,13 +466,14 @@ void main::InitBoardGame()
         uielem_.Push(textWindow);
         textWindow->AddChild(title1);
         uielem_.Push(title1);
+        textWindow->SetPriority(310);
         ui->GetRoot()->AddChild(textWindow);
     }else{
         uielem_[5]->RemoveAllChildren();
         uielem_[5]->AddChild(uielem_[6]);
         ui->GetRoot()->AddChild(uielem_[5]);
     }
-    cout << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
+    cout << endl << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
 
     CreateReturnButton();
 }
@@ -467,7 +488,7 @@ void main::CreateReturnButton(){
         XMLFile *style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
         // Create the Window and add it to the UI's root node
         SharedPtr<Window> windowReturn_(new Window(context_));
-        ui->GetRoot()->AddChild(windowReturn_);
+
 
         // Set the loaded style as default style
         ui->GetRoot()->SetDefaultStyle(style);
@@ -497,9 +518,11 @@ void main::CreateReturnButton(){
         buttonReturn->SetStyleAuto();
         Color *c = new Color(1.0, 0.0, 0.0, 1.0);
         buttonReturn->SetColor(*c);
-
+        windowReturn_->SetPriority(310);
+        ui->GetRoot()->AddChild(windowReturn_);
         uielem_.Push(buttonReturn);
     }else{
+        uielem_[7]->RemoveAllChildren();
         uielem_[7]->AddChild(uielem_[8]);
         ui->GetRoot()->AddChild(uielem_[7]);
     }
@@ -514,9 +537,22 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         draggedElement_->SetPosition(graphicsTrajectory_[k].getX(), graphicsTrajectory_[k].getZ());
         draggedElement_->SetSize(graphicsTrajectory_[k].getY(),graphicsTrajectory_[k].getY());
         k=k+1;
+        if (k > 225)
+            draggedElement_->SetPriority(205);
+        else if (k > 216)
+            draggedElement_->SetPriority(215);
+        else if (k > 208)
+            draggedElement_->SetPriority(225);
+        else
+            draggedElement_->SetPriority(410);
+
+        if (ballTrajectory_[k].getZ() < 0){
+            draggedElement_->SetPriority(100);
+        }
     } else {
-        //draggedElement_->SetPosition(1024/2, 768/2);
-        //draggedElement_->SetSize(68,68);
+        if (ballTrajectory_[ballTrajectory_.size()-1].getZ() < 0){
+            draggedElement_->SetPriority(100);
+        }
         graphicsTrajectory_.clear();
         ThrowResult(cupScored);
         UnsubscribeFromEvent(E_UPDATE);
