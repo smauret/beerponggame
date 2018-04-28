@@ -162,20 +162,40 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
 
 
             // récuperer les tailles de cups
-           /* int zCup1 = (int)floor(factor_a + factor_b * log(1 + 230));
+            /*int zCup1 = (int)floor(factor_a + factor_b * log(1 + 230));
             int zCup2 = (int)floor(factor_a + factor_b * log(1 + 221));
             int zCup3 = (int)floor(factor_a + factor_b * log(1 + 212));
-            cout << "Z cup1 " << zCup1 << " Z cup2 " << zCup2 << " Z cup3 " << zCup3 << endl;
+            cout << "Z cup d fond " << zCup1 << " | Z cup du milieu " << zCup2 << " | Z cup de devant " << zCup3 << endl;
             double alphaCup1 = (double)(table_length_pixel_zAxis - zCup1)/table_length_pixel_zAxis;
             double alphaCup2 = (double)(table_length_pixel_zAxis - zCup2)/table_length_pixel_zAxis;
             double alphaCup3 = (double)(table_length_pixel_zAxis - zCup3)/table_length_pixel_zAxis;
-            cout << "alpha cup1 " << alphaCup1 << " alpha cup2 " << alphaCup2 << " alpha cup3 " << alphaCup3 << endl;
+            //cout << "alpha cup1 " << alphaCup1 << " | alpha cup2 " << alphaCup2 << " | alpha cup3 " << alphaCup3 << endl;
 
             auto cm_to_pixelCup1 = (int)floor(alphaCup1*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
             auto cm_to_pixelCup2 = (int)floor(alphaCup2*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
             auto cm_to_pixelCup3 = (int)floor(alphaCup3*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
-            cout << "Cup du fond : " << 12*cm_to_pixelCup1  << " Cup du milieu : " << 12*cm_to_pixelCup2 << " Cup de devant : " << 12*cm_to_pixelCup3 << endl;
+            cout << "hauteur: Cup du fond : " << 12*cm_to_pixelCup1  << " | Cup du milieu : " << 12*cm_to_pixelCup2 << " | Cup de devant : " << 12*cm_to_pixelCup3 << endl;
+            cout << "largeur: Cup du fond : " << 9*cm_to_pixelCup1  << " | Cup du milieu : " << 9*cm_to_pixelCup2 << " | Cup de devant : " << 9*cm_to_pixelCup3 << endl;
 */
+            // choper x pixel des cups
+            /*cout << " Position x de la cup:";
+            for (auto &cup : cups) {
+                auto zCup = (int)floor(factor_a + factor_b * log(1 + cup.getPosition().y));
+                double alphaCup = (double)(table_length_pixel_zAxis - zCup)/table_length_pixel_zAxis;
+                auto cm_to_pixelCup = (int)floor(alphaCup*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
+                int height_pixel = cup.getHeight()*cm_to_pixelCup;
+                int width_pixel = cup.getRadius()*2*cm_to_pixelCup;
+
+                auto pixel_width_cup = (int)floor(alphaCup*(table_width_max_pixel-table_width_min_pixel) + table_width_min_pixel);
+
+
+                double x_shift_cup = pixel_width_cup*cup.getPosition().x/table_width_max_cm;
+                auto xG_Cup = (int)floor(window_witdh_pixel_middle - (pixel_width_cup/2) + x_shift_cup + width_pixel/2);
+                cout << " | " << cup.getID() << ": (" << xG_Cup << "," << zCup << ")";
+            }
+            cout << endl;*/
+
+
 
 
 
