@@ -10,6 +10,12 @@
         <attribute name="Hover Image Offset" value="0 16" />
         <attribute name="Pressed Child Offset" value="-1 1" />
     </element>
+    <element type="ButtonCust">
+        <attribute name="Texture" value="Texture2D;Textures/buttons.png" />
+        <attribute name="Image Rect" value="0 0 238 52" />
+        <attribute name="Hover Image Offset" value="0 56" />
+        <attribute name="Blend Mode" value="alpha" />
+    </element>
     <element type="ToggledButton" style="Button" auto="false">
         <attribute name="Image Rect" value="160 64 176 80" />
     </element>

@@ -245,11 +245,9 @@ IntVector3 main::GetInitPosCm(IntVector2 initPos){
 void main::InitWelcomePage() {
 
     UI* ui = GetSubsystem<UI>();
+    ui->GetRoot()->SetSortChildren(true);
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     XMLFile* style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
-    // Create the Window and add it to the UI's root node
-    SharedPtr<Window> window_(new Window(context_));
-    ui->GetRoot()->AddChild(window_);
     // Set the loaded style as default style
     ui->GetRoot()->SetDefaultStyle(style);
 
@@ -261,43 +259,36 @@ void main::InitWelcomePage() {
     float height = (float)graphics->GetHeight();
     //cout << "verif: " << verif << " width : " << (float)graphics->GetWidth() << " & height " << (float)graphics->GetHeight();
 
-    // Set Window size and layout settings
-    window_->SetMinWidth(384);
-    window_->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
-    window_->SetAlignment(HA_CENTER, VA_CENTER);
-    window_->SetName("Window");
-    window_->SetStyleAuto();
-    uielem_.Push(window_);
-
-    // Create a Button
-    SharedPtr<Button> button(new Button(context_));
-    // Add controls to Window
-    window_->AddChild(button);
-    button->SetName("Button");
-    button->SetMinHeight(24);
-    // Set the text displayed on the button
-    Font* font = cache->GetResource<Font>("Fonts/Anonymous Pro.ttf");
-    Text* buttonText = button->CreateChild<Text>();
-    buttonText->SetFont(font, 12);
-    buttonText->SetAlignment(HA_CENTER, VA_CENTER);
-    buttonText->SetText("PLAY");
-    // Apply previously set default style
-    button->SetStyleAuto();
-    Color* c = new Color(1.0,0.0,0.0,1.0);
-    button->SetColor(*c);
-    button->SetBringToFront(true);
-    uielem_.Push(button);
-
-
     // Display background image
-    Texture2D* background = cache->GetResource<Texture2D>("Textures/background_beer.jpg");
+    Texture2D* background = cache->GetResource<Texture2D>("Textures/home_background.png");
     SharedPtr<BorderImage> back(new BorderImage(context_));
     ui->GetRoot()->AddChild(back);
     back->SetTexture(background);
     back->SetSize(width,height);
     back->SetBringToBack(true);
-    back->SetOpacity(0.3);
+    back->SetOpacity(1);
+    back->SetPriority(10);
     uielem_.Push(back);
+
+    // Create a Button
+    SharedPtr<Button> button(new Button(context_));
+    ui->GetRoot()->AddChild(button);
+    button->SetName("Button");
+    button->SetMinHeight(53);
+    button->SetMinWidth(234);
+    button->SetPosition(399,563);
+    // Set the text displayed on the button
+    Font* font = cache->GetResource<Font>("Fonts/Roboto-Bold.ttf");
+    Text* buttonText = button->CreateChild<Text>();
+    buttonText->SetFont(font, 24);
+    buttonText->SetAlignment(HA_CENTER, VA_CENTER);
+    buttonText->SetText("Play");
+    Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+    buttonText->SetColor(*c);
+    // Apply custom style we created in xml
+    button->SetStyle("ButtonCust");
+    button->SetPriority(100);
+    uielem_.Push(button);
 
     // Title of the first page
     SharedPtr<Text> title(new Text(context_));
@@ -305,8 +296,9 @@ void main::InitWelcomePage() {
     ui->GetRoot()->AddChild(title);
     title->SetStyleAuto();
     title->SetOpacity(1.0);
-    title->SetFont("Fonts/Anonymous Pro.ttf",30);
-    title->SetPosition(((int)width-title->GetSize().x_)/2,(int)height/3);
+    title->SetFont("Fonts/Roboto-Bold.ttf",30);
+    title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
+    title->SetPriority(10);
     uielem_.Push(title);
     cout << "Init Welcome Page" << "  size uielem_ : " << uielem_.Size() << endl;
 
@@ -319,14 +311,12 @@ void main::HandleReturnPressed(StringHash eventType, VariantMap& eventData)
     UI* ui = GetSubsystem<UI>();
     // Remove play screen
     ui->GetRoot()->RemoveAllChildren();
-    //Add Button in Window
-    uielem_[0]->AddChild(uielem_[1]);
-    // Add Window
+    //Add Background image
     ui->GetRoot()->AddChild(uielem_[0]);
-    // Add Background image
-    ui->GetRoot()->AddChild(uielem_[2]);
+    // Add Button
+    ui->GetRoot()->AddChild(uielem_[1]);
     // Add Title
-    ui->GetRoot()->AddChild(uielem_[3]);
+    ui->GetRoot()->AddChild(uielem_[2]);
 }
 
 void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
@@ -366,7 +356,7 @@ void main::InitBoardGame()
 
     //backBoard->SetPosition(0,317);
     // Display background image
-    Texture2D* background = cache->GetResource<Texture2D>("Textures/playa.jpg");
+    Texture2D* background = cache->GetResource<Texture2D>("Textures/bg.png");
     SharedPtr<BorderImage> back(new BorderImage(context_));
     ui->GetRoot()->AddChild(back);
     back->SetTexture(background);
@@ -374,16 +364,16 @@ void main::InitBoardGame()
     back->SetBringToBack(true);
     back->SetOpacity(1);
     back->SetPriority(10);
-    //uielem_.Push(back);
+    uielem_.Push(back);
 
     // Display table image
     if(uielem_.Size() < 10){
-        Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
+        Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/table.png");
         SharedPtr<BorderImage> table(new BorderImage(context_));
         table->SetTexture(tableTex);
-        table->SetSize(width,height/2);
+        table->SetSize(889,461);
         table->SetBringToBack(true);
-        table->SetPosition(0,317);
+        table->SetPosition(70,308);
         ui->GetRoot()->AddChild(table);
         table->SetPriority(110);
         uielem_.Push(table);
@@ -497,7 +487,6 @@ void main::CreateReturnButton(){
         // Set Window size and layout settings
         windowReturn_->SetMinWidth(100);
         windowReturn_->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
-        //  window_->SetAlignment(HA_CENTER, VA_CENTER);
         windowReturn_->SetAlignment(HA_LEFT, VA_TOP);
         windowReturn_->SetName("Window");
         windowReturn_->SetStyleAuto();
