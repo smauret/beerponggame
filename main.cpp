@@ -107,7 +107,7 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     int y = GetSubsystem<Input>()->GetMousePosition().y_;
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
-
+    draggedElement_->SetPriority(410);
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
@@ -162,17 +162,17 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
-    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    vector<Vec3<int>> ballTrajectory = lucas_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
-    //vector<Vec3<int>> ballTrajectory = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 405, 30, 0, cupScored);
+    //vector<Vec3<int>> ballTrajectory_ = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
+    ballTrajectory_ = lucas_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    //vector<Vec3<int>> ballTrajectory_ = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 405, 30, 0, cupScored);
     //ThrowResult(cupScored);
     std::cout << "Cup scored " << cupScored << std::endl << std::endl;
-    for (int i=0; i<ballTrajectory.size(); i++) {
+    for (int i=0; i<ballTrajectory_.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
-    lucas_.get_xzSize_graphics(ballTrajectory, graphicsTrajectory_);
-    //lucas_.get_z_graphics(ballTrajectory, graphicsTrajectory_);
-    //lucas_.get_x_graphics(ballTrajectory, graphicsTrajectory_);
+    lucas_.get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_);
+    //lucas_.get_z_graphics(ballTrajectory_, graphicsTrajectory_);
+    //lucas_.get_x_graphics(ballTrajectory_, graphicsTrajectory_);
     //ui->GetRoot()->RemoveChild(main_[0]);;
     k=0;
     UnsubscribeFromEvent(E_DRAGBEGIN);
@@ -187,7 +187,6 @@ void main::ThrowResult(int cupScored){
     cout << "Throw result " << "  size uielem_ : " << uielem_.Size()<< endl;
 
     UI* ui = GetSubsystem<UI>();
-
   //  SharedPtr<Text> throwResult(new Text(context_));
     if(cupScored == -1){
         cout << "Remove text box success -1" << endl;
@@ -547,9 +546,13 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         else
             draggedElement_->SetPriority(410);
 
+        if (ballTrajectory_[k].getZ() < 0){
+            draggedElement_->SetPriority(100);
+        }
     } else {
-        //draggedElement_->SetPosition(1024/2, 768/2);
-        //draggedElement_->SetSize(68,68);
+        if (ballTrajectory_[ballTrajectory_.size()-1].getZ() < 0){
+            draggedElement_->SetPriority(100);
+        }
         graphicsTrajectory_.clear();
         ThrowResult(cupScored);
         UnsubscribeFromEvent(E_UPDATE);

@@ -35,12 +35,12 @@ vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double 
     double d = cos(beta)/cos(alpha);
     int x,z;
 
-    for (int y=0; y<tableSize.y; y++){
+    for (int y=0; y<tableSize.y+60; y++){
         z = (int)round(a * y * y + b * y + h);
         x = (int)round(y * d + startX);
         ballTrajectory.emplace_back(x,y + startY,z);
         //cout << "x = " << ballTrajectory[y].getX() << " | y = " << ballTrajectory[y].getY() << " | z = " << ballTrajectory[y].getZ() << endl;
-        if (z < 1 || (y+startY)>239 || x<0 || x>59) {
+        if ((z < 1 && (y+startY)<tableSize.y && x>0 && x<tableSize.x+1) || (z < -50 && (y+startY)>tableSize.y)) {
             // stop when the ball is lower than the height of a cup: we don't need more information on the trajectory
             break;
         }
