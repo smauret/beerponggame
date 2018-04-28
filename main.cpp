@@ -367,7 +367,7 @@ void main::InitBoardGame()
 
     // Display table image
     if(uielem_.Size() < 10){
-        Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/table.png");
+        Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
         SharedPtr<BorderImage> table(new BorderImage(context_));
         table->SetTexture(tableTex);
         table->SetSize(889,461);
@@ -507,7 +507,7 @@ void main::CreateReturnButton(){
         buttonReturn->SetStyleAuto();
         Color *c = new Color(1.0, 0.0, 0.0, 1.0);
         buttonReturn->SetColor(*c);
-        windowReturn_->SetPriority(310);
+        windowReturn_->SetPriority(520);
         ui->GetRoot()->AddChild(windowReturn_);
         uielem_.Push(buttonReturn);
     }else{
