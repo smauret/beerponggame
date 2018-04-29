@@ -383,14 +383,21 @@ void main::InitBoardGame()
     }
 
     // Get the cup texture
-    Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
+    Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/back_beer2.png");
     vector<Vec2i> positionCups;
-    positionCups.emplace_back(432 + 38 , 267 + 50);
+    /*positionCups.emplace_back(432 + 38 , 267 + 50);
     positionCups.emplace_back(513 + 38 , 267 + 50);
     positionCups.emplace_back(594 + 38 , 267 + 50);
     positionCups.emplace_back(475 + 38 , 292 + 50);
     positionCups.emplace_back(553 + 38 , 292 + 50);
-    positionCups.emplace_back(512 + 38 , 325 + 50);
+    positionCups.emplace_back(512 + 38 , 325 + 50);*/
+    //positionCups.emplace_back(473 , 311);
+    positionCups.emplace_back(434 , 238);
+    positionCups.emplace_back(491 , 238);
+    positionCups.emplace_back(549 , 238);
+    positionCups.emplace_back(460 , 255);
+    positionCups.emplace_back(515 , 255);
+    positionCups.emplace_back(484 , 274);
 
 
     for (unsigned i = 0; i < NUM_main; ++i) {
@@ -405,8 +412,8 @@ void main::InitBoardGame()
             sprite->SetPosition(positionCups[i].x, positionCups[i].y);
 
             // Set sprite size & hotspot in its center
-            sprite->SetSize(IntVector2(76, 100));
-            sprite->SetHotSpot(IntVector2(64, 64));
+            sprite->SetSize(IntVector2(56, 84));
+            //sprite->SetHotSpot(IntVector2(64, 64));
 
             // Set additive blending mode
             sprite->SetBlendMode(BLEND_ALPHA);
