@@ -89,7 +89,7 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
-    cout << "Displaying cups of " << currentPlayer_->getName() << endl;
+    //cout << "Displaying cups of " << currentPlayer_->getName() << endl;
     DisplayCups(*currentPlayer_);
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
@@ -121,7 +121,6 @@ void main::HandleDragMove(StringHash eventType, VariantMap& eventData)
 
 void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 {
-    cout << "Handle drag end" << endl;
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
     // Calculate the power based on the time and the distance
     double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
@@ -149,8 +148,6 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
             ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     }
 
-
-    std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory_.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
@@ -166,11 +163,8 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 }
 
 void main::ThrowResult(int cupScored){
-    cout << "Throw result " << "  size uielem_ : " << uielem_.Size()<< endl;
-    std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     UI* ui = GetSubsystem<UI>();
     if(cupScored == -1){
-        cout << "Remove text box success -1" << endl;
         ui->GetRoot()->RemoveChild(uielem_[7]);
         SharedPtr<Text> textUpdate(new Text(context_));
         string welcome = "Welcome to the beer pong game "+currentPlayer_->getName()+" \nFailed = +0 Point";
@@ -185,10 +179,8 @@ void main::ThrowResult(int cupScored){
         ui->GetRoot()->AddChild(uielem_[7]);
 
     }else{
-        cout << "Remove text box success" << endl;
         ui->GetRoot()->RemoveChild(uielem_[7]);
         ui->GetRoot()->RemoveChild(uielem_[10]);
-        cout << "Remove ball." << endl;
         SharedPtr<Text> textUpdate(new Text(context_));
         string welcome = "Welcome to the beer pong game "+ currentPlayer_->getName() + " \nSuccess = +1 Point";
         textUpdate->SetText(welcome.c_str());
@@ -204,11 +196,9 @@ void main::ThrowResult(int cupScored){
         //ui->GetRoot()->RemoveChild(main_[cupScored]);
         ui->GetRoot()->AddChild(splash_[cupScored]);
         currentPlayer_->getCup(cupScored).setOnTable(false);
-        cout << "Sarah " << sarah_.getCup(cupScored).isOnTable() << endl;
-        cout << "Lucas " << lucas_.getCup(cupScored).isOnTable() << endl;
         currentPlayer_->setCupsLeft(currentPlayer_->getCupsLeft()-1);
     }
-    cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
+    //cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
 
     if (currentPlayer_->getCupsLeft() == 0)
     {
@@ -567,10 +557,9 @@ void main::DisplayCups(Player player) {
             bluecups_.Push(blueCup);
         }
     }else{
-        cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
+        //cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
         if (cupScored != -1){
             ui->GetRoot()->AddChild(uielem_[10]);
-            cout << "Add ball." << endl;
         }
         for (unsigned i = 0; i < main_.Size(); ++i) {
             if(player.getName().compare("Sarah") != 0) {
