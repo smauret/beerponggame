@@ -158,8 +158,8 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
     //ballTrajectory_ = currentPlayer_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
-    //ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
+    //ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
 
     std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory_.size(); i++) {
@@ -211,7 +211,8 @@ void main::ThrowResult(int cupScored){
         uielem_[5]->RemoveAllChildren();
         uielem_[5]->AddChild(textUpdate);
         ui->GetRoot()->AddChild(uielem_[5]);
-        ui->GetRoot()->RemoveChild(main_[cupScored]);
+        //ui->GetRoot()->RemoveChild(main_[cupScored]);
+        ui->GetRoot()->AddChild(splash_[cupScored]);
         currentPlayer_->getCup(cupScored).setOnTable(false);
         cout << "Sarah " << sarah_.getCup(cupScored).isOnTable() << endl;
         cout << "Lucas " << lucas_.getCup(cupScored).isOnTable() << endl;
@@ -338,7 +339,6 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
 
 void main::InitBoardGame()
 {
-
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
@@ -347,17 +347,6 @@ void main::InitBoardGame()
     float width = (float)graphics->GetWidth();
     float height = (float)graphics->GetHeight();
 
-    // TODO ajouter l'image de background
-    // Display Background picture
-   /* Texture2D* backTex = cache->GetResource<Texture2D>("Textures/background_beer.jpg");
-    SharedPtr<BorderImage> backBoard(new BorderImage(context_));
-    ui->GetRoot()->AddChild(backBoard);
-    backBoard->SetTexture(backTex);
-    backBoard->SetSize(width,height);
-    backBoard->SetBringToBack(true);*/
-   // backBoard->SetBlendMode(BLEND_ADD);
-
-    //backBoard->SetPosition(0,317);
     // Display background image
     Texture2D* background = cache->GetResource<Texture2D>("Textures/bg.png");
     SharedPtr<BorderImage> back(new BorderImage(context_));
@@ -382,7 +371,6 @@ void main::InitBoardGame()
         uielem_.Push(table);
     }else
     {
-        //uielem_[4]->SetBringToBack(true);
         ui->GetRoot()->AddChild(uielem_[4]);
     }
 
@@ -431,6 +419,8 @@ void main::DisplayCups(Player player) {
 
     if(main_.Size() == 0) {
         Texture2D *decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
+        Texture2D *splashTex = cache->GetResource<Texture2D>("Textures/beer_splash.png");
+
         vector<Vec2i> positionCups;
         positionCups.emplace_back(434 , 238);
         positionCups.emplace_back(491 , 238);
@@ -443,26 +433,38 @@ void main::DisplayCups(Player player) {
 
             // Create a new sprite, set it to use the texture
             SharedPtr<Sprite> sprite(new Sprite(context_));
+            SharedPtr<Sprite> splash(new Sprite(context_));
 
             sprite->SetTexture(decalTex);
+            splash->SetTexture(splashTex);
 
             // Set position of the cup
             // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
             sprite->SetPosition(positionCups[i].x, positionCups[i].y);
+            splash->SetPosition(positionCups[i].x+3, positionCups[i].y-9);
 
             // Set sprite size & hotspot in its center
             sprite->SetSize(IntVector2(56, 84));
+            splash->SetSize(IntVector2(80, 23));
 
             // Set additive blending mode
             sprite->SetBlendMode(BLEND_ALPHA);
+            splash->SetBlendMode(BLEND_ALPHA);
 
             //Set priority
-            if (i < 3)
+            if (i < 3){
                 sprite->SetPriority(210);
-            else if (i < 5)
+                splash->SetPriority(211);
+            }
+            else if (i < 5){
                 sprite->SetPriority(220);
-            else
+                splash->SetPriority(221);
+            }
+            else{
                 sprite->SetPriority(230);
+                splash->SetPriority(231);
+            }
+
 
             // Add as a child of the root UI element
             ui->GetRoot()->AddChild(sprite);
@@ -470,17 +472,21 @@ void main::DisplayCups(Player player) {
 
             // Store sprite's velocity as a custom variable
             sprite->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
+            splash->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
 
             // Store main to our own container for easy movement update iteration
             main_.Push(sprite);
+            splash_.Push(splash);
         }
     }else{
         cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
         for (unsigned i = 0; i < main_.Size(); ++i) {
             if (player.getCup(i).isOnTable()){
                 ui->GetRoot()->AddChild(main_[i]);
+                ui->GetRoot()->RemoveChild(splash_[i]);
             }else{
                 ui->GetRoot()->RemoveChild(main_[i]);
+                ui->GetRoot()->RemoveChild(splash_[i]);
             }
         }
         cout << endl;

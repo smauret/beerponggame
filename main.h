@@ -122,6 +122,7 @@ private:
 
     /// Vector to store the main for iterating through them.
     Vector<SharedPtr<Sprite> > main_;
+    Vector<SharedPtr<Sprite> > splash_;
     Vector<SharedPtr<UIElement> > uielem_;
 
     IntVector2 dragBeginPosition_;
