@@ -428,7 +428,7 @@ void main::DisplayCups(Player &player) {
             // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
             sprite->SetPosition(positionCups[i].x, positionCups[i].y);
 
-            // Set sprite size & hotspot in its center
+            // Set sprite size
             sprite->SetSize(IntVector2(56, 84));
 
             // Set additive blending mode
