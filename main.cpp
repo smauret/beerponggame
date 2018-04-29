@@ -84,10 +84,8 @@ void main::CreatedraggableBall()
 }
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
-    UI* ui = GetSubsystem<UI>();
     int x = GetSubsystem<Input>()->GetMousePosition().x_;
     int y = GetSubsystem<Input>()->GetMousePosition().y_;
-    ui->GetRoot()->AddChild(uielem_[10]);
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
@@ -190,6 +188,7 @@ void main::ThrowResult(int cupScored){
         cout << "Remove text box success" << endl;
         ui->GetRoot()->RemoveChild(uielem_[7]);
         ui->GetRoot()->RemoveChild(uielem_[10]);
+        cout << "Remove ball." << endl;
         SharedPtr<Text> textUpdate(new Text(context_));
         string welcome = "Welcome to the beer pong game "+ currentPlayer_->getName() + " \nSuccess = +1 Point";
         textUpdate->SetText(welcome.c_str());
@@ -368,6 +367,7 @@ void main::InitWelcomePage() {
 void main::HandleReturnPressed(StringHash eventType, VariantMap& eventData)
 {
     cout << "Handle press return" << "   uielem_ size : " << uielem_.Size() << endl;
+    cupScored = -1;
     UI* ui = GetSubsystem<UI>();
     // Remove play screen
     ui->GetRoot()->RemoveAllChildren();
@@ -487,15 +487,12 @@ void main::InitBoardGame()
         uielem_[7]->AddChild(uielem_[8]);
         ui->GetRoot()->AddChild(uielem_[7]);
     }
-    //cout << endl << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
-
     CreateReturnButton();
 }
 
 void main::DisplayCups(Player player) {
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
-
     if(main_.Size() == 0) {
         Texture2D *decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
         Texture2D *splashTex = cache->GetResource<Texture2D>("Textures/beer_splash.png");
@@ -571,6 +568,10 @@ void main::DisplayCups(Player player) {
         }
     }else{
         cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
+        if (cupScored != -1){
+            ui->GetRoot()->AddChild(uielem_[10]);
+            cout << "Add ball." << endl;
+        }
         for (unsigned i = 0; i < main_.Size(); ++i) {
             if(player.getName().compare("Sarah") != 0) {
                 ui->GetRoot()->RemoveChild(uielem_[5]);
