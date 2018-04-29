@@ -96,9 +96,9 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
     SubscribeToEvent(draggedElement_, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
     SubscribeToEvent(draggedElement_, E_DRAGEND, URHO3D_HANDLER(main, HandleDragEnd));
-    cout << "Current player : " << currentPlayer_->getName() << endl;
+/*    cout << "Current player : " << currentPlayer_->getName() << endl;
     cout << "Sarah cup on table : " << sarah_.getCup(1).isOnTable() << endl;
-    cout << "Lucas cup on table : " << lucas_.getCup(1).isOnTable() << endl << endl;
+    cout << "Lucas cup on table : " << lucas_.getCup(1).isOnTable() << endl << endl;*/
 }
 
 void main::HandleDragBegin(StringHash eventType, VariantMap& eventData)
@@ -217,10 +217,17 @@ void main::ThrowResult(int cupScored){
         title->SetPriority(1000);
     }
 
-    if(currentPlayer_ == &sarah_)
-        currentPlayer_ = &lucas_;
-    else
-        currentPlayer_ = &sarah_;
+    if (playMode_ == 1){
+        if(currentPlayer_ == &sarah_)
+            currentPlayer_ = &lucas_;
+        else
+            currentPlayer_ = &sarah_;
+    }else if (playMode_ == 2){
+        //To do, computer player
+    }else{
+        //Do nothing, keep only one player
+    }
+
 }
 
 // Function to translate a point in graphics (pixels) to a point on the table (cm)
@@ -328,6 +335,7 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     lucas_ = Player("Lucas",6);
     sarah_ = Player("Sarah",6);
     // Graphics
+    playMode_ = 0;
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
     ui->GetRoot()->SetSortChildren(true);

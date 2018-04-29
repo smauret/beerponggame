@@ -115,6 +115,7 @@ private:
     Player lucas_;
     Player sarah_;
     Player* currentPlayer_ = new Player();
+    int playMode_; //0 solo, 1 1vs1, 2 1vsPC
 
     UIElement* draggedElement_;
     vector<Vec3<int>> graphicsTrajectory_;
