@@ -107,6 +107,7 @@ private:
     Vector<SharedPtr<Sprite> > bluecups_;
     Vector<SharedPtr<Sprite> > splash_;
     Vector<SharedPtr<UIElement> > uielem_;
+    Vector<SharedPtr<UIElement> > bg_;
 
     IntVector2 dragBeginPosition_;
     IntVector2 BeginPosition_;
