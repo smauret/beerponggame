@@ -50,7 +50,7 @@ vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double 
             break;
         }
     }
-
+    totalThrows++;
     return ballTrajectory;
 }
 

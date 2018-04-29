@@ -175,11 +175,22 @@ void main::ThrowResult(int cupScored){
         cout << "Remove text box success -1" << endl;
         ui->GetRoot()->RemoveChild(uielem_[7]);
         SharedPtr<Text> textUpdate(new Text(context_));
-        string welcome = "Welcome to the beer pong game "+currentPlayer_->getName()+" \nFailed = +0 Point";
+
+        string totalThrows;
+        if (currentPlayer_->getTotalThrows() == 0)
+            totalThrows = "0 throw";
+        else if (currentPlayer_->getTotalThrows() == 1)
+            totalThrows = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
+        else
+            totalThrows = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
+
+        string welcome = currentPlayer_->getName() + "\n" + totalThrows + "\n" + "Failed ";
         textUpdate->SetText(welcome.c_str());
         textUpdate->SetStyleAuto();
         textUpdate->SetOpacity(1.0);
-        textUpdate->SetFont("Fonts/Anonymous Pro.ttf",30);
+        textUpdate->SetFont("Fonts/Roboto-Bold.ttf",14);
+        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+        textUpdate->SetColor(*c);
         textUpdate->SetPosition(0,300);
         textUpdate->SetBringToBack(true);
         uielem_[7]->RemoveAllChildren();
@@ -191,12 +202,22 @@ void main::ThrowResult(int cupScored){
         ui->GetRoot()->RemoveChild(uielem_[7]);
         ui->GetRoot()->RemoveChild(uielem_[10]);
         SharedPtr<Text> textUpdate(new Text(context_));
-        string welcome = "Welcome to the beer pong game "+ currentPlayer_->getName() + " \nSuccess = +1 Point";
-        textUpdate->SetText(welcome.c_str());
 
+        string totalThrows;
+        if (currentPlayer_->getTotalThrows() == 0)
+            totalThrows = "0 throw";
+        else if (currentPlayer_->getTotalThrows() == 1)
+            totalThrows = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
+        else
+            totalThrows = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
+
+        string welcome = currentPlayer_->getName() + "\n" + totalThrows + "\n" + "Success ";
+        textUpdate->SetText(welcome.c_str());
         textUpdate->SetStyleAuto();
         textUpdate->SetOpacity(1.0);
-        textUpdate->SetFont("Fonts/Anonymous Pro.ttf",30);
+        textUpdate->SetFont("Fonts/Roboto-Bold.ttf",14);
+        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+        textUpdate->SetColor(*c);
         textUpdate->SetPosition(0,300);
         textUpdate->SetBringToBack(true);
         uielem_[7]->RemoveAllChildren();
@@ -217,12 +238,14 @@ void main::ThrowResult(int cupScored){
         float width = (float)graphics->GetWidth();
         float height = (float)graphics->GetHeight();
         SharedPtr<Text> title(new Text(context_));
-        string win = "YES, " + currentPlayer_->getName() + " you have won the game !";
+        string win = "YES, " + currentPlayer_->getName() + " you have won the game in " + std::to_string(currentPlayer_->getTotalThrows()) + " throws!";
         title->SetText(win.c_str());
         ui->GetRoot()->AddChild(title);
         title->SetStyleAuto();
         title->SetOpacity(1.0);
-        title->SetFont("Fonts/Roboto-Bold.ttf",30);
+        title->SetFont("Fonts/Roboto-Bold.ttf",14);
+        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+        title->SetColor(*c);
         title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
         title->SetPriority(1000);
     }
@@ -297,7 +320,7 @@ void main::InitWelcomePage() {
     // Button 1 - Solo
     SharedPtr<Button> button(new Button(context_));
     ui->GetRoot()->AddChild(button);
-    button->SetName("ButtonSolo");
+    button->SetName("Practice");
     button->SetMinHeight(53);
     button->SetMinWidth(234);
     button->SetPosition(399,548);
@@ -393,7 +416,7 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     computer_ = Player("PC",6);
     // Graphics
 
-    if(buttonName.compare("ButtonSolo")==0)
+    if(buttonName.compare("Practice")==0)
         playMode_ = 0;
     else if (buttonName.compare("ButtonMulti")==0)
         playMode_ = 1;
@@ -467,14 +490,16 @@ void main::InitBoardGame()
         textWindow->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
         textWindow->SetPosition(0, 200);
         textWindow->SetName("textWindow");
-        textWindow->SetStyleAuto();
+        //textWindow->SetStyleAuto();
 
         SharedPtr<Text> title1(new Text(context_));
-        string welcome = "Welcome to the BeerPong Game " + currentPlayer_->getName() + " !";
+        string welcome = currentPlayer_->getName() + "\n" + "0 throw" + "\n   ";
         title1->SetText(welcome.c_str());
         title1->SetStyleAuto();
         title1->SetOpacity(1.0);
-        title1->SetFont("Fonts/Anonymous Pro.ttf", 30);
+        title1->SetFont("Fonts/Roboto-Bold.ttf", 14);
+        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+        title1->SetColor(*c);
         title1->SetPosition(0, 100);
         title1->SetBringToBack(true);
         uielem_.Push(textWindow);
@@ -503,12 +528,12 @@ void main::DisplayCups(Player player) {
 
         vector<Vec2i> positionCups;
         // faire -40: position adaptée en attendant de résoudre le porbleme de la hauteur des cups / balle
-        positionCups.emplace_back(434 , 278);
-        positionCups.emplace_back(491 , 278);
-        positionCups.emplace_back(549 , 278);
-        positionCups.emplace_back(460 , 295);
-        positionCups.emplace_back(515 , 295);
-        positionCups.emplace_back(491 , 314);
+        positionCups.emplace_back(434 , 268);
+        positionCups.emplace_back(491 , 268);
+        positionCups.emplace_back(549 , 268);
+        positionCups.emplace_back(460 , 285);
+        positionCups.emplace_back(515 , 285);
+        positionCups.emplace_back(491 , 304);
 
         for (unsigned i = 0; i < NUM_main; ++i) {
 
@@ -601,7 +626,6 @@ void main::DisplayCups(Player player) {
         cout << endl;
     }
 }
-
 
 void main::CreateReturnButton(){
 

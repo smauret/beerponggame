@@ -14,6 +14,7 @@ using namespace std;
 class Player {
 private:
     string name;
+    int totalThrows;
     vector<Cup> cups;
     int cupsLeft{};
     Vec2i tableSize;
@@ -39,6 +40,7 @@ public:
     explicit Player(string name) : name(std::move(name)) {}
 
     Player(string name, int nbOfCups) : name(std::move(name)), cupsLeft(nbOfCups) {
+        totalThrows=0;
         tableSize = Vec2i(61, 240);
         vector<Vec2i> positionCups = cupsPositions(nbOfCups);
         for (int i = 0; i < cupsLeft; i++) {
@@ -51,6 +53,7 @@ public:
 
     Player(string name, int nbOfCups, const Vec2i &tableSize) : name(std::move(name)), cupsLeft(nbOfCups),
                                                                 tableSize(tableSize) {
+        totalThrows=0;
         for (int i = 0; i < cupsLeft; i++) {
             cups.emplace_back(i);
         }
@@ -64,6 +67,10 @@ public:
      */
     void setName(const string &name) {
         Player::name = name;
+    }
+
+    void setTotalThrows(const int &number) {
+        Player::totalThrows = number;
     }
 
     void setCups(const vector<Cup> &cups) {
@@ -86,6 +93,10 @@ public:
     */
     string &getName() {
         return name;
+    }
+
+    int getTotalThrows() {
+        return totalThrows;
     }
 
     vector<Cup> &getCups() {
