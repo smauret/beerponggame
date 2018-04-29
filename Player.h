@@ -92,7 +92,7 @@ public:
         return cups;
     }
 
-    Cup getCup(int id){
+    Cup &getCup(int id){
         return cups[id];
     }
 
