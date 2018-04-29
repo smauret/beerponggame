@@ -200,6 +200,23 @@ void main::ThrowResult(int cupScored){
         currentPlayer_->setCupsLeft(currentPlayer_->getCupsLeft()-1);
     }
     cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
+
+    if (currentPlayer_->getCupsLeft() == 0)
+    {
+        Graphics* graphics = GetSubsystem<Graphics>();
+        float width = (float)graphics->GetWidth();
+        float height = (float)graphics->GetHeight();
+        SharedPtr<Text> title(new Text(context_));
+        string win = "YES, " + currentPlayer_->getName() + " you have won the game !";
+        title->SetText(win.c_str());
+        ui->GetRoot()->AddChild(title);
+        title->SetStyleAuto();
+        title->SetOpacity(1.0);
+        title->SetFont("Fonts/Roboto-Bold.ttf",30);
+        title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
+        title->SetPriority(1000);
+    }
+
     if(currentPlayer_ == &sarah_)
         currentPlayer_ = &lucas_;
     else
@@ -339,6 +356,15 @@ void main::InitBoardGame()
     back->SetPriority(10);
     uielem_.Push(back);
 
+    Texture2D* background2 = cache->GetResource<Texture2D>("Textures/bg_bar.png");
+    SharedPtr<BorderImage> back2(new BorderImage(context_));
+    back2->SetTexture(background2);
+    back2->SetSize(width,height);
+    back2->SetBringToBack(true);
+    back2->SetOpacity(1);
+    back2->SetPriority(10);
+    bg_.Push(back2);
+
     // Display table image
     if(uielem_.Size() < 10){
         Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
@@ -475,6 +501,8 @@ void main::DisplayCups(Player player) {
         cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
         for (unsigned i = 0; i < main_.Size(); ++i) {
             if(player.getName().compare("Sarah") != 0) {
+                ui->GetRoot()->AddChild(uielem_[3]);
+                ui->GetRoot()->RemoveChild(bg_[0]);
                 if (player.getCup(i).isOnTable()) {
                     ui->GetRoot()->AddChild(main_[i]);
                     ui->GetRoot()->RemoveChild(splash_[i]);
@@ -486,8 +514,9 @@ void main::DisplayCups(Player player) {
                     ui->GetRoot()->RemoveChild(bluecups_[i]);
                 }
             }else{
+                ui->GetRoot()->RemoveChild(uielem_[3]);
+                ui->GetRoot()->AddChild(bg_[0]);
                 if (player.getCup(i).isOnTable()) {
-                    ui->GetRoot()->RemoveChild(uielem_[3]);
                     ui->GetRoot()->AddChild(bluecups_[i]);
                     ui->GetRoot()->RemoveChild(splash_[i]);
                     ui->GetRoot()->RemoveChild(main_[i]);
