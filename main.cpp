@@ -418,7 +418,7 @@ void main::DisplayCups(Player player) {
         positionCups.emplace_back(549 , 238);
         positionCups.emplace_back(460 , 255);
         positionCups.emplace_back(515 , 255);
-        positionCups.emplace_back(484 , 274);
+        positionCups.emplace_back(491 , 274);
 
         for (unsigned i = 0; i < NUM_main; ++i) {
 
