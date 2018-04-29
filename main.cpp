@@ -486,6 +486,7 @@ void main::DisplayCups(Player player) {
                 }
             }else{
                 if (player.getCup(i).isOnTable()) {
+                    ui->GetRoot()->RemoveChild(uielem_[3]);
                     ui->GetRoot()->AddChild(bluecups_[i]);
                     ui->GetRoot()->RemoveChild(splash_[i]);
                     ui->GetRoot()->RemoveChild(main_[i]);
