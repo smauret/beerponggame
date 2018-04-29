@@ -200,6 +200,23 @@ void main::ThrowResult(int cupScored){
         currentPlayer_->setCupsLeft(currentPlayer_->getCupsLeft()-1);
     }
     cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
+
+    if (currentPlayer_->getCupsLeft() == 0)
+    {
+        Graphics* graphics = GetSubsystem<Graphics>();
+        float width = (float)graphics->GetWidth();
+        float height = (float)graphics->GetHeight();
+        SharedPtr<Text> title(new Text(context_));
+        string win = "YES, " + currentPlayer_->getName() + " you have won the game !";
+        title->SetText(win.c_str());
+        ui->GetRoot()->AddChild(title);
+        title->SetStyleAuto();
+        title->SetOpacity(1.0);
+        title->SetFont("Fonts/Roboto-Bold.ttf",30);
+        title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
+        title->SetPriority(1000);
+    }
+
     if(currentPlayer_ == &sarah_)
         currentPlayer_ = &lucas_;
     else
