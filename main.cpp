@@ -84,8 +84,10 @@ void main::CreatedraggableBall()
 }
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
+    UI* ui = GetSubsystem<UI>();
     int x = GetSubsystem<Input>()->GetMousePosition().x_;
     int y = GetSubsystem<Input>()->GetMousePosition().y_;
+    ui->GetRoot()->AddChild(uielem_[10]);
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
@@ -187,7 +189,7 @@ void main::ThrowResult(int cupScored){
     }else{
         cout << "Remove text box success" << endl;
         ui->GetRoot()->RemoveChild(uielem_[7]);
-
+        ui->GetRoot()->RemoveChild(uielem_[10]);
         SharedPtr<Text> textUpdate(new Text(context_));
         string welcome = "Welcome to the beer pong game "+ currentPlayer_->getName() + " \nSuccess = +1 Point";
         textUpdate->SetText(welcome.c_str());
