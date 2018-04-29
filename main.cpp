@@ -61,7 +61,7 @@ void main::CreatedraggableBall()
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
-    if(uielem_.Size() < 10) {
+    if(uielem_.Size() < 9) {
         // Create a draggable Ball button
         SharedPtr<Button> draggableBall(new Button(context_));
         draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
@@ -77,7 +77,7 @@ void main::CreatedraggableBall()
         uielem_.Push(draggableBall);
     }else{
         cout << "   Adding ball again" << endl;
-        ui->GetRoot()->AddChild(uielem_[9]);
+        ui->GetRoot()->AddChild(uielem_[8]);
     }
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
     //cout << "Create draggable ball" << "  uielem_ size : " << uielem_.Size() << endl;
@@ -349,7 +349,7 @@ void main::InitBoardGame()
     bg_.Push(back2);
 
     // Display table image
-    if(uielem_.Size() < 10){
+    if(uielem_.Size() < 9){
         Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
         SharedPtr<BorderImage> table(new BorderImage(context_));
         table->SetTexture(tableTex);
@@ -369,7 +369,7 @@ void main::InitBoardGame()
 
 
     //Window score in boardgame
-    if(uielem_.Size() < 10) {
+    if(uielem_.Size() < 9) {
         SharedPtr<Window> textWindow(new Window(context_));
         // Set Window size and layout settings
         // TODO : Adapter la taille de la window au contenu ?
@@ -519,49 +519,36 @@ void main::CreateReturnButton(){
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
 
-    if(uielem_.Size() < 10) {
+    if(uielem_.Size() < 9) {
         //Create return button
         XMLFile *style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
-        // Create the Window and add it to the UI's root node
-        SharedPtr<Window> windowReturn_(new Window(context_));
-
-
         // Set the loaded style as default style
         ui->GetRoot()->SetDefaultStyle(style);
-
-        // Set Window size and layout settings
-        windowReturn_->SetMinWidth(100);
-        windowReturn_->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
-        windowReturn_->SetAlignment(HA_LEFT, VA_TOP);
-        windowReturn_->SetName("Window");
-        windowReturn_->SetStyleAuto();
-        uielem_.Push(windowReturn_);
-
         // Create a Button
         SharedPtr<Button> buttonReturn(new Button(context_));
+        ui->GetRoot()->AddChild(buttonReturn);
         // Add controls to Window
-        windowReturn_->AddChild(buttonReturn);
+        //windowReturn_->AddChild(buttonReturn);
         buttonReturn->SetName("ButtonReturn");
-        buttonReturn->SetMinHeight(24);
+        buttonReturn->SetMinHeight(30);
+        buttonReturn->SetMinWidth(100);
+        buttonReturn->SetPosition(5,5);
         // Set the text displayed on the button
-        Font *font = cache->GetResource<Font>("Fonts/Anonymous Pro.ttf");
+        Font *font = cache->GetResource<Font>("Fonts/Roboto-Bold.ttf");
         Text *buttonText = buttonReturn->CreateChild<Text>();
-        buttonText->SetFont(font, 12);
+        buttonText->SetFont(font, 14);
         buttonText->SetAlignment(HA_CENTER, VA_CENTER);
-        buttonText->SetText("RETURN");
-        // Apply previously set default style
-        buttonReturn->SetStyleAuto();
-        Color *c = new Color(1.0, 0.0, 0.0, 1.0);
-        buttonReturn->SetColor(*c);
-        windowReturn_->SetPriority(520);
-        ui->GetRoot()->AddChild(windowReturn_);
+        buttonText->SetText("Return");
+        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+        buttonText->SetColor(*c);
+        // Set customised style done in xml
+        buttonReturn->SetStyle("ButtonCust");
+        buttonReturn->SetPriority(520);
         uielem_.Push(buttonReturn);
     }else{
-        uielem_[7]->RemoveAllChildren();
-        uielem_[7]->AddChild(uielem_[8]);
         ui->GetRoot()->AddChild(uielem_[7]);
     }
-    SubscribeToEvent(uielem_[8], E_RELEASED, URHO3D_HANDLER(main, HandleReturnPressed));
+    SubscribeToEvent(uielem_[7], E_RELEASED, URHO3D_HANDLER(main, HandleReturnPressed));
     //cout << "Create return button" << "   size uielem_ : " << uielem_.Size() << endl;
     //ui->GetRoot()->RemoveChild(uielem_[6]);
 }
