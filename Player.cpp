@@ -84,12 +84,13 @@ vector<Vec2i> Player::cupsPositions(int nbOfCups) {
     vector<Vec2i> positions;
     if (tableSize.y == 240 && tableSize.x == 61){
         if (nbOfCups == 6){
-            positions.emplace_back(22,tableSize.y-10);
-            positions.emplace_back(31,tableSize.y-10);
-            positions.emplace_back(40,tableSize.y-10);
-            positions.emplace_back(26,tableSize.y-19);
-            positions.emplace_back(35,tableSize.y-19);
-            positions.emplace_back(30,tableSize.y-28);
+            positions.emplace_back(23,tableSize.y-20);
+            positions.emplace_back(31,tableSize.y-20);
+            positions.emplace_back(39,tableSize.y-20);
+            positions.emplace_back(27,tableSize.y-42);
+            positions.emplace_back(34,tableSize.y-42);
+            positions.emplace_back(30,tableSize.y-64);
+
         }
         if (nbOfCups == 10){
             positions.emplace_back(18,tableSize.y-10);
@@ -135,13 +136,12 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
 
         double factor_a = 1;
         double factor_b = (table_length_pixel_zAxis-1)/log(table_length_cm + 1);
-        double factor_c = table_length_pixel_zAxis/table_length_cm;
+        double factor_c = (table_length_pixel_zAxis-1)/log(table_length_cm/20.0 + 1);
         // function has the shape: f(x) = factor_a + factor_b + log(x+1)
         for (int i = 0; i<ballTrajectory.size(); i++) {
             // Calculate zG depending on yA
-            auto zG = (int)floor(factor_a + factor_b * log(1 + ballTrajectory[i].getY()));
-            //auto zGBall = (int)floor(factor_a + factor_c * ballTrajectory[i].getY()); // for ball zisize variation
-            //zGBall = zG;
+            //auto zG = (int)floor(factor_a + factor_b * log(1 + ballTrajectory[i].getY()));
+            auto zG = (int)floor(factor_a + factor_c * log(1 + ballTrajectory[i].getY()/20.0));
 
 
             // Calculate the xG-Position of the ball depending on the its zG-Position
@@ -151,7 +151,7 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
             auto pixel_width = (int)floor(alpha*(table_width_max_pixel-table_width_min_pixel) + table_width_min_pixel);
             // Pixel position x starting from the left of the table
             double x_shift = pixel_width*ballTrajectory[i].getX()/table_width_max_cm; // maybe <0 or bigger that the table (ball out of the table) => handle
-            // We don't k ow where the left of the table start, lets start from the middle
+            // We don't know where the left of the table start, lets start from the middle
             auto xG = (int)floor(window_witdh_pixel_middle - (pixel_width/2) + x_shift);
             graphicsTrajectory[i].setX(xG);
 
@@ -179,7 +179,7 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
             // choper x pixel des cups
             /*cout << " Position x de la cup:";
             for (auto &cup : cups) {
-                auto zCup = (int)floor(factor_a + factor_b * log(1 + cup.getPosition().y));
+                auto zCup = (int)floor(factor_a + factor_c * log(1 + cup.getPosition().y/20.0));
                 double alphaCup = (double)(table_length_pixel_zAxis - zCup)/table_length_pixel_zAxis;
                 auto cm_to_pixelCup = (int)floor(alphaCup*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
                 int height_pixel = cup.getHeight()*cm_to_pixelCup;
@@ -189,11 +189,11 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
 
 
                 double x_shift_cup = pixel_width_cup*cup.getPosition().x/table_width_max_cm;
-                auto xG_Cup = (int)floor(window_witdh_pixel_middle - (pixel_width_cup/2) + x_shift_cup + width_pixel/2);
-                cout << " | " << cup.getID() << ": (" << xG_Cup << "," << zCup << ")";
+                auto xG_Cup = (int)floor(window_witdh_pixel_middle - (pixel_width_cup/2) + x_shift_cup - width_pixel/2);
+                cout << " | " << cup.getID() << ": (" << xG_Cup << "," << window_height_pixel-zCup - height_pixel << ") taille cup: x*y = [" << height_pixel << "," << width_pixel << "]" ;
             }
-            cout << endl;*/
-
+            cout << endl;
+*/
 
 
 
