@@ -125,7 +125,7 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
         table_width_min_pixel = (int)floor((double)table_width_max_pixel*ratio_min_max);
         table_length_cm = 240;
         table_length_pixel_zAxis = 461;
-        ball_size_max_cm = 8;
+        ball_size_max_cm = 6;
         ball_size_min_cm = (int)floor(ball_size_max_cm*ratio_min_max);
         ball_size_max_pixel = (int)floor((double)ball_size_max_cm/table_width_max_cm*table_width_max_pixel);;
         ball_size_min_pixel = (int)floor(ball_size_max_pixel/4.0);//(int)floor(ball_size_max_pixel*ratio_min_max);
