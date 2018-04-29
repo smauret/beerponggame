@@ -200,6 +200,23 @@ void main::ThrowResult(int cupScored){
         currentPlayer_->setCupsLeft(currentPlayer_->getCupsLeft()-1);
     }
     cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
+
+    if (currentPlayer_->getCupsLeft() == 0)
+    {
+        Graphics* graphics = GetSubsystem<Graphics>();
+        float width = (float)graphics->GetWidth();
+        float height = (float)graphics->GetHeight();
+        SharedPtr<Text> title(new Text(context_));
+        string win = "YES, " + currentPlayer_->getName() + " you have won the game !";
+        title->SetText(win.c_str());
+        ui->GetRoot()->AddChild(title);
+        title->SetStyleAuto();
+        title->SetOpacity(1.0);
+        title->SetFont("Fonts/Roboto-Bold.ttf",30);
+        title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
+        title->SetPriority(1000);
+    }
+
     if(currentPlayer_ == &sarah_)
         currentPlayer_ = &lucas_;
     else
@@ -413,12 +430,13 @@ void main::DisplayCups(Player player) {
         Texture2D *blueTex = cache->GetResource<Texture2D>("Textures/back_beer copie.png");
 
         vector<Vec2i> positionCups;
-        positionCups.emplace_back(434 , 238);
-        positionCups.emplace_back(491 , 238);
-        positionCups.emplace_back(549 , 238);
-        positionCups.emplace_back(460 , 255);
-        positionCups.emplace_back(515 , 255);
-        positionCups.emplace_back(491 , 274);
+        // faire -40: position adaptée en attendant de résoudre le porbleme de la hauteur des cups / balle
+        positionCups.emplace_back(434 , 278);
+        positionCups.emplace_back(491 , 278);
+        positionCups.emplace_back(549 , 278);
+        positionCups.emplace_back(460 , 295);
+        positionCups.emplace_back(515 , 295);
+        positionCups.emplace_back(491 , 314);
 
         for (unsigned i = 0; i < NUM_main; ++i) {
 
@@ -559,11 +577,11 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         draggedElement_->SetPosition(graphicsTrajectory_[k].getX(), graphicsTrajectory_[k].getZ());
         draggedElement_->SetSize(graphicsTrajectory_[k].getY(),graphicsTrajectory_[k].getY());
         k=k+1;
-        if (k > 225)
+        if (k > 220)
             draggedElement_->SetPriority(205);
-        else if (k > 216)
+        else if (k > 198)
             draggedElement_->SetPriority(215);
-        else if (k > 208)
+        else if (k > 176)
             draggedElement_->SetPriority(225);
         else
             draggedElement_->SetPriority(410);
