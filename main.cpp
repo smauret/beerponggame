@@ -183,7 +183,7 @@ void main::ThrowResult(int cupScored){
         textUpdate->SetFont("Fonts/Roboto-Bold.ttf",14);
         Color *c = new Color(0.25, 0.25, 0.25, 1.0);
         textUpdate->SetColor(*c);
-        textUpdate->SetPosition(0,300);
+        textUpdate->SetPosition(20,385);
         textUpdate->SetBringToBack(true);
         uielem_[7]->RemoveAllChildren();
         uielem_[7]->AddChild(textUpdate);
@@ -209,7 +209,7 @@ void main::ThrowResult(int cupScored){
         textUpdate->SetFont("Fonts/Roboto-Bold.ttf",14);
         Color *c = new Color(0.25, 0.25, 0.25, 1.0);
         textUpdate->SetColor(*c);
-        textUpdate->SetPosition(0,300);
+        textUpdate->SetPosition(20,385);
         textUpdate->SetBringToBack(true);
         uielem_[7]->RemoveAllChildren();
         uielem_[7]->AddChild(textUpdate);
@@ -474,23 +474,22 @@ void main::InitBoardGame()
     if(uielem_.Size() < 11) {
         SharedPtr<Window> textWindow(new Window(context_));
         // Set Window size and layout settings
-        // TODO : Adapter la taille de la window au contenu ?
 
         textWindow->SetMaxWidth(300);
         textWindow->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
-        textWindow->SetPosition(0, 200);
+        textWindow->SetPosition(20, 385);
         textWindow->SetName("textWindow");
+        textWindow->SetOpacity(0.0);
         //textWindow->SetStyleAuto();
 
         SharedPtr<Text> title1(new Text(context_));
         string welcome = currentPlayer_->getName() + "\n" + "0 throw" + "\n   ";
         title1->SetText(welcome.c_str());
         title1->SetStyleAuto();
-        title1->SetOpacity(1.0);
         title1->SetFont("Fonts/Roboto-Bold.ttf", 14);
         Color *c = new Color(0.25, 0.25, 0.25, 1.0);
         title1->SetColor(*c);
-        title1->SetPosition(0, 100);
+        //title1->SetPosition(0, 100);
         title1->SetBringToBack(true);
         uielem_.Push(textWindow);
         textWindow->AddChild(title1);
