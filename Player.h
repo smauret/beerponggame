@@ -157,7 +157,7 @@ public:
      * @param ballTrajectory
      * @return -1 = no score, int > 0 = score cup of id indicated
      */
-    int scoreCup(double &a, double &b, double &c, vector<Vec3<int>> &ballTrajectory);
+    int scoreCup(vector<Vec3<int>> &ballTrajectory);
 
     /** Give all the positions the cups should take at the beginning of the game, depending on the nulber of cups
      *
