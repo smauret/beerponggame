@@ -139,8 +139,8 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
     //ballTrajectory_ = currentPlayer_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    //ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
-    ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
+    ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    //ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
 
     std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory_.size(); i++) {
@@ -401,6 +401,7 @@ void main::DisplayCups(Player player) {
     if(main_.Size() == 0) {
         Texture2D *decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
         Texture2D *splashTex = cache->GetResource<Texture2D>("Textures/beer_splash.png");
+        Texture2D *blueTex = cache->GetResource<Texture2D>("Textures/back_beer copie.png");
 
         vector<Vec2i> positionCups;
         positionCups.emplace_back(434 , 238);
@@ -414,36 +415,44 @@ void main::DisplayCups(Player player) {
 
             // Create a new sprite, set it to use the texture
             SharedPtr<Sprite> sprite(new Sprite(context_));
+            SharedPtr<Sprite> blueCup(new Sprite(context_));
             SharedPtr<Sprite> splash(new Sprite(context_));
 
             sprite->SetTexture(decalTex);
             splash->SetTexture(splashTex);
+            blueCup->SetTexture(blueTex);
 
             // Set position of the cup
             // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
             sprite->SetPosition(positionCups[i].x, positionCups[i].y);
             splash->SetPosition(positionCups[i].x+3, positionCups[i].y-9);
+            blueCup->SetPosition(positionCups[i].x, positionCups[i].y);
 
             // Set sprite size
             sprite->SetSize(IntVector2(56, 84));
             splash->SetSize(IntVector2(80, 23));
+            blueCup->SetSize(IntVector2(56, 84));
 
             // Set additive blending mode
             sprite->SetBlendMode(BLEND_ALPHA);
             splash->SetBlendMode(BLEND_ALPHA);
+            blueCup->SetBlendMode(BLEND_ALPHA);
 
             //Set priority
             if (i < 3){
                 sprite->SetPriority(210);
                 splash->SetPriority(211);
+                blueCup->SetPriority(210);
             }
             else if (i < 5){
                 sprite->SetPriority(220);
                 splash->SetPriority(221);
+                blueCup->SetPriority(220);
             }
             else{
                 sprite->SetPriority(230);
                 splash->SetPriority(231);
+                blueCup->SetPriority(230);
             }
 
 
@@ -454,20 +463,38 @@ void main::DisplayCups(Player player) {
             // Store sprite's velocity as a custom variable
             sprite->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
             splash->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
+            blueCup->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
 
             // Store main to our own container for easy movement update iteration
             main_.Push(sprite);
             splash_.Push(splash);
+            bluecups_.Push(blueCup);
         }
     }else{
         cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
         for (unsigned i = 0; i < main_.Size(); ++i) {
-            if (player.getCup(i).isOnTable()){
-                ui->GetRoot()->AddChild(main_[i]);
-                ui->GetRoot()->RemoveChild(splash_[i]);
+            if(player.getName().compare("Sarah") != 0) {
+                if (player.getCup(i).isOnTable()) {
+                    ui->GetRoot()->AddChild(main_[i]);
+                    ui->GetRoot()->RemoveChild(splash_[i]);
+                    ui->GetRoot()->RemoveChild(splash_[i]);
+                    ui->GetRoot()->RemoveChild(bluecups_[i]);
+                } else {
+                    ui->GetRoot()->RemoveChild(main_[i]);
+                    ui->GetRoot()->RemoveChild(splash_[i]);
+                    ui->GetRoot()->RemoveChild(bluecups_[i]);
+                }
             }else{
-                ui->GetRoot()->RemoveChild(main_[i]);
-                ui->GetRoot()->RemoveChild(splash_[i]);
+                if (player.getCup(i).isOnTable()) {
+                    ui->GetRoot()->RemoveChild(uielem_[3]);
+                    ui->GetRoot()->AddChild(bluecups_[i]);
+                    ui->GetRoot()->RemoveChild(splash_[i]);
+                    ui->GetRoot()->RemoveChild(main_[i]);
+                } else {
+                    ui->GetRoot()->RemoveChild(bluecups_[i]);
+                    ui->GetRoot()->RemoveChild(splash_[i]);
+                    ui->GetRoot()->RemoveChild(main_[i]);
+                }
             }
         }
         cout << endl;
