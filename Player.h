@@ -117,6 +117,15 @@ public:
 
     iterator end() { return cups.end(); }
 
+    /** Operator */
+    bool operator==(Player otherPlayer){
+        if (name.compare(otherPlayer.getName()) == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /** Methods
      *
      */

@@ -127,7 +127,10 @@ private:
     IntVector2 dragBeginPosition_;
     IntVector2 BeginPosition_;
     clock_t startTime;
-    Player lucas_, sarah_, currentPlayer_;
+    Player* lucas_;
+    Player* sarah_;
+    Player* currentPlayer_;
+
     UIElement* draggedElement_;
     vector<Vec3<int>> graphicsTrajectory_;
     vector<Vec3<int>> ballTrajectory_;

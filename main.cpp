@@ -99,7 +99,7 @@ void main::CreatedraggableBall()
         ui->GetRoot()->AddChild(uielem_[9]);
     }
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
-    cout << "Create draggable ball" << "  uielem_ size : " << uielem_.Size() << endl;
+    //cout << "Create draggable ball" << "  uielem_ size : " << uielem_.Size() << endl;
 }
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
@@ -108,12 +108,16 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
-    DisplayCups(currentPlayer_);
+
+    DisplayCups(*currentPlayer_);
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
     SubscribeToEvent(draggedElement_, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
     SubscribeToEvent(draggedElement_, E_DRAGEND, URHO3D_HANDLER(main, HandleDragEnd));
+    cout << "Current player : " << currentPlayer_->getName() << endl;
+    cout << "Sarah cup on table : " << sarah_->getCup(1).isOnTable() << endl;
+    cout << "Lucas cup on table : " << lucas_->getCup(1).isOnTable() << endl << endl;
 }
 
 void main::HandleDragBegin(StringHash eventType, VariantMap& eventData)
@@ -153,15 +157,15 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
-    //vector<Vec3<int>> ballTrajectory_ = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    ballTrajectory_ = currentPlayer_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
-    //vector<Vec3<int>> ballTrajectory_ = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 405, 30, 0, cupScored);
+    //ballTrajectory_ = currentPlayer_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
+    ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    //ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
 
-    std::cout << "Cup scored " << cupScored << std::endl << std::endl;
+    //std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory_.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
-    currentPlayer_.get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_);
+    currentPlayer_->get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_);
     k=0;
     UnsubscribeFromEvent(E_DRAGBEGIN);
     UnsubscribeFromEvent(E_DRAGMOVE);
@@ -169,18 +173,19 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     UnsubscribeFromEvent(E_MOUSEBUTTONDOWN);
 
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
+
 }
 
 void main::ThrowResult(int cupScored){
     cout << "Throw result " << "  size uielem_ : " << uielem_.Size()<< endl;
 
     UI* ui = GetSubsystem<UI>();
-  //  SharedPtr<Text> throwResult(new Text(context_));
     if(cupScored == -1){
         cout << "Remove text box success -1" << endl;
         ui->GetRoot()->RemoveChild(uielem_[5]);
         SharedPtr<Text> textUpdate(new Text(context_));
-        textUpdate->SetText("Welcome to the beer pong game \nFailed = +0 Point");
+        string welcome = "Welcome to the beer pong game "+currentPlayer_->getName()+" \nFailed = +0 Point";
+        textUpdate->SetText(welcome.c_str());
         textUpdate->SetStyleAuto();
         textUpdate->SetOpacity(1.0);
         textUpdate->SetFont("Fonts/Anonymous Pro.ttf",30);
@@ -195,7 +200,8 @@ void main::ThrowResult(int cupScored){
         ui->GetRoot()->RemoveChild(uielem_[5]);
 
         SharedPtr<Text> textUpdate(new Text(context_));
-        textUpdate->SetText("Welcome to the beer pong game \nSuccess = +1 Point !  ");
+        string welcome = "Welcome to the beer pong game "+currentPlayer_->getName()+" \nFailed = +0 Point";
+        textUpdate->SetText(welcome.c_str());
 
         textUpdate->SetStyleAuto();
         textUpdate->SetOpacity(1.0);
@@ -206,11 +212,13 @@ void main::ThrowResult(int cupScored){
         uielem_[5]->AddChild(textUpdate);
         ui->GetRoot()->AddChild(uielem_[5]);
         ui->GetRoot()->RemoveChild(main_[cupScored]);
-        cout << "player : " << currentPlayer_.getName() <<"   cupScored: " << cupScored <<"   id: " << currentPlayer_.getCup(cupScored).getID() << "  x: " << currentPlayer_.getCup(cupScored).getPosition().x << "  y: " << currentPlayer_.getCup(cupScored).getPosition().y << "  height: " << currentPlayer_.getCup(cupScored).getHeight() << endl;
-        cout << currentPlayer_.getCup(cupScored).isOnTable() << endl;
-        currentPlayer_.getCup(cupScored).setOnTable(false);
-        cout << currentPlayer_.getCup(cupScored).isOnTable() << endl;
+        currentPlayer_->getCup(cupScored).setOnTable(false);
+        cout << currentPlayer_->getName() << "  cup " << currentPlayer_->getCup(cupScored).getID() << " out.  On table : " << currentPlayer_->getCup(cupScored).isOnTable() << endl;
     }
+    if(currentPlayer_ == sarah_)
+        currentPlayer_ = lucas_;
+    else
+        currentPlayer_ = sarah_;
 }
 
 // Function to translate a point in graphics (pixels) to a point on the table (cm)
@@ -291,7 +299,7 @@ void main::InitWelcomePage() {
     title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
     title->SetPriority(10);
     uielem_.Push(title);
-    cout << "Init Welcome Page" << "  size uielem_ : " << uielem_.Size() << endl;
+    //cout << "Init Welcome Page" << "  size uielem_ : " << uielem_.Size() << endl;
 
     SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(main,HandlePlayPressed));
 }
@@ -312,11 +320,11 @@ void main::HandleReturnPressed(StringHash eventType, VariantMap& eventData)
 
 void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
 {
-    cout << "event press play" << "   uielem_ size : " << uielem_.Size() << endl;
+    //cout << "event press play" << "   uielem_ size : " << uielem_.Size() << endl;
     //Player[2] players;
     // Create player
-    lucas_ = Player("Lucas",6);
-    sarah_ = Player("Sarah",6);
+    lucas_ = new Player("Lucas",6);
+    sarah_ = new Player("Sarah",6);
     // Graphics
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
@@ -376,61 +384,8 @@ void main::InitBoardGame()
     }
 
     currentPlayer_ = lucas_;
-    DisplayCups(currentPlayer_);
+    DisplayCups(*currentPlayer_);
 
-/*    // Get the cup texture
-    Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
-    vector<Vec2i> positionCups;
-    positionCups.emplace_back(434 , 238);
-    positionCups.emplace_back(491 , 238);
-    positionCups.emplace_back(549 , 238);
-    positionCups.emplace_back(460 , 255);
-    positionCups.emplace_back(515 , 255);
-    positionCups.emplace_back(484 , 274);
-    //positionCups.emplace_back(473 , 311);
-
-
-
-    for (unsigned i = 0; i < NUM_main; ++i) {
-        if(uielem_.Size() < 10) {
-            // Create a new sprite, set it to use the texture
-            SharedPtr<Sprite> sprite(new Sprite(context_));
-
-            sprite->SetTexture(decalTex);
-
-            // Set position of the cup
-            // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
-            sprite->SetPosition(positionCups[i].x, positionCups[i].y);
-
-            // Set sprite size & hotspot in its center
-            sprite->SetSize(IntVector2(56, 84));
-            //sprite->SetHotSpot(IntVector2(64, 64));
-
-            // Set additive blending mode
-            sprite->SetBlendMode(BLEND_ALPHA);
-
-            //Set priority
-            if(i < 3)
-                sprite->SetPriority(210);
-            else if(i < 5)
-                sprite->SetPriority(220);
-            else
-                sprite->SetPriority(230);
-
-            // Add as a child of the root UI element
-            ui->GetRoot()->AddChild(sprite);
-            //std::cout << "Position of cup " << i << " : " << ui->GetRoot()->FindChild(sprite) << std::endl;
-
-            // Store sprite's velocity as a custom variable
-            sprite->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
-
-            // Store main to our own container for easy movement update iteration
-            main_.Push(sprite);
-        }else{
-            ui->GetRoot()->AddChild(main_[i]);
-        }
-
-    }*/
 
     //Window score in boardgame
     if(uielem_.Size() < 10) {
@@ -438,14 +393,15 @@ void main::InitBoardGame()
         // Set Window size and layout settings
         // TODO : Adapter la taille de la window au contenu ?
 
-        textWindow->SetMaxWidth(250);
+        textWindow->SetMaxWidth(300);
         textWindow->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
         textWindow->SetPosition(0, 200);
         textWindow->SetName("textWindow");
         textWindow->SetStyleAuto();
 
         SharedPtr<Text> title1(new Text(context_));
-        title1->SetText("Welcome to the BeerPong Game !");
+        string welcome = "Welcome to the BeerPong Game " + currentPlayer_->getName() + " !";
+        title1->SetText(welcome.c_str());
         title1->SetStyleAuto();
         title1->SetOpacity(1.0);
         title1->SetFont("Fonts/Anonymous Pro.ttf", 30);
@@ -461,7 +417,7 @@ void main::InitBoardGame()
         uielem_[5]->AddChild(uielem_[6]);
         ui->GetRoot()->AddChild(uielem_[5]);
     }
-    cout << endl << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
+    //cout << endl << "Init board game" << "   size uielem_ : " << uielem_.Size() << endl;
 
     CreateReturnButton();
 }
@@ -516,10 +472,9 @@ void main::DisplayCups(Player &player) {
             main_.Push(sprite);
         }
     }else{
-        cout << "Display cups player : " << currentPlayer_.getName() << endl;
+        cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
         for (unsigned i = 0; i < main_.Size(); ++i) {
             if (player.getCup(i).isOnTable()){
-                cout << "true " ;
                 ui->GetRoot()->AddChild(main_[i]);
             }
         }
@@ -576,7 +531,7 @@ void main::CreateReturnButton(){
         ui->GetRoot()->AddChild(uielem_[7]);
     }
     SubscribeToEvent(uielem_[8], E_RELEASED, URHO3D_HANDLER(main, HandleReturnPressed));
-    cout << "Create return button" << "   size uielem_ : " << uielem_.Size() << endl;
+    //cout << "Create return button" << "   size uielem_ : " << uielem_.Size() << endl;
     //ui->GetRoot()->RemoveChild(uielem_[6]);
 }
 
