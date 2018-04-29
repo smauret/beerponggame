@@ -108,6 +108,7 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
+    DisplayCups(currentPlayer_);
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
@@ -139,41 +140,28 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
     // Calculate the power based on the time and the distance
     double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
-    //std::cout << "Speed : " << speed << std::endl;
     if(speed > 100 && speed < 1500){
         double restSpeed = speed /10;
         speed = 350+restSpeed;
     }
-    //std::cout << "Speed : " << speed << std::endl;
+
     // Calculate the rotation angle
     double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
-    //cout << "Rotation angl before : " << rotation_angle*180/M_PI << " | rotation angle after : ";
-    /*if(rotation_angle<0.7848){
-        rotation_angle=0.7848;
-    }else if(rotation_angle>2.3544){
-        rotation_angle=2.3544;
-    }else{
-        double rest = (rotation_angle - 0.7848)/9;
-        rotation_angle = 1.4388 + rest;
-        cout << rotation_angle << endl;
-    }*/
+
     rotation_angle = M_PI/2 + (rotation_angle - M_PI/2) / 12;
 
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
     //vector<Vec3<int>> ballTrajectory_ = lucas_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    ballTrajectory_ = lucas_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    ballTrajectory_ = currentPlayer_.throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     //vector<Vec3<int>> ballTrajectory_ = lucas_.throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 100, 405, 30, 0, cupScored);
-    //ThrowResult(cupScored);
+
     std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory_.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
-    lucas_.get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_);
-    //lucas_.get_z_graphics(ballTrajectory_, graphicsTrajectory_);
-    //lucas_.get_x_graphics(ballTrajectory_, graphicsTrajectory_);
-    //ui->GetRoot()->RemoveChild(main_[0]);;
+    currentPlayer_.get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_);
     k=0;
     UnsubscribeFromEvent(E_DRAGBEGIN);
     UnsubscribeFromEvent(E_DRAGMOVE);
@@ -218,6 +206,10 @@ void main::ThrowResult(int cupScored){
         uielem_[5]->AddChild(textUpdate);
         ui->GetRoot()->AddChild(uielem_[5]);
         ui->GetRoot()->RemoveChild(main_[cupScored]);
+        cout << "player : " << currentPlayer_.getName() <<"   cupScored: " << cupScored <<"   id: " << currentPlayer_.getCup(cupScored).getID() << "  x: " << currentPlayer_.getCup(cupScored).getPosition().x << "  y: " << currentPlayer_.getCup(cupScored).getPosition().y << "  height: " << currentPlayer_.getCup(cupScored).getHeight() << endl;
+        cout << currentPlayer_.getCup(cupScored).isOnTable() << endl;
+        currentPlayer_.getCup(cupScored).setOnTable(false);
+        cout << currentPlayer_.getCup(cupScored).isOnTable() << endl;
     }
 }
 
@@ -324,6 +316,7 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     //Player[2] players;
     // Create player
     lucas_ = Player("Lucas",6);
+    sarah_ = Player("Sarah",6);
     // Graphics
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
@@ -382,7 +375,10 @@ void main::InitBoardGame()
         ui->GetRoot()->AddChild(uielem_[4]);
     }
 
-    // Get the cup texture
+    currentPlayer_ = lucas_;
+    DisplayCups(currentPlayer_);
+
+/*    // Get the cup texture
     Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
     vector<Vec2i> positionCups;
     /*positionCups.emplace_back(432 + 38 , 267 + 50);
@@ -439,7 +435,7 @@ void main::InitBoardGame()
             ui->GetRoot()->AddChild(main_[i]);
         }
 
-    }
+    }*/
 
     //Window score in boardgame
     if(uielem_.Size() < 10) {
@@ -474,6 +470,69 @@ void main::InitBoardGame()
 
     CreateReturnButton();
 }
+
+void main::DisplayCups(Player &player) {
+    ResourceCache* cache = GetSubsystem<ResourceCache>();
+    UI* ui = GetSubsystem<UI>();
+
+    if(main_.Size() == 0) {
+        Texture2D *decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
+        vector<Vec2i> positionCups;
+        positionCups.emplace_back(432 + 38, 267 + 50);
+        positionCups.emplace_back(513 + 38, 267 + 50);
+        positionCups.emplace_back(594 + 38, 267 + 50);
+        positionCups.emplace_back(475 + 38, 292 + 50);
+        positionCups.emplace_back(553 + 38, 292 + 50);
+        positionCups.emplace_back(512 + 38, 325 + 50);
+
+        for (unsigned i = 0; i < NUM_main; ++i) {
+
+            // Create a new sprite, set it to use the texture
+            SharedPtr<Sprite> sprite(new Sprite(context_));
+
+            sprite->SetTexture(decalTex);
+
+            // Set position of the cup
+            // sprite->SetPosition(Vector2((width+i*100)/2,(height+i*100)/2));
+            sprite->SetPosition(positionCups[i].x, positionCups[i].y);
+
+            // Set sprite size & hotspot in its center
+            sprite->SetSize(IntVector2(76, 100));
+            sprite->SetHotSpot(IntVector2(64, 64));
+
+            // Set additive blending mode
+            sprite->SetBlendMode(BLEND_ALPHA);
+
+            //Set priority
+            if (i < 3)
+                sprite->SetPriority(210);
+            else if (i < 5)
+                sprite->SetPriority(220);
+            else
+                sprite->SetPriority(230);
+
+            // Add as a child of the root UI element
+            ui->GetRoot()->AddChild(sprite);
+            //std::cout << "Position of cup " << i << " : " << ui->GetRoot()->FindChild(sprite) << std::endl;
+
+            // Store sprite's velocity as a custom variable
+            sprite->SetVar(VAR_VELOCITY, Vector2(Random(200.0f) - 100.0f, Random(200.0f) - 100.0f));
+
+            // Store main to our own container for easy movement update iteration
+            main_.Push(sprite);
+        }
+    }else{
+        cout << "Display cups player : " << currentPlayer_.getName() << endl;
+        for (unsigned i = 0; i < main_.Size(); ++i) {
+            if (player.getCup(i).isOnTable()){
+                cout << "true " ;
+                ui->GetRoot()->AddChild(main_[i]);
+            }
+        }
+        cout << endl;
+    }
+}
+
 
 void main::CreateReturnButton(){
 

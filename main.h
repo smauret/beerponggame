@@ -57,6 +57,9 @@ private:
     /** Create a return button for the main page of the game */
     void CreateReturnButton();
 
+    /** Display set of cups relative to current player */
+    void DisplayCups(Player& player);
+
     /// Events handlers
     /** Handler of screen update event */
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
@@ -124,11 +127,10 @@ private:
     IntVector2 dragBeginPosition_;
     IntVector2 BeginPosition_;
     clock_t startTime;
-    Player lucas_;
+    Player lucas_, sarah_, currentPlayer_;
     UIElement* draggedElement_;
     vector<Vec3<int>> graphicsTrajectory_;
     vector<Vec3<int>> ballTrajectory_;
     int k=0;
     int cupScored = -1;
-
 };
