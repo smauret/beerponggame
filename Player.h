@@ -1,6 +1,6 @@
-//
-// Created by lucas on 4/3/18.
-//
+//ECE-6122: Advanced Programming Techniques
+//Beer Pong Game
+//Najwa Harif, Sarah Mauret, Hugo Blech, Lucas Chaulan, Elliot Hallais
 
 #pragma once
 #include "Cup.h"
@@ -92,7 +92,7 @@ public:
         return cups;
     }
 
-    Cup getCup(int id){
+    Cup &getCup(int id){
         return cups[id];
     }
 
@@ -116,6 +116,15 @@ public:
     iterator begin() { return cups.begin(); }
 
     iterator end() { return cups.end(); }
+
+    /** Operator */
+    bool operator==(Player otherPlayer){
+        if (name.compare(otherPlayer.getName()) == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     /** Methods
      *

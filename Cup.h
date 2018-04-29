@@ -1,6 +1,6 @@
-//
-// Created by lucas on 4/3/18.
-//
+//ECE-6122: Advanced Programming Techniques
+//Beer Pong Game
+//Najwa Harif, Sarah Mauret, Hugo Blech, Lucas Chaulan, Elliot Hallais
 
 #ifndef BEERPONGPROJECT_CUP_H
 #define BEERPONGPROJECT_CUP_H
