@@ -1,3 +1,7 @@
+//ECE-6122: Advanced Programming Techniques
+//Beer Pong Game
+//Najwa Harif, Sarah Mauret, Hugo Blech, Lucas Chaulan, Elliot Hallais
+
 #pragma once
 
 #include "Sample.h"
