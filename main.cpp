@@ -383,7 +383,7 @@ void main::InitBoardGame()
     }
 
     // Get the cup texture
-    Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/back_beer2.png");
+    Texture2D* decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
     vector<Vec2i> positionCups;
     /*positionCups.emplace_back(432 + 38 , 267 + 50);
     positionCups.emplace_back(513 + 38 , 267 + 50);
