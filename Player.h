@@ -141,7 +141,7 @@ public:
      *
      * @return all the positions taken by the ball
      */
-    vector<Vec3<int>> throwBall();
+    vector<Vec3<int>> throwBall(int &cupScored);
 
 
     /** Throw the ball for a human player

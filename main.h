@@ -114,6 +114,7 @@ private:
     clock_t startTime;
     Player lucas_;
     Player sarah_;
+    Player computer_;
     Player* currentPlayer_ = new Player();
     int playMode_; //0 solo, 1 1vs1, 2 1vsPC
 

@@ -138,9 +138,17 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
-    //ballTrajectory_ = currentPlayer_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
-    ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
-    //ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
+    if(playMode_ == 0 || playMode_ == 1){
+        //ballTrajectory_ = currentPlayer_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
+        ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+        //ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
+    }else if (playMode_ == 2){
+        if (*currentPlayer_ == computer_)
+            ballTrajectory_ = currentPlayer_->throwBall(cupScored);
+        else
+            ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    }
+
 
     std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory_.size(); i++) {
@@ -223,7 +231,10 @@ void main::ThrowResult(int cupScored){
         else
             currentPlayer_ = &sarah_;
     }else if (playMode_ == 2){
-        //To do, computer player
+        if(currentPlayer_ == &sarah_)
+            currentPlayer_ = &computer_;
+        else
+            currentPlayer_ = &sarah_;
     }else{
         //Do nothing, keep only one player
     }
@@ -334,8 +345,9 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     // Create player
     lucas_ = Player("Lucas",6);
     sarah_ = Player("Sarah",6);
+    computer_ = Player("PC",6);
     // Graphics
-    playMode_ = 0;
+    playMode_ = 2;
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
     ui->GetRoot()->SetSortChildren(true);
@@ -389,7 +401,7 @@ void main::InitBoardGame()
         ui->GetRoot()->AddChild(uielem_[4]);
     }
 
-    currentPlayer_ = &lucas_;
+    currentPlayer_ = &sarah_;
     DisplayCups(*currentPlayer_);
 
 
@@ -509,6 +521,18 @@ void main::DisplayCups(Player player) {
         cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
         for (unsigned i = 0; i < main_.Size(); ++i) {
             if(player.getName().compare("Sarah") != 0) {
+                ui->GetRoot()->RemoveChild(uielem_[3]);
+                ui->GetRoot()->AddChild(bg_[0]);
+                if (player.getCup(i).isOnTable()) {
+                    ui->GetRoot()->AddChild(bluecups_[i]);
+                    ui->GetRoot()->RemoveChild(splash_[i]);
+                    ui->GetRoot()->RemoveChild(main_[i]);
+                } else {
+                    ui->GetRoot()->RemoveChild(bluecups_[i]);
+                    ui->GetRoot()->RemoveChild(splash_[i]);
+                    ui->GetRoot()->RemoveChild(main_[i]);
+                }
+            }else{
                 ui->GetRoot()->AddChild(uielem_[3]);
                 ui->GetRoot()->RemoveChild(bg_[0]);
                 if (player.getCup(i).isOnTable()) {
@@ -520,18 +544,6 @@ void main::DisplayCups(Player player) {
                     ui->GetRoot()->RemoveChild(main_[i]);
                     ui->GetRoot()->RemoveChild(splash_[i]);
                     ui->GetRoot()->RemoveChild(bluecups_[i]);
-                }
-            }else{
-                ui->GetRoot()->RemoveChild(uielem_[3]);
-                ui->GetRoot()->AddChild(bg_[0]);
-                if (player.getCup(i).isOnTable()) {
-                    ui->GetRoot()->AddChild(bluecups_[i]);
-                    ui->GetRoot()->RemoveChild(splash_[i]);
-                    ui->GetRoot()->RemoveChild(main_[i]);
-                } else {
-                    ui->GetRoot()->RemoveChild(bluecups_[i]);
-                    ui->GetRoot()->RemoveChild(splash_[i]);
-                    ui->GetRoot()->RemoveChild(main_[i]);
                 }
             }
         }

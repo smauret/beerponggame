@@ -12,15 +12,16 @@
     cupsLeft--;
 }*/
 
-vector<Vec3<int>> Player::throwBall(){
+vector<Vec3<int>> Player::throwBall(int &cupScored){
     double alpha, beta, h, v0, startX;
-    alpha = 0.5;
-    beta = static_cast<double>(M_PI / 2);
-    h=0.0;
-    v0=0;
-    startX = 0;
-
-    return throwBall(alpha, beta, h, v0, startX, 0, reinterpret_cast<int &>(startX));
+    alpha = M_PI/4;
+    beta = static_cast<double>(M_PI / 2) + (rand() % 6 - 3)*(M_PI/180); // Random angle [87°;93°]
+    h=50;
+    v0=rand() % 150 +270;
+    startX = 30;
+    //(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+    cout << "Computer parameters : beta=" << beta*360/M_PI << "  v0=" << v0 << endl;
+    return throwBall(alpha, beta, h, v0, startX, 0, cupScored);
 
 }
 
@@ -181,7 +182,7 @@ void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<
             // reverse zG
             // include zArchitecture, "-" in the formula because the zG start from the upper left corner
             int new_zG = window_height_pixel -(zG + (int)floor((ballTrajectory[i].getZ()*cm_to_pixel)*0.5));
-            cout << "x: " << ballTrajectory[i].getX() << " | y: " << ballTrajectory[i].getY() << " | z: " << ballTrajectory[i].getZ() << " | xG: " << xG-pixel_width/2 << " | zG: " << new_zG-pixel_width/2 << endl;
+            //cout << "x: " << ballTrajectory[i].getX() << " | y: " << ballTrajectory[i].getY() << " | z: " << ballTrajectory[i].getZ() << " | xG: " << xG-pixel_width/2 << " | zG: " << new_zG-pixel_width/2 << endl;
 
             //cout << "xA : " << ballTrajectory[i].getX() << " | xG : " << graphicsTrajectory[i].getX() << " | yA : " << ballTrajectory[i].getY() << " | alpha : " << alpha << ballTrajectory[i].getY() << " | yG : " << graphicsTrajectory[i].getY()<< " | zA : " << ballTrajectory[i].getZ() << " | Pixel to cm : " << cm_to_pixel << " | zG before : " << zG << " | zG : " << graphicsTrajectory[i].getZ() << endl << endl;
             graphicsTrajectory[i].setY(pixel_width);
