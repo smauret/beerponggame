@@ -108,7 +108,7 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
-
+    cout << "Displaying cups of " << currentPlayer_->getName() << endl;
     DisplayCups(*currentPlayer_);
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
@@ -116,8 +116,8 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     SubscribeToEvent(draggedElement_, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
     SubscribeToEvent(draggedElement_, E_DRAGEND, URHO3D_HANDLER(main, HandleDragEnd));
     cout << "Current player : " << currentPlayer_->getName() << endl;
-    cout << "Sarah cup on table : " << sarah_->getCup(1).isOnTable() << endl;
-    cout << "Lucas cup on table : " << lucas_->getCup(1).isOnTable() << endl << endl;
+    cout << "Sarah cup on table : " << sarah_.getCup(1).isOnTable() << endl;
+    cout << "Lucas cup on table : " << lucas_.getCup(1).isOnTable() << endl << endl;
 }
 
 void main::HandleDragBegin(StringHash eventType, VariantMap& eventData)
@@ -161,7 +161,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     //ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
 
-    //std::cout << "Cup scored " << cupScored << std::endl << std::endl;
+    std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     for (int i=0; i<ballTrajectory_.size(); i++) {
         graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
     }
@@ -178,7 +178,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 
 void main::ThrowResult(int cupScored){
     cout << "Throw result " << "  size uielem_ : " << uielem_.Size()<< endl;
-
+    std::cout << "Cup scored " << cupScored << std::endl << std::endl;
     UI* ui = GetSubsystem<UI>();
     if(cupScored == -1){
         cout << "Remove text box success -1" << endl;
@@ -200,7 +200,7 @@ void main::ThrowResult(int cupScored){
         ui->GetRoot()->RemoveChild(uielem_[5]);
 
         SharedPtr<Text> textUpdate(new Text(context_));
-        string welcome = "Welcome to the beer pong game "+currentPlayer_->getName()+" \nFailed = +0 Point";
+        string welcome = "Welcome to the beer pong game "+ currentPlayer_->getName() + " \nSuccess = +1 Point";
         textUpdate->SetText(welcome.c_str());
 
         textUpdate->SetStyleAuto();
@@ -213,12 +213,15 @@ void main::ThrowResult(int cupScored){
         ui->GetRoot()->AddChild(uielem_[5]);
         ui->GetRoot()->RemoveChild(main_[cupScored]);
         currentPlayer_->getCup(cupScored).setOnTable(false);
-        cout << currentPlayer_->getName() << "  cup " << currentPlayer_->getCup(cupScored).getID() << " out.  On table : " << currentPlayer_->getCup(cupScored).isOnTable() << endl;
+        cout << "Sarah " << sarah_.getCup(cupScored).isOnTable() << endl;
+        cout << "Lucas " << lucas_.getCup(cupScored).isOnTable() << endl;
+        currentPlayer_->setCupsLeft(currentPlayer_->getCupsLeft()-1);
     }
-    if(currentPlayer_ == sarah_)
-        currentPlayer_ = lucas_;
+    cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
+    if(currentPlayer_ == &sarah_)
+        currentPlayer_ = &lucas_;
     else
-        currentPlayer_ = sarah_;
+        currentPlayer_ = &sarah_;
 }
 
 // Function to translate a point in graphics (pixels) to a point on the table (cm)
@@ -323,8 +326,8 @@ void main::HandlePlayPressed(StringHash eventType, VariantMap& eventData)
     //cout << "event press play" << "   uielem_ size : " << uielem_.Size() << endl;
     //Player[2] players;
     // Create player
-    lucas_ = new Player("Lucas",6);
-    sarah_ = new Player("Sarah",6);
+    lucas_ = Player("Lucas",6);
+    sarah_ = Player("Sarah",6);
     // Graphics
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveAllChildren();
@@ -383,7 +386,7 @@ void main::InitBoardGame()
         ui->GetRoot()->AddChild(uielem_[4]);
     }
 
-    currentPlayer_ = lucas_;
+    currentPlayer_ = &lucas_;
     DisplayCups(*currentPlayer_);
 
 
@@ -422,7 +425,7 @@ void main::InitBoardGame()
     CreateReturnButton();
 }
 
-void main::DisplayCups(Player &player) {
+void main::DisplayCups(Player player) {
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
 
@@ -476,6 +479,8 @@ void main::DisplayCups(Player &player) {
         for (unsigned i = 0; i < main_.Size(); ++i) {
             if (player.getCup(i).isOnTable()){
                 ui->GetRoot()->AddChild(main_[i]);
+            }else{
+                ui->GetRoot()->RemoveChild(main_[i]);
             }
         }
         cout << endl;

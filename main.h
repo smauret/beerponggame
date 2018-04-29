@@ -58,7 +58,7 @@ private:
     void CreateReturnButton();
 
     /** Display set of cups relative to current player */
-    void DisplayCups(Player& player);
+    void DisplayCups(Player player);
 
     /// Events handlers
     /** Handler of screen update event */
@@ -127,9 +127,9 @@ private:
     IntVector2 dragBeginPosition_;
     IntVector2 BeginPosition_;
     clock_t startTime;
-    Player* lucas_;
-    Player* sarah_;
-    Player* currentPlayer_;
+    Player lucas_;
+    Player sarah_;
+    Player* currentPlayer_ = new Player();
 
     UIElement* draggedElement_;
     vector<Vec3<int>> graphicsTrajectory_;
