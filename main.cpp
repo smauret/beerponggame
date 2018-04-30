@@ -124,23 +124,23 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     IntVector2 dragCurrentPosition = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
     // Calculate the power based on the time and the distance
     double speed = GetSpeed(BeginPosition_,dragCurrentPosition);
-    if(speed > 100 && speed < 1500){
+    /*if(speed > 100 && speed < 1500){
         double restSpeed = speed /10;
         speed = 350+restSpeed;
-    }
+    }*/
+    speed = 350 + (speed - 350) / 10;
+
 
     // Calculate the rotation angle
     double rotation_angle = GetRotation(BeginPosition_,dragCurrentPosition);
 
-    rotation_angle = M_PI/2 + (rotation_angle - M_PI/2) / 12;
+    rotation_angle = M_PI/2 + (rotation_angle - M_PI/2) / 8;
 
     // Calculate trajectory
     IntVector3 finalPositionCm = GetInitPosCm(dragCurrentPosition);
     cupScored = -1;
     if(playMode_ == 0 || playMode_ == 1){
-        //ballTrajectory_ = currentPlayer_.throwBall(M_PI/4, rotation_angle, (double)(finalPositionCm.z_), speed*100, (double)(finalPositionCm.x_), 0, cupScored);
         ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
-        //ballTrajectory_ = currentPlayer_->throwBall (static_cast<double>(M_PI / 4), static_cast<double>(M_PI / 2), 50, 420, 30, 0, cupScored);
     }else if (playMode_ == 2){
         if (*currentPlayer_ == computer_)
             ballTrajectory_ = currentPlayer_->throwBall(cupScored);
@@ -156,7 +156,6 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     UnsubscribeFromEvent(E_MOUSEBUTTONDOWN);
 
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
-
 }
 
 void main::ThrowResult(int cupScored){
@@ -672,5 +671,6 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         ThrowResult(cupScored);
         UnsubscribeFromEvent(E_UPDATE);
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
+
     }
 }
