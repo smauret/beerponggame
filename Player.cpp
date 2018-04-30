@@ -17,7 +17,7 @@ vector<Vec3<int>> Player::throwBall(int &cupScored){
     alpha = M_PI/4;
     beta = static_cast<double>(M_PI / 2) + (rand() % 6 - 3)*(M_PI/180); // Random angle [87°;93°]
     h=50;
-    v0=rand() % 150 +270;
+    v0=rand() % 100 + 350;
     startX = 30;
     //(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     cout << "Computer parameters : beta=" << beta*360/M_PI << "  v0=" << v0 << endl;
@@ -46,7 +46,7 @@ vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double 
                 break;
             }
         }
-        if ((z < 2 && (y+startY)<tableSize.y && x>0 && x<tableSize.x+1) || (z < -50 && (y+startY)>tableSize.y)) {
+        if ((z < 3 && (y+startY)<tableSize.y && x>0 && x<tableSize.x+1) || (z < -50 && (y+startY)>tableSize.y)) {
             // stop when the ball is lower than the height of a cup: we don't need more information on the trajectory
             break;
         }
