@@ -505,9 +505,9 @@ void main::DisplayCups(Player player) {
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
     if(main_.Size() == 0) {
-        Texture2D *decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
+        Texture2D *decalTex = cache->GetResource<Texture2D>("Textures/back_beer_red.png");
         Texture2D *splashTex = cache->GetResource<Texture2D>("Textures/beer_splash.png");
-        Texture2D *blueTex = cache->GetResource<Texture2D>("Textures/back_beer copie.png");
+        Texture2D *blueTex = cache->GetResource<Texture2D>("Textures/back_beer_yellow.png");
 
         vector<Vec2i> positionCups;
         // faire -40: position adaptée en attendant de résoudre le porbleme de la hauteur des cups / balle
@@ -538,7 +538,7 @@ void main::DisplayCups(Player player) {
             // Set sprite size
             sprite->SetSize(IntVector2(56, 60));
             splash->SetSize(IntVector2(80, 23));
-            blueCup->SetSize(IntVector2(56, 84));
+            blueCup->SetSize(IntVector2(56, 60));
 
             // Set additive blending mode
             sprite->SetBlendMode(BLEND_ALPHA);
@@ -656,11 +656,14 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         draggedElement_->SetPosition(graphicsTrajectory_[k].getX(), graphicsTrajectory_[k].getZ());
         draggedElement_->SetSize(graphicsTrajectory_[k].getY(),graphicsTrajectory_[k].getY());
         k=k+1;
-        if (k > 220 || ((ballTrajectory_.back().getY() > 220) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 294) && (graphicsTrajectory_[k].getZ() > 294)))
+        if (k > 220 || ((ballTrajectory_.back().getY() > 220) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 294)
+                        && (graphicsTrajectory_[k].getZ() > graphicsTrajectory_[k-1].getZ())))
             draggedElement_->SetPriority(205);
-        else if (k > 198 || ((ballTrajectory_.back().getY() > 198) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 275) && (graphicsTrajectory_[k].getZ() > 275)))
+        else if (k > 198 || ((ballTrajectory_.back().getY() > 198) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 275)
+                        && (graphicsTrajectory_[k].getZ() > graphicsTrajectory_[k-1].getZ())))
             draggedElement_->SetPriority(215);
-        else if (k > 176 || ((ballTrajectory_.back().getY() > 176) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 258) && (graphicsTrajectory_[k].getZ() > 258)))
+        else if (k > 176 || ((ballTrajectory_.back().getY() > 176) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 258)
+                        && (graphicsTrajectory_[k].getZ() > graphicsTrajectory_[k-1].getZ())))
             draggedElement_->SetPriority(225);
         else
             draggedElement_->SetPriority(410);
