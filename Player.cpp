@@ -113,89 +113,92 @@ bool Player::mooveCup(int cupID, Vec2i newPosition) {
     return false;
 }
 
-void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory) {
+void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory, int &cupScored) {
 
-    if (ballTrajectory.size() == graphicsTrajectory.size()) {
-        window_width_pixel = 1024;
-        auto window_witdh_pixel_middle = (int)floor(window_width_pixel/2);
-        window_height_pixel = 768;
-        ratio_min_max = 1.0/2;
-        table_width_max_cm = 60;
-        table_width_min_cm = (int)floor((double)table_width_max_cm*ratio_min_max);
-        table_width_max_pixel = 889;
-        table_width_min_pixel = (int)floor((double)table_width_max_pixel*ratio_min_max);
-        table_length_cm = 240;
-        table_length_pixel_zAxis = 461;
-        ball_size_max_cm = 6;
-        ball_size_min_cm = (int)floor(ball_size_max_cm*ratio_min_max);
-        ball_size_max_pixel = (int)floor((double)ball_size_max_cm/table_width_max_cm*table_width_max_pixel);;
-        ball_size_min_pixel = (int)floor(ball_size_max_pixel/4.0);//(int)floor(ball_size_max_pixel*ratio_min_max);
-        auto cm_to_pixel_max = (int)floor(1.0/table_width_max_cm*table_width_max_pixel);
-        auto cm_to_pixel_min = (int)floor(cm_to_pixel_max*ratio_min_max);
-
-
-        double factor_a = 1;
-        double factor_b = (table_length_pixel_zAxis-1)/log(table_length_cm + 1);
-        double factor_c = (table_length_pixel_zAxis-1)/log(table_length_cm/20.0 + 1);
-        // function has the shape: f(x) = factor_a + factor_b + log(x+1)
-        for (int i = 0; i<ballTrajectory.size(); i++) {
-            // Calculate zG depending on yA
-            //auto zG = (int)floor(factor_a + factor_b * log(1 + ballTrajectory[i].getY()));
-            auto zG = (int)floor(factor_a + factor_c * log(1 + ballTrajectory[i].getY()/20.0));
+    window_width_pixel = 1024;
+    auto window_witdh_pixel_middle = (int)floor(window_width_pixel/2);
+    window_height_pixel = 768;
+    ratio_min_max = 1.0/2;
+    table_width_max_cm = 60;
+    table_width_min_cm = (int)floor((double)table_width_max_cm*ratio_min_max);
+    table_width_max_pixel = 889;
+    table_width_min_pixel = (int)floor((double)table_width_max_pixel*ratio_min_max);
+    table_length_cm = 240;
+    table_length_pixel_zAxis = 461;
+    ball_size_max_cm = 6;
+    ball_size_min_cm = (int)floor(ball_size_max_cm*ratio_min_max);
+    ball_size_max_pixel = (int)floor((double)ball_size_max_cm/table_width_max_cm*table_width_max_pixel);;
+    ball_size_min_pixel = (int)floor(ball_size_max_pixel/4.0);//(int)floor(ball_size_max_pixel*ratio_min_max);
+    auto cm_to_pixel_max = (int)floor(1.0/table_width_max_cm*table_width_max_pixel);
+    auto cm_to_pixel_min = (int)floor(cm_to_pixel_max*ratio_min_max);
 
 
-            // Calculate the xG-Position of the ball depending on the its zG-Position
-            // Get width in pixel depending on zG
-            double alpha = (double)(table_length_pixel_zAxis - zG)/table_length_pixel_zAxis;
-            double alphaBall = (double)(table_length_pixel_zAxis - zG)/table_length_pixel_zAxis;
-            auto pixel_width = (int)floor(alpha*(table_width_max_pixel-table_width_min_pixel) + table_width_min_pixel);
-            // Pixel position x starting from the left of the table
-            double x_shift = pixel_width*ballTrajectory[i].getX()/table_width_max_cm; // maybe <0 or bigger that the table (ball out of the table) => handle
-            // We don't know where the left of the table start, lets start from the middle
-            auto xG = (int)floor(window_witdh_pixel_middle - (pixel_width/2) + x_shift);
+    double factor_a = 1;
+    double factor_b = (table_length_pixel_zAxis-1)/log(table_length_cm + 1);
+    double factor_c = (table_length_pixel_zAxis-1)/log(table_length_cm/20.0 + 1);
+    // function has the shape: f(x) = factor_a + factor_b + log(x+1)
+    for (int i = 0; i<ballTrajectory.size(); i++) {
+        if (cupScored > -1) {
 
-            // Calculate the ball size
-            pixel_width = (int)floor(alphaBall*(ball_size_max_pixel-ball_size_min_pixel) + ball_size_min_pixel);
-
-            // choper x pixel des cups
-            /*cout << " Position x de la cup:";
-            for (auto &cup : cups) {
-                auto zCup = (int)floor(factor_a + factor_c * log(1 + cup.getPosition().y/20.0));
-                double alphaCup = (double)(table_length_pixel_zAxis - zCup)/table_length_pixel_zAxis;
-                auto cm_to_pixelCup = (int)floor(alphaCup*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
-                int height_pixel = cup.getHeight()*cm_to_pixelCup;
-                int width_pixel = cup.getRadius()*2*cm_to_pixelCup;
-
-                auto pixel_width_cup = (int)floor(alphaCup*(table_width_max_pixel-table_width_min_pixel) + table_width_min_pixel);
+        }
+        // Calculate zG depending on yA
+        //auto zG = (int)floor(factor_a + factor_b * log(1 + ballTrajectory[i].getY()));
+        auto zG = (int)floor(factor_a + factor_c * log(1 + ballTrajectory[i].getY()/20.0));
 
 
-                double x_shift_cup = pixel_width_cup*cup.getPosition().x/table_width_max_cm;
-                auto xG_Cup = (int)floor(window_witdh_pixel_middle - (pixel_width_cup/2) + x_shift_cup - width_pixel/2);
-                cout << " | " << cup.getID() << ": (" << xG_Cup << "," << window_height_pixel-zCup - height_pixel << ") taille cup: x*y = [" << height_pixel << "," << width_pixel << "]" ;
-            }
-            cout << endl;
+        // Calculate the xG-Position of the ball depending on the its zG-Position
+        // Get width in pixel depending on zG
+        double alpha = (double)(table_length_pixel_zAxis - zG)/table_length_pixel_zAxis;
+        double alphaBall = (double)(table_length_pixel_zAxis - zG)/table_length_pixel_zAxis;
+        auto pixel_width = (int)floor(alpha*(table_width_max_pixel-table_width_min_pixel) + table_width_min_pixel);
+        // Pixel position x starting from the left of the table
+        double x_shift = pixel_width*ballTrajectory[i].getX()/table_width_max_cm; // maybe <0 or bigger that the table (ball out of the table) => handle
+        // We don't know where the left of the table start, lets start from the middle
+        auto xG = (int)floor(window_witdh_pixel_middle - (pixel_width/2) + x_shift);
+
+        // Calculate the ball size
+        pixel_width = (int)floor(alphaBall*(ball_size_max_pixel-ball_size_min_pixel) + ball_size_min_pixel);
+
+        // choper x pixel des cups
+        /*cout << " Position x de la cup:";
+        for (auto &cup : cups) {
+            auto zCup = (int)floor(factor_a + factor_c * log(1 + cup.getPosition().y/20.0));
+            double alphaCup = (double)(table_length_pixel_zAxis - zCup)/table_length_pixel_zAxis;
+            auto cm_to_pixelCup = (int)floor(alphaCup*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
+            int height_pixel = cup.getHeight()*cm_to_pixelCup;
+            int width_pixel = cup.getRadius()*2*cm_to_pixelCup;
+
+            auto pixel_width_cup = (int)floor(alphaCup*(table_width_max_pixel-table_width_min_pixel) + table_width_min_pixel);
+
+
+            double x_shift_cup = pixel_width_cup*cup.getPosition().x/table_width_max_cm;
+            auto xG_Cup = (int)floor(window_witdh_pixel_middle - (pixel_width_cup/2) + x_shift_cup - width_pixel/2);
+            cout << " | " << cup.getID() << ": (" << xG_Cup << "," << window_height_pixel-zCup - height_pixel << ") taille cup: x*y = [" << height_pixel << "," << width_pixel << "]" ;
+        }
+        cout << endl;
 */
 
-            // include zA
-            // Get cm in pixel depending on zG
-            auto cm_to_pixel = (int)floor(alpha*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
-            // reverse zG
-            // include zArchitecture, "-" in the formula because the zG start from the upper left corner
-            int new_zG = window_height_pixel -(zG + (int)floor((ballTrajectory[i].getZ()*cm_to_pixel)*0.5));
-            //cout << "x: " << ballTrajectory[i].getX() << " | y: " << ballTrajectory[i].getY() << " | z: " << ballTrajectory[i].getZ() << " | xG: " << xG-pixel_width/2 << " | zG: " << new_zG-pixel_width/2 << endl;
+        // include zA
+        // Get cm in pixel depending on zG
+        auto cm_to_pixel = (int)floor(alpha*(cm_to_pixel_max-cm_to_pixel_min) + cm_to_pixel_min);
+        // reverse zG
+        // include zArchitecture, "-" in the formula because the zG start from the upper left corner
+        int new_zG = window_height_pixel -(zG + (int)floor((ballTrajectory[i].getZ()*cm_to_pixel)*0.5));
+        //cout << "x: " << ballTrajectory[i].getX() << " | y: " << ballTrajectory[i].getY() << " | z: " << ballTrajectory[i].getZ() << " | xG: " << xG-pixel_width/2 << " | zG: " << new_zG-pixel_width/2 << endl;
 
-            //cout << "xA : " << ballTrajectory[i].getX() << " | xG : " << graphicsTrajectory[i].getX() << " | yA : " << ballTrajectory[i].getY() << " | alpha : " << alpha << ballTrajectory[i].getY() << " | yG : " << graphicsTrajectory[i].getY()<< " | zA : " << ballTrajectory[i].getZ() << " | Pixel to cm : " << cm_to_pixel << " | zG before : " << zG << " | zG : " << graphicsTrajectory[i].getZ() << endl << endl;
-            graphicsTrajectory[i].setY(pixel_width);
-            graphicsTrajectory[i].setX(xG-pixel_width/2);
-            graphicsTrajectory[i].setZ(new_zG-pixel_width);
+        //cout << "xA : " << ballTrajectory[i].getX() << " | xG : " << graphicsTrajectory[i].getX() << " | yA : " << ballTrajectory[i].getY() << " | alpha : " << alpha << ballTrajectory[i].getY() << " | yG : " << graphicsTrajectory[i].getY()<< " | zA : " << ballTrajectory[i].getZ() << " | Pixel to cm : " << cm_to_pixel << " | zG before : " << zG << " | zG : " << graphicsTrajectory[i].getZ() << endl << endl;
+        /*graphicsTrajectory[i].setY(pixel_width);
+        graphicsTrajectory[i].setX(xG-pixel_width/2);
+        graphicsTrajectory[i].setZ(new_zG-pixel_width);*/
+        graphicsTrajectory.emplace_back(xG-pixel_width/2, pixel_width, new_zG-pixel_width);
 
-
-            if (i == ballTrajectory.size()-1){
-                cout << "ball arrival : " << "x= " << ballTrajectory[i].getX() << "   y= " << ballTrajectory[i].getY() <<"   z= " << ballTrajectory[i].getZ() << endl;
-            }
+        if ((cupScored > -1) && (ballTrajectory[i].getZ() < 16)) {
+            cout << "ball arrival : " << "x= " << ballTrajectory[i].getX() << "   y= " << ballTrajectory[i].getY() <<"   z= " << ballTrajectory[i].getZ() << endl;
+            break;
         }
-    } else {
-        cout << "Trajectoire de la balle en cm: " << ballTrajectory.size() << "| vecteur pour la trajectoire en graphique : " << graphicsTrajectory.size() << endl;
+        if (i == ballTrajectory.size()-1){
+            cout << "ball arrival : " << "x= " << ballTrajectory[i].getX() << "   y= " << ballTrajectory[i].getY() <<"   z= " << ballTrajectory[i].getZ() << endl;
+        }
     }
 }
 

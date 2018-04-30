@@ -148,10 +148,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
             ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     }
 
-    for (int i=0; i<ballTrajectory_.size(); i++) {
-        graphicsTrajectory_.emplace_back(1024/2, 768/2,0);
-    }
-    currentPlayer_->get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_);
+    currentPlayer_->get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_, cupScored);
     k=0;
     UnsubscribeFromEvent(E_DRAGBEGIN);
     UnsubscribeFromEvent(E_DRAGMOVE);
@@ -503,18 +500,18 @@ void main::DisplayCups(Player player) {
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
     if(main_.Size() == 0) {
-        Texture2D *decalTex = cache->GetResource<Texture2D>("Textures/back_beer.png");
+        Texture2D *decalTex = cache->GetResource<Texture2D>("Textures/back_beer_red.png");
         Texture2D *splashTex = cache->GetResource<Texture2D>("Textures/beer_splash.png");
-        Texture2D *blueTex = cache->GetResource<Texture2D>("Textures/back_beer copie.png");
+        Texture2D *blueTex = cache->GetResource<Texture2D>("Textures/back_beer_yellow.png");
 
         vector<Vec2i> positionCups;
         // faire -40: position adaptée en attendant de résoudre le porbleme de la hauteur des cups / balle
-        positionCups.emplace_back(434 , 268);
-        positionCups.emplace_back(491 , 268);
-        positionCups.emplace_back(549 , 268);
-        positionCups.emplace_back(460 , 285);
-        positionCups.emplace_back(515 , 285);
-        positionCups.emplace_back(491 , 304);
+        positionCups.emplace_back(434 , 258);
+        positionCups.emplace_back(491 , 258);
+        positionCups.emplace_back(549 , 258);
+        positionCups.emplace_back(460 , 275);
+        positionCups.emplace_back(515 , 275);
+        positionCups.emplace_back(491 , 294);
 
         for (unsigned i = 0; i < NUM_main; ++i) {
 
@@ -534,9 +531,9 @@ void main::DisplayCups(Player player) {
             blueCup->SetPosition(positionCups[i].x, positionCups[i].y);
 
             // Set sprite size
-            sprite->SetSize(IntVector2(56, 84));
+            sprite->SetSize(IntVector2(56, 60));
             splash->SetSize(IntVector2(80, 23));
-            blueCup->SetSize(IntVector2(56, 84));
+            blueCup->SetSize(IntVector2(56, 60));
 
             // Set additive blending mode
             sprite->SetBlendMode(BLEND_ALPHA);
@@ -652,11 +649,14 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         draggedElement_->SetPosition(graphicsTrajectory_[k].getX(), graphicsTrajectory_[k].getZ());
         draggedElement_->SetSize(graphicsTrajectory_[k].getY(),graphicsTrajectory_[k].getY());
         k=k+1;
-        if (k > 220)
+        if (k > 220 || ((ballTrajectory_.back().getY() > 220) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 294)
+                        && (graphicsTrajectory_[k].getZ() > graphicsTrajectory_[k-1].getZ())))
             draggedElement_->SetPriority(205);
-        else if (k > 198)
+        else if (k > 198 || ((ballTrajectory_.back().getY() > 198) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 275)
+                        && (graphicsTrajectory_[k].getZ() > graphicsTrajectory_[k-1].getZ())))
             draggedElement_->SetPriority(215);
-        else if (k > 176)
+        else if (k > 176 || ((ballTrajectory_.back().getY() > 176) && (graphicsTrajectory_[k].getZ() + graphicsTrajectory_[k].getY() > 258)
+                        && (graphicsTrajectory_[k].getZ() > graphicsTrajectory_[k-1].getZ())))
             draggedElement_->SetPriority(225);
         else
             draggedElement_->SetPriority(410);
