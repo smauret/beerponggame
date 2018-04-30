@@ -61,7 +61,7 @@ void main::CreatedraggableBall()
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     Graphics* graphics = GetSubsystem<Graphics>();
     UI* ui = GetSubsystem<UI>();
-    if(uielem_.Size() < 11) {
+    if(uielem_.Size() < 12) {
         // Create a draggable Ball button
         SharedPtr<Button> draggableBall(new Button(context_));
         draggableBall->SetTexture(cache->GetResource<Texture2D>("Textures/ball.png")); // Set texture
@@ -77,7 +77,7 @@ void main::CreatedraggableBall()
         uielem_.Push(draggableBall);
     }else{
         cout << "   Adding ball again" << endl;
-        ui->GetRoot()->AddChild(uielem_[10]);
+        ui->GetRoot()->AddChild(uielem_[11]);
     }
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
     //cout << "Create draggable ball" << "  uielem_ size : " << uielem_.Size() << endl;
@@ -164,57 +164,41 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 
 void main::ThrowResult(int cupScored){
     UI* ui = GetSubsystem<UI>();
-    if(cupScored == -1){
-        ui->GetRoot()->RemoveChild(uielem_[7]);
-        SharedPtr<Text> textUpdate(new Text(context_));
+    ui->GetRoot()->RemoveChild(uielem_[7]);
+    Color *c = new Color(0.25, 0.25, 0.25, 1.0);
 
-        string totalThrows;
-        if (currentPlayer_->getTotalThrows() == 0)
-            totalThrows = "0 throw";
-        else if (currentPlayer_->getTotalThrows() == 1)
-            totalThrows = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
-        else
-            totalThrows = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
+    SharedPtr<Text> playerName(new Text(context_));
+    string playerNameString = currentPlayer_->getName();
+    playerName->SetText(playerNameString.c_str());
+    playerName->SetTextAlignment(HA_CENTER);
+    playerName->SetHorizontalAlignment(HA_CENTER);
+    playerName->SetFont("Fonts/Roboto-Bold.ttf", 18);
+    playerName->SetColor(*c);
+    uielem_[7]->RemoveAllChildren();
+    uielem_[7]->AddChild(playerName);
 
-        string welcome = currentPlayer_->getName() + "\n" + totalThrows + "\n" + "Failed ";
-        textUpdate->SetText(welcome.c_str());
-        textUpdate->SetStyleAuto();
-        textUpdate->SetOpacity(1.0);
-        textUpdate->SetFont("Fonts/Roboto-Bold.ttf",14);
-        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
-        textUpdate->SetColor(*c);
-        textUpdate->SetPosition(20,385);
-        textUpdate->SetBringToBack(true);
-        uielem_[7]->RemoveAllChildren();
-        uielem_[7]->AddChild(textUpdate);
-        ui->GetRoot()->AddChild(uielem_[7]);
+    SharedPtr<Text> totalThrows(new Text(context_));
+    string totalThrowsString;
 
-    }else{
-        ui->GetRoot()->RemoveChild(uielem_[7]);
-        ui->GetRoot()->RemoveChild(uielem_[10]);
-        SharedPtr<Text> textUpdate(new Text(context_));
+    if (currentPlayer_->getTotalThrows() == 0)
+        totalThrowsString = "0 throw";
+    else if (currentPlayer_->getTotalThrows() == 1)
+        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
+    else
+        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
 
-        string totalThrows;
-        if (currentPlayer_->getTotalThrows() == 0)
-            totalThrows = "0 throw";
-        else if (currentPlayer_->getTotalThrows() == 1)
-            totalThrows = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
-        else
-            totalThrows = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
+    totalThrows->SetText(totalThrowsString.c_str());
+    totalThrows->SetFont("Fonts/Roboto-Bold.ttf",14);
+    totalThrows->SetColor(*c);
+    //totalThrows->SetPosition(25, 45);
+    totalThrows->SetTextAlignment(HA_CENTER);
+    totalThrows->SetHorizontalAlignment(HA_CENTER);
+    uielem_[7]->AddChild(totalThrows);
 
-        string welcome = currentPlayer_->getName() + "\n" + totalThrows + "\n" + "Success ";
-        textUpdate->SetText(welcome.c_str());
-        textUpdate->SetStyleAuto();
-        textUpdate->SetOpacity(1.0);
-        textUpdate->SetFont("Fonts/Roboto-Bold.ttf",14);
-        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
-        textUpdate->SetColor(*c);
-        textUpdate->SetPosition(20,385);
-        textUpdate->SetBringToBack(true);
-        uielem_[7]->RemoveAllChildren();
-        uielem_[7]->AddChild(textUpdate);
-        ui->GetRoot()->AddChild(uielem_[7]);
-        //ui->GetRoot()->RemoveChild(main_[cupScored]);
+    ui->GetRoot()->AddChild(uielem_[7]);
+
+    if(cupScored != -1){
+        ui->GetRoot()->RemoveChild(uielem_[11]);
         ui->GetRoot()->AddChild(splash_[cupScored]);
         currentPlayer_->getCup(cupScored).setOnTable(false);
         currentPlayer_->setCupsLeft(currentPlayer_->getCupsLeft()-1);
@@ -232,7 +216,7 @@ void main::ThrowResult(int cupScored){
         ui->GetRoot()->AddChild(title);
         title->SetStyleAuto();
         title->SetOpacity(1.0);
-        title->SetFont("Fonts/Roboto-Bold.ttf",14);
+        title->SetFont("Fonts/Roboto-Bold.ttf",16);
         Color *c = new Color(0.25, 0.25, 0.25, 1.0);
         title->SetColor(*c);
         title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
@@ -317,7 +301,7 @@ void main::InitWelcomePage() {
     Text* buttonText = button->CreateChild<Text>();
     buttonText->SetFont(font, 24);
     buttonText->SetAlignment(HA_CENTER, VA_CENTER);
-    buttonText->SetText("Solo");
+    buttonText->SetText("Practice");
     buttonText->SetColor(*c);
     // Apply custom style we created in xml
     button->SetStyle("ButtonCust");
@@ -451,7 +435,7 @@ void main::InitBoardGame()
     bg_.Push(back2);
 
     // Display table image
-    if(uielem_.Size() < 11){
+    if(uielem_.Size() < 12){
         Texture2D* tableTex = cache->GetResource<Texture2D>("Textures/Table.png");
         SharedPtr<BorderImage> table(new BorderImage(context_));
         table->SetTexture(tableTex);
@@ -471,34 +455,45 @@ void main::InitBoardGame()
 
 
     //Window score in boardgame
-    if(uielem_.Size() < 11) {
+    if(uielem_.Size() < 12) {
         SharedPtr<Window> textWindow(new Window(context_));
         // Set Window size and layout settings
-
-        textWindow->SetMaxWidth(300);
-        textWindow->SetLayout(LM_VERTICAL, 6, IntRect(6, 6, 6, 6));
-        textWindow->SetPosition(20, 385);
+        textWindow->SetFixedSize(118,80);
+        textWindow->SetPosition(900, 5);
         textWindow->SetName("textWindow");
-        textWindow->SetOpacity(0.0);
-        //textWindow->SetStyleAuto();
+        textWindow->SetStyle("WindowCust");
+        textWindow->SetPriority(300);
+        textWindow->SetLayout(LM_VERTICAL);
+        textWindow->SetLayoutSpacing(6);
+        uielem_.Push(textWindow);
+        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
 
         SharedPtr<Text> title1(new Text(context_));
-        string welcome = currentPlayer_->getName() + "\n" + "0 throw" + "\n   ";
+        string welcome = currentPlayer_->getName();
         title1->SetText(welcome.c_str());
-        title1->SetStyleAuto();
-        title1->SetFont("Fonts/Roboto-Bold.ttf", 14);
-        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+        title1->SetHorizontalAlignment(HA_CENTER);
+        title1->SetTextAlignment(HA_CENTER);
+        title1->SetFont("Fonts/Roboto-Bold.ttf", 18);
         title1->SetColor(*c);
-        //title1->SetPosition(0, 100);
-        title1->SetBringToBack(true);
-        uielem_.Push(textWindow);
         textWindow->AddChild(title1);
         uielem_.Push(title1);
+
+        SharedPtr<Text> title2(new Text(context_));
+        string welcome2 = "0 throw";
+        title2->SetText(welcome2.c_str());
+        title2->SetHorizontalAlignment(HA_CENTER);
+        title2->SetTextAlignment(HA_CENTER);
+        title2->SetFont("Fonts/Roboto-Bold.ttf", 14);
+        title2->SetColor(*c);
+        textWindow->AddChild(title2);
+        uielem_.Push(title2);
+
         textWindow->SetPriority(310);
         ui->GetRoot()->AddChild(textWindow);
     }else{
         uielem_[7]->RemoveAllChildren();
         uielem_[7]->AddChild(uielem_[8]);
+        uielem_[7]->AddChild(uielem_[9]);
         ui->GetRoot()->AddChild(uielem_[7]);
     }
     CreateReturnButton();
@@ -583,7 +578,7 @@ void main::DisplayCups(Player player) {
     }else{
         //cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
         if (cupScored != -1){
-            ui->GetRoot()->AddChild(uielem_[10]);
+            ui->GetRoot()->AddChild(uielem_[11]);
         }
         for (unsigned i = 0; i < main_.Size(); ++i) {
             if(player.getName().compare("Sarah") != 0) {
@@ -621,7 +616,7 @@ void main::CreateReturnButton(){
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
 
-    if(uielem_.Size() < 11) {
+    if(uielem_.Size() < 12) {
         //Create return button
         XMLFile *style = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
         // Set the loaded style as default style
@@ -629,8 +624,6 @@ void main::CreateReturnButton(){
         // Create a Button
         SharedPtr<Button> buttonReturn(new Button(context_));
         ui->GetRoot()->AddChild(buttonReturn);
-        // Add controls to Window
-        //windowReturn_->AddChild(buttonReturn);
         buttonReturn->SetName("ButtonReturn");
         buttonReturn->SetMinHeight(30);
         buttonReturn->SetMinWidth(100);
@@ -648,9 +641,9 @@ void main::CreateReturnButton(){
         buttonReturn->SetPriority(520);
         uielem_.Push(buttonReturn);
     }else{
-        ui->GetRoot()->AddChild(uielem_[9]);
+        ui->GetRoot()->AddChild(uielem_[10]);
     }
-    SubscribeToEvent(uielem_[9], E_RELEASED, URHO3D_HANDLER(main, HandleReturnPressed));
+    SubscribeToEvent(uielem_[10], E_RELEASED, URHO3D_HANDLER(main, HandleReturnPressed));
 }
 
 void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
