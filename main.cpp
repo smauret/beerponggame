@@ -56,6 +56,7 @@ void main::Start()
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
 }
+
 void main::CreatedraggableBall()
 {
     ResourceCache* cache = GetSubsystem<ResourceCache>();
@@ -82,6 +83,7 @@ void main::CreatedraggableBall()
     SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
     //cout << "Create draggable ball" << "  uielem_ size : " << uielem_.Size() << endl;
 }
+
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
     int x = GetSubsystem<Input>()->GetMousePosition().x_;
@@ -108,7 +110,6 @@ void main::HandleDragBegin(StringHash eventType, VariantMap& eventData)
     dragBeginPosition_ = IntVector2(eventData["ElementX"].GetInt(), eventData["ElementY"].GetInt());
     BeginPosition_ = IntVector2(eventData["X"].GetInt(), eventData["Y"].GetInt());
 }
-
 
 void main::HandleDragMove(StringHash eventType, VariantMap& eventData)
 {
@@ -158,7 +159,8 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
 }
 
-void main::ThrowResult(int cupScored){
+void main::ThrowResult(int cupScored)
+{
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->RemoveChild(uielem_[7]);
     Color *c = new Color(0.25, 0.25, 0.25, 1.0);
@@ -237,7 +239,8 @@ void main::ThrowResult(int cupScored){
 
 // Function to translate a point in graphics (pixels) to a point on the table (cm)
 // Assumption : 90° view
-IntVector3 main::GetInitPosCm(IntVector2 initPos){
+IntVector3 main::GetInitPosCm(IntVector2 initPos)
+{
     // Size of the table in cm
     int widthCm = 60;
     // Width of the window in pixels
@@ -255,8 +258,8 @@ IntVector3 main::GetInitPosCm(IntVector2 initPos){
     return initPosCm;
 }
 
-void main::InitWelcomePage() {
-
+void main::InitWelcomePage()
+{
     UI* ui = GetSubsystem<UI>();
     ui->GetRoot()->SetSortChildren(true);
     ResourceCache* cache = GetSubsystem<ResourceCache>();
@@ -495,7 +498,8 @@ void main::InitBoardGame()
     CreateReturnButton();
 }
 
-void main::DisplayCups(Player player) {
+void main::DisplayCups(Player player)
+{
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
     if(main_.Size() == 0) {
@@ -607,8 +611,8 @@ void main::DisplayCups(Player player) {
     }
 }
 
-void main::CreateReturnButton(){
-
+void main::CreateReturnButton()
+{
     ResourceCache* cache = GetSubsystem<ResourceCache>();
     UI* ui = GetSubsystem<UI>();
 
