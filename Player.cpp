@@ -265,3 +265,7 @@ void Player::include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<V
 
     }
 }
+
+bool Player::hasWon() {
+    return cupsLeft==0;
+}
