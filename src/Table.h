@@ -5,19 +5,11 @@
 #ifndef BEERPONGPROJECT_BOARDGAME_H
 #define BEERPONGPROJECT_BOARDGAME_H
 #include "Ball.h"
-<<<<<<< HEAD
-#include "Player.h"
-#include <string>
-#include <utility>
-#include <vector>
-#include "Vec3.h"
-=======
 #include "../Player.h"
 #include <string>
 #include <utility>
 #include <vector>
 #include "../Vec3.h"
->>>>>>> origin/graphics
 #include <math.h>
 
 

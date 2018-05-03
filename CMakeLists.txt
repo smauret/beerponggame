@@ -14,10 +14,6 @@ if (COMMAND cmake_policy)
     cmake_policy (SET CMP0063 OLD)
 endif ()
 
-<<<<<<< HEAD
-add_executable(beerpongproject src/mainArchitecture.cpp src/Table.cpp src/Table.h src/Player.cpp src/Player.h src/Ball.cpp src/Ball.h src/Cup.cpp src/Cup.h src/Vec2.h src/Vec3.h)
-#add_executable(beerpongproject main.cpp src/Table.cpp src/Table.h src/Player.cpp src/Player.h src/Ball.cpp src/Ball.h src/Cup.cpp src/Cup.h src/Vec2.h src/Vec3.h)
-=======
 project (beerponggame)
 
 # Set URHO3D_HOME environment variable so that CMake can find Urho3D library
@@ -33,4 +29,3 @@ set (TARGET_NAME beerpongproject_emptyscene)
 define_source_files (EXTRA_H_FILES ${COMMON_SAMPLE_H_FILES})
 # Setup target with resource copying
 setup_main_executable ()
->>>>>>> origin/graphics
