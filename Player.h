@@ -130,11 +130,7 @@ public:
 
     /** Operator */
     bool operator==(Player otherPlayer){
-        if (name.compare(otherPlayer.getName()) == 0){
-            return true;
-        }else{
-            return false;
-        }
+        return name == otherPlayer.getName();
     }
 
     /** Methods
@@ -194,6 +190,12 @@ public:
      * @return true = worked, false = did not work (other cup at the same position for example)
      */
     bool mooveCup(int cupID, Vec2i newPosition);
+
+    /** Say if the player won the game
+     *
+     * @return true=won | false=not won
+     */
+    bool hasWon();
 
     /** Find the correct zGraphic values depending on the yArchitecture values, write them in a vector of 2d points for graphics purpose
      *
