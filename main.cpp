@@ -125,20 +125,22 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
 
-    if (*currentPlayer_ == computer_)
-        ballTrajectory_ = currentPlayer_->throwBall(cupScored);
+/*    if (*currentPlayer_ == computer_)
+        ballTrajectory_ = currentPlayer_->throwBall(cupScored);*/
 
     //cout << "Displaying cups of " << currentPlayer_->getName() << endl;
     DisplayCups(*currentPlayer_);
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
-
+    cout << "Current player : " << currentPlayer_->getName() << endl;
     if (*currentPlayer_ == computer_ && count == 0){
-        SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
+        count++;
+        ballTrajectory_ = currentPlayer_->throwBall(cupScored);
         currentPlayer_->get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_, cupScored);
         k=0;
-        count++;
+        SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
     }
+    cout << "count : " << count << endl;
 
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
     SubscribeToEvent(draggedElement_, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
@@ -665,6 +667,8 @@ void main::DisplayCups(Player player)
         }*/
         count=0;
     }
+    cout << "Put count to 0." << endl;
+    count = 0;
 }
 
 void main::CreateReturnButton()
