@@ -251,12 +251,33 @@ void main::ThrowResult(int cupScored)
     }
     //cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
 
-    if (currentPlayer_->getCupsLeft() == 0)
+    if (currentPlayer_->getCupsLeft() == 0 and !currentPlayer_->hasWon())
     {
         Graphics* graphics = GetSubsystem<Graphics>();
-        float width = (float)graphics->GetWidth();
-        float height = (float)graphics->GetHeight();
-        SharedPtr<Text> title(new Text(context_));
+        //float width = (float)graphics->GetWidth();
+        //float height = (float)graphics->GetHeight();
+
+        SharedPtr<Window> textWindow(new Window(context_));
+        // Set Window size and layout settings
+        textWindow->SetFixedSize(1024,75);
+        textWindow->SetPosition(0, 145);
+        textWindow->SetName("winWindow");
+        textWindow->SetStyle("WindowCustWin");
+        textWindow->SetPriority(1000);
+        textWindow->SetOpacity(0.8);
+        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+
+        SharedPtr<Text> win (new Text(context_));
+        string welcome = "Congratulations " + currentPlayer_->getName() + ", you have won the game in " + std::to_string(currentPlayer_->getTotalThrows()) + " throws!";
+        win->SetText(welcome.c_str());
+        win->SetAlignment(HA_CENTER, VA_CENTER);
+        win->SetFont("Fonts/Roboto-Bold.ttf", 18);
+        win->SetColor(*c);
+        textWindow->AddChild(win);
+        ui->GetRoot()->AddChild(textWindow);
+        currentPlayer_->win();
+
+        /*SharedPtr<Text> title(new Text(context_));
         string win = "YES, " + currentPlayer_->getName() + " you have won the game in " + std::to_string(currentPlayer_->getTotalThrows()) + " throws!";
         title->SetText(win.c_str());
         ui->GetRoot()->AddChild(title);
@@ -266,7 +287,7 @@ void main::ThrowResult(int cupScored)
         Color *c = new Color(0.25, 0.25, 0.25, 1.0);
         title->SetColor(*c);
         title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
-        title->SetPriority(1000);
+        title->SetPriority(1000);*/
     }
 
     if (playMode_ == 1){
