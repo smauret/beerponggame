@@ -266,10 +266,10 @@ void Player::include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<V
     }
 }
 
-bool Player::Win() {
-    if (winner) {
-        return true;
-    }
+bool Player::hasWon() {
+    return winner;
+}
+
+void Player::win() {
     winner=true;
-    return false;
 }

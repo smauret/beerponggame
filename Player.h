@@ -193,11 +193,15 @@ public:
      */
     bool mooveCup(int cupID, Vec2i newPosition);
 
-    /** First time called: return false and update winner to true, otherwise return true
+    /** update winner tu true
+    */
+    void win();
+
+    /** Return whereas or no if the player has win the game
      *
-     * @return true or false
+     * @return
      */
-    bool Win();
+    bool hasWon();
 
     /** Find the correct zGraphic values depending on the yArchitecture values, write them in a vector of 2d points for graphics purpose
      *
