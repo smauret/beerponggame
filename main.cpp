@@ -195,38 +195,6 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 void main::ThrowResult(int cupScored)
 {
     UI* ui = GetSubsystem<UI>();
-    /*ui->GetRoot()->RemoveChild(uielem_[7]);
-    Color *c = new Color(0.25, 0.25, 0.25, 1.0);
-
-    SharedPtr<Text> playerName(new Text(context_));
-    string playerNameString = currentPlayer_->getName();
-    playerName->SetText(playerNameString.c_str());
-    playerName->SetTextAlignment(HA_CENTER);
-    playerName->SetHorizontalAlignment(HA_CENTER);
-    playerName->SetFont("Fonts/Roboto-Bold.ttf", 18);
-    playerName->SetColor(*c);
-    uielem_[7]->RemoveAllChildren();
-    uielem_[7]->AddChild(playerName);
-
-    SharedPtr<Text> totalThrows(new Text(context_));
-    string totalThrowsString;
-
-    if (currentPlayer_->getTotalThrows() == 0)
-        totalThrowsString = "0 throw";
-    else if (currentPlayer_->getTotalThrows() == 1)
-        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
-    else
-        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
-
-    totalThrows->SetText(totalThrowsString.c_str());
-    totalThrows->SetFont("Fonts/Roboto-Bold.ttf",14);
-    totalThrows->SetColor(*c);
-    //totalThrows->SetPosition(25, 45);
-    totalThrows->SetTextAlignment(HA_CENTER);
-    totalThrows->SetHorizontalAlignment(HA_CENTER);
-    uielem_[7]->AddChild(totalThrows);
-
-    ui->GetRoot()->AddChild(uielem_[7]);*/
 
     if(cupScored != -1){
         ui->GetRoot()->RemoveChild(uielem_[11]);
@@ -236,12 +204,8 @@ void main::ThrowResult(int cupScored)
     }
     //cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
 
-    if (currentPlayer_->getCupsLeft() == 0 and !currentPlayer_->hasWon())
+    if (currentPlayer_->getCupsLeft() == 0 and !AnyWinner())
     {
-        Graphics* graphics = GetSubsystem<Graphics>();
-        //float width = (float)graphics->GetWidth();
-        //float height = (float)graphics->GetHeight();
-
         SharedPtr<Window> textWindow(new Window(context_));
         // Set Window size and layout settings
         textWindow->SetFixedSize(1024,75);
@@ -261,18 +225,6 @@ void main::ThrowResult(int cupScored)
         textWindow->AddChild(win);
         ui->GetRoot()->AddChild(textWindow);
         currentPlayer_->win();
-
-        /*SharedPtr<Text> title(new Text(context_));
-        string win = "YES, " + currentPlayer_->getName() + " you have won the game in " + std::to_string(currentPlayer_->getTotalThrows()) + " throws!";
-        title->SetText(win.c_str());
-        ui->GetRoot()->AddChild(title);
-        title->SetStyleAuto();
-        title->SetOpacity(1.0);
-        title->SetFont("Fonts/Roboto-Bold.ttf",16);
-        Color *c = new Color(0.25, 0.25, 0.25, 1.0);
-        title->SetColor(*c);
-        title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
-        title->SetPriority(1000);*/
     }
 
     if (playMode_ == 1){
@@ -731,4 +683,12 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
 
     }
+}
+
+bool main::AnyWinner()
+{
+    if (sarah_.hasWon() || lucas_.hasWon() || computer_.hasWon())
+        return true;
+    else
+        return false;
 }
