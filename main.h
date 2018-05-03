@@ -125,4 +125,5 @@ private:
     vector<Vec3<int>> ballTrajectory_;
     int k=0;
     int cupScored = -1;
+    int count =0;
 };
