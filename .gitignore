@@ -2,3 +2,7 @@
 cmake-build-debug/
 .idea/**
 .idea/**/workspace.xml
+<<<<<<< HEAD
+=======
+.include/**
+>>>>>>> origin/graphics
