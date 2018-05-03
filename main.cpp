@@ -9,7 +9,7 @@
 #include <Urho3D/UI/Sprite.h>
 #include <Urho3D/UI/UI.h>
 #include <Urho3D/Urho2D/Sprite2D.h>
-
+#include <unistd.h>
 
 #include "main.h"
 
@@ -124,13 +124,26 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
+
+    if (*currentPlayer_ == computer_)
+        ballTrajectory_ = currentPlayer_->throwBall(cupScored);
+
     //cout << "Displaying cups of " << currentPlayer_->getName() << endl;
     DisplayCups(*currentPlayer_);
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
+
+    if (*currentPlayer_ == computer_ && count == 0){
+        SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
+        currentPlayer_->get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_, cupScored);
+        k=0;
+        count++;
+    }
+
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
     SubscribeToEvent(draggedElement_, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
     SubscribeToEvent(draggedElement_, E_DRAGEND, URHO3D_HANDLER(main, HandleDragEnd));
+
 /*    cout << "Current player : " << currentPlayer_->getName() << endl;
     cout << "Sarah cup on table : " << sarah_.getCup(1).isOnTable() << endl;
     cout << "Lucas cup on table : " << lucas_.getCup(1).isOnTable() << endl << endl;*/
@@ -176,9 +189,9 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     if(playMode_ == 0 || playMode_ == 1){
         ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     }else if (playMode_ == 2){
-        if (*currentPlayer_ == computer_)
-            ballTrajectory_ = currentPlayer_->throwBall(cupScored);
-        else
+/*        if (*currentPlayer_ == computer_)
+            //ballTrajectory_ = currentPlayer_->throwBall(cupScored);*/
+        if (! (*currentPlayer_ == computer_))
             ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     }
 
@@ -267,7 +280,6 @@ void main::ThrowResult(int cupScored)
     }else{
         //Do nothing, keep only one player
     }
-
 }
 
 // Function to translate a point in graphics (pixels) to a point on the table (cm)
@@ -607,6 +619,12 @@ void main::DisplayCups(Player player)
             main_.Push(sprite);
             splash_.Push(splash);
             bluecups_.Push(blueCup);
+/*            if (*currentPlayer_ == computer_){
+                usleep(2000000);
+                SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
+            }*/
+            count=0;
+
         }
     }else{
         //cout << endl << "Display cups player : " << currentPlayer_->getName() << " from Handle mouse" << endl;
@@ -641,6 +659,11 @@ void main::DisplayCups(Player player)
             }
         }
         cout << endl;
+/*        if (*currentPlayer_ == computer_){
+            usleep(2000000);
+            SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
+        }*/
+        count=0;
     }
 }
 
