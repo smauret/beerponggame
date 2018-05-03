@@ -18,6 +18,7 @@ private:
     vector<Cup> cups;
     int cupsLeft{};
     Vec2i tableSize;
+    bool winner;
 
     int window_width_pixel;
     int window_height_pixel;
@@ -41,6 +42,7 @@ public:
 
     Player(string name, int nbOfCups) : name(std::move(name)), cupsLeft(nbOfCups) {
         totalThrows=0;
+        winner=false;
         tableSize = Vec2i(61, 240);
         vector<Vec2i> positionCups = cupsPositions(nbOfCups);
         for (int i = 0; i < cupsLeft; i++) {
@@ -191,11 +193,11 @@ public:
      */
     bool mooveCup(int cupID, Vec2i newPosition);
 
-    /** Say if the player won the game
+    /** First time called: return false and update winner to true, otherwise return true
      *
-     * @return true=won | false=not won
+     * @return true or false
      */
-    bool hasWon();
+    bool Win();
 
     /** Find the correct zGraphic values depending on the yArchitecture values, write them in a vector of 2d points for graphics purpose
      *
@@ -211,11 +213,25 @@ public:
      */
     void get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
-    // include zArchi in zGraphics, and return zGrahic to make it start with the upper left corner (and not the bottom left one)
+    /** include the high of the ball in the graphics trajectory
+     *
+     * @param ballTrajectory The vector containing the position of the ball over the time, in cm (Architecture)
+     * @param graphicsTrajectory The vector of 2D points for the graphic trajectory, write only x values in it
+     */
     void include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
+    /** Get ball size value for graphics from the architecture trajectory
+     *
+     * @param ballTrajectory The vector containing the position of the ball over the time, in cm (Architecture)
+     * @param graphicsTrajectory The vector of 2D points for the graphic trajectory, write only x values in it
+     */
     void get_ball_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
-
+    /** Convert the architecture trajectory (stored in cm) into graphics position for plotting purpose (in pixel).
+     *
+     * @param ballTrajectory The trajectory of the ball in the architecture (in cm)
+     * @param graphicsTrajectory The trajectory that will be plotted, vector is updated with the correct values (in pixels)
+     * @param cupScored updated with: -1 if no cup is scored, otherwise with the ID of the cup scored
+     */
     void get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory, int &cupScored);
 };
