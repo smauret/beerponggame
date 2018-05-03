@@ -86,6 +86,39 @@ void main::CreatedraggableBall()
 
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
+    UI* ui = GetSubsystem<UI>();
+    ui->GetRoot()->RemoveChild(uielem_[7]);
+    Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+
+    SharedPtr<Text> playerName(new Text(context_));
+    string playerNameString = currentPlayer_->getName();
+    playerName->SetText(playerNameString.c_str());
+    playerName->SetTextAlignment(HA_CENTER);
+    playerName->SetHorizontalAlignment(HA_CENTER);
+    playerName->SetFont("Fonts/Roboto-Bold.ttf", 18);
+    playerName->SetColor(*c);
+    uielem_[7]->RemoveAllChildren();
+    uielem_[7]->AddChild(playerName);
+
+    SharedPtr<Text> totalThrows(new Text(context_));
+    string totalThrowsString;
+
+    if (currentPlayer_->getTotalThrows() == 0)
+        totalThrowsString = "0 throw";
+    else if (currentPlayer_->getTotalThrows() == 1)
+        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
+    else
+        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
+
+    totalThrows->SetText(totalThrowsString.c_str());
+    totalThrows->SetFont("Fonts/Roboto-Bold.ttf",14);
+    totalThrows->SetColor(*c);
+    //totalThrows->SetPosition(25, 45);
+    totalThrows->SetTextAlignment(HA_CENTER);
+    totalThrows->SetHorizontalAlignment(HA_CENTER);
+    uielem_[7]->AddChild(totalThrows);
+
+    ui->GetRoot()->AddChild(uielem_[7]);
     int x = GetSubsystem<Input>()->GetMousePosition().x_;
     int y = GetSubsystem<Input>()->GetMousePosition().y_;
     draggedElement_->SetSize(68,68);
@@ -162,7 +195,7 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 void main::ThrowResult(int cupScored)
 {
     UI* ui = GetSubsystem<UI>();
-    ui->GetRoot()->RemoveChild(uielem_[7]);
+    /*ui->GetRoot()->RemoveChild(uielem_[7]);
     Color *c = new Color(0.25, 0.25, 0.25, 1.0);
 
     SharedPtr<Text> playerName(new Text(context_));
@@ -193,7 +226,7 @@ void main::ThrowResult(int cupScored)
     totalThrows->SetHorizontalAlignment(HA_CENTER);
     uielem_[7]->AddChild(totalThrows);
 
-    ui->GetRoot()->AddChild(uielem_[7]);
+    ui->GetRoot()->AddChild(uielem_[7]);*/
 
     if(cupScored != -1){
         ui->GetRoot()->RemoveChild(uielem_[11]);
