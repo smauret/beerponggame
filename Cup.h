@@ -13,10 +13,10 @@
 class Cup {
 private:
     int ID;
-    Vec2i position; //position du centre de la cup
+    Vec2f position; //position du centre de la cup
     bool onTable;
     float radius; //en cm
-    int height; //en cm
+    float height; //en cm
 public:
 
     /** constructeurs
@@ -24,9 +24,9 @@ public:
  */
     Cup() {onTable = true;}
 
-    Cup(int ID, const Vec2i &position, int height, int radius) : ID(ID), position(position), height(height), radius(radius) {onTable = true;}
+    Cup(int ID, const Vec2f &position, float height, float radius) : ID(ID), position(position), height(height), radius(radius) {onTable = true;}
 
-    Cup(int ID, const Vec2i &position) : ID(ID), position(position) {height = 12; radius = 4.5; onTable = true;}
+    Cup(int ID, const Vec2f &position) : ID(ID), position(position) {height = 12; radius = 4.5; onTable = true;}
 
     Cup(int ID) : ID(ID) {/*std::cout << "Cups " << Cup::ID << " crée ! :)" << std::endl;*/onTable = true;}
 
@@ -37,7 +37,7 @@ public:
         return ID;
     }
 
-    const Vec2i &getPosition() const {
+    const Vec2f &getPosition() const {
         return position;
     }
 
@@ -45,11 +45,11 @@ public:
         return onTable;
     }
 
-    int getRadius() const {
+    float getRadius() const {
         return radius;
     }
 
-    int getHeight() const {
+    float getHeight() const {
         return height;
     }
 
@@ -57,23 +57,23 @@ public:
      *
      */
     void setID(int ID) {
-        Cup::ID = ID;
+        this->ID = ID;
     }
 
-    void setPosition(const Vec2i &position) {
-        Cup::position = position;
+    void setPosition(const Vec2f &position) {
+        this->position = position;
     }
 
     void setOnTable(bool onTable) {
-        Cup::onTable = onTable;
+        this->onTable = onTable;
     }
 
-    void setRadius(int radius) {
-        Cup::radius = radius;
+    void setRadius(float radius) {
+        this->radius = radius;
     }
 
-    void setHeight(int height) {
-        Cup::height = height;
+    void setHeight(float height) {
+        this->height = height;
     }
 
 };

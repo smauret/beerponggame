@@ -12,7 +12,8 @@
     cupsLeft--;
 }*/
 
-vector<Vec3<int>> Player::throwBall(int &cupScored){
+vector<Vec3<int>> Player::throwBall(int &cupScored)
+{
     double alpha, beta, h, v0, startX;
     alpha = M_PI/4;
     beta = static_cast<double>(M_PI / 2) + (rand() % 6 - 3)*(M_PI/180); // Random angle [87°;93°]
@@ -25,8 +26,8 @@ vector<Vec3<int>> Player::throwBall(int &cupScored){
 
 }
 
-vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double v0, double startX, int startY,
-                                    int &cupScored){
+vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double v0, double startX, int startY, int &cupScored)
+{
     vector<Vec3<int>> ballTrajectory;
     double g = 981; //cm.s-2
     double a = -g/(2*cos(alpha)*cos(alpha)*v0*v0);
@@ -56,7 +57,8 @@ vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double 
 }
 
 
-int Player::scoreCup(vector<Vec3<int>> &ballTrajectory){
+int Player::scoreCup(vector<Vec3<int>> &ballTrajectory)
+{
     // only test the last element in ballTrajectory due to its construction
     int score = -1;
 
@@ -67,7 +69,7 @@ int Player::scoreCup(vector<Vec3<int>> &ballTrajectory){
     for (auto &cup : cups) {
         if (cup.isOnTable()) {
             // The cup has not been scored yet
-            Vec2i posCup = cup.getPosition();
+            Vec2f posCup = cup.getPosition();
             double d = (xSolution - posCup.x)*(xSolution - posCup.x)+(ySolution - posCup.y)*(ySolution - posCup.y);
             if (d < radius2){
                 score = cup.getID();
@@ -79,39 +81,32 @@ int Player::scoreCup(vector<Vec3<int>> &ballTrajectory){
     return score;
 }
 
-vector<Vec2i> Player::cupsPositions(int nbOfCups) {
-    vector<Vec2i> positions;
-    if (tableSize.y == 240 && tableSize.x == 61){
-        if (nbOfCups == 6){
-            positions.emplace_back(23,tableSize.y-20);
-            positions.emplace_back(31,tableSize.y-20);
-            positions.emplace_back(39,tableSize.y-20);
-            positions.emplace_back(27,tableSize.y-42);
-            positions.emplace_back(34,tableSize.y-42);
-            positions.emplace_back(31,tableSize.y-64);
+vector<Vec2f> Player::cupsPositions(Vec2f& tableSize)
+{
+    // Determine position of cups on table
+    vector<Vec2f> cupsPositionOnTable;
+    cupsPositionOnTable.emplace_back(-0.6, 0.9);
+    cupsPositionOnTable.emplace_back(0.0, 0.9);
+    cupsPositionOnTable.emplace_back(0.6, 0.9);
+    cupsPositionOnTable.emplace_back(-0.3, 0.8);
+    cupsPositionOnTable.emplace_back(0.3, 0.8);
+    cupsPositionOnTable.emplace_back(0.0, 0.7);
 
-        }
-        if (nbOfCups == 10){
-            positions.emplace_back(18,tableSize.y-10);
-            positions.emplace_back(27,tableSize.y-10);
-            positions.emplace_back(38,tableSize.y-10);
-            positions.emplace_back(47,tableSize.y-10);
-            positions.emplace_back(22,tableSize.y-19);
-            positions.emplace_back(31,tableSize.y-19);
-            positions.emplace_back(40,tableSize.y-19);
-            positions.emplace_back(27,tableSize.y-28);
-            positions.emplace_back(39,tableSize.y-28);
-            positions.emplace_back(31,tableSize.y-37);
-        }
+    for (unsigned int i = 0; i < cupsPositionOnTable.size(); ++i)
+    {
+        cupsPositionOnTable[i].x *= tableSize.x;
+        cupsPositionOnTable[i].y *= tableSize.y;
     }
-    return positions;
+
+    return cupsPositionOnTable;
 }
 
-bool Player::mooveCup(int cupID, Vec2i newPosition) {
+bool Player::mooveCup(int cupID, Vec2f newPosition) {
 
     return false;
 }
 
+/*
 void Player::get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory, int &cupScored) {
 
     window_width_pixel = 1024;
@@ -265,3 +260,4 @@ void Player::include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<V
 
     }
 }
+*/

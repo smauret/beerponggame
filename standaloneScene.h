@@ -4,7 +4,9 @@
 
 #pragma once
 
+#include <iostream> // For debug
 #include "Sample.h"
+#include "Player.h"
 
 namespace Urho3D
 {
@@ -26,7 +28,8 @@ public:
 
 protected:
     SharedPtr<Node> ballNode_;
-
+    Player player;
+    
 private:
     /// Construct the scene content.
     void CreateScene();
@@ -43,4 +46,6 @@ private:
     /// Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
 
+    /// Displays cups on the table
+    void DisplayCups(Node* tableNode);
 };

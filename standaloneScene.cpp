@@ -71,12 +71,8 @@ void standaloneScene::CreateScene()
 
     scene_ = new Scene(context_);
 
-    // Create octree, use default volume (-1000, -1000, -1000) to (1000, 1000, 1000)
-    // Create a physics simulation world with default parameters, which will update at 60fps. Like the Octree must
-    // exist before creating drawable components, the PhysicsWorld must exist before creating physics components.
-    // Finally, create a DebugRenderer component so that we can draw physics debug geometry
     scene_->CreateComponent<Octree>();
-    // scene_->CreateComponent<PhysicsWorld>();
+    scene_->CreateComponent<PhysicsWorld>();
 
     // Create a Zone component for ambient lighting & fog control
     Node* zoneNode = scene_->CreateChild("Zone");
@@ -84,9 +80,9 @@ void standaloneScene::CreateScene()
     zone->SetBoundingBox(BoundingBox(-100.0f, 100.0f));
     zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
     // fog, diminishes Field Of View (disabled for now)
-    // zone->SetFogColor(Color(1.0f, 1.0f, 1.0f));
-    // zone->SetFogStart(300.0f);
-    // zone->SetFogEnd(500.0f);
+    zone->SetFogColor(Color(1.0f, 1.0f, 1.0f));
+    zone->SetFogStart(300.0f);
+    zone->SetFogEnd(500.0f);
 
     // Create a directional light to the world. Enable cascaded shadows on it
     Node* lightNode = scene_->CreateChild("DirectionalLight");
@@ -99,65 +95,51 @@ void standaloneScene::CreateScene()
     // Set cascade splits at 10, 50 and 200 world units, fade shadows out at 80% of maximum shadow distance
     light->SetShadowCascade(CascadeParameters(10.0f, 50.0f, 200.0f, 0.0f, 0.8f));
 
-    // Create skybox. The Skybox component is used like StaticModel, but it will be always located at the camera, giving the
-    // illusion of the box planes being far away. Use just the ordinary Box model and a suitable material, whose shader will
-    // generate the necessary 3D texture coordinates for cube mapping
+    // Skybox
     Node* skyNode = scene_->CreateChild("Sky");
     skyNode->SetScale(500.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
     skybox->SetMaterial(cache->GetResource<Material>("Materials/Skybox.xml"));
 
-    //Make an axis system
-    Node* axisNode = scene_->CreateChild("Axis");
-    axisNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-    axisNode->SetScale(1.0f);
-    auto* axis = axisNode->CreateComponent<StaticModel>();
-    axis->SetModel(cache->GetResource<Model>("Models/Editor/Axes.mdl"));
-    axis->SetMaterial(cache->GetResource<Material>("Materials/Editor/BlueUnlit.xml"));
-
-
+    
     // Create a floor object, 1000 x 1000 world units. Adjust position so that the ground is at zero Y
     Node* floorNode = scene_->CreateChild("Floor");
     floorNode->SetPosition(Vector3(0.0f, -1.0f, 0.0f));
     floorNode->SetScale(Vector3(1000.0f, 1.0f, 1000.0f));
     auto* floorObject = floorNode->CreateComponent<StaticModel>();
     floorObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+    // floorObject->SetMaterial(cache->GetResource<Material>("Materials/StoneTiled.xml"));
     floorObject->SetMaterial(cache->GetResource<Material>("Materials/StoneTiled.xml"));
 
-    // Make the floor physical by adding RigidBody and CollisionShape components. The RigidBody's default
-    // parameters make the object static (zero mass.) Note that a CollisionShape by itself will not participate
-    // in the physics simulation
+
     RigidBody* floorBody = floorNode->CreateComponent<RigidBody>();
     auto* floorShape = floorNode->CreateComponent<CollisionShape>();
-    // Set a box shape of size 1 x 1 x 1 for collision. The shape will be scaled with the scene node scale, so the
-    // rendering and physics representation sizes should match (the box model is also 1 x 1 x 1.)
     floorShape->SetBox(Vector3::ONE);
 
-    // We need to modify the table object so that the referential is easy to place on the world !!
-    // Create a table object, 1x1x1 world units. Have a high Y so that we can see it
+    // Create a table object
     Node* tableNode = scene_->CreateChild("Table");
     tableNode->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
-    tableNode->SetScale(Vector3(0.6f, 1.0f, 2.4f));
+    tableNode->SetScale(Vector3(0.6f, 1.0f, 1.8f));
     auto* tableObject = tableNode->CreateComponent<StaticModel>();
     tableObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    tableObject->SetMaterial(cache->GetResource<Material>("Materials/Jack.xml"));
+    tableObject->SetMaterial(cache->GetResource<Material>("Materials/BPTable.xml"));
 
     RigidBody* tableBody = floorNode->CreateComponent<RigidBody>();
     auto* tableShape = floorNode->CreateComponent<CollisionShape>();
     tableShape->SetBox(Vector3::ONE);
 
+    // Define the current player
+    Vec2f tableSize = Vec2f();
+    tableSize.x = tableNode->GetScale().x_/2.0f;
+    tableSize.y = tableNode->GetScale().z_/2.0f/2.0f;
+    player = Player("Player 1", 6, tableSize);
 
-    // Add 1 cup on table
-    Node* cupNode = tableNode->CreateChild("Cup");
-    cupNode->SetScale(Vector3(0.1f, 0.12f/2, 0.1f/2));
-    cupNode->SetPosition(Vector3(0.0f, tableNode->GetScale().y_/2 + cupNode->GetScale().y_/2, 0.0f));
-    auto* cupObject = cupNode->CreateComponent<StaticModel>();
-    cupObject->SetModel(cache->GetResource<Model>("Models/Cylinder.mdl"));
-    cupObject->SetMaterial(cache->GetResource<Material>("Materials/BPCup.xml"));
-    cupObject->SetCastShadows(true);
+    // Display cups
+    DisplayCups(tableNode);
 
-    // Add 1 ball in the air
+
+    // Create ball object
     ballNode_ = scene_->CreateChild("Ball");
     ballNode_->SetScale(Vector3(0.02f, 0.02f, 0.02f));
     ballNode_->SetPosition(Vector3(0.0f, 1.60f, -1.0f));
@@ -166,14 +148,11 @@ void standaloneScene::CreateScene()
     ballObject_->SetMaterial(cache->GetResource<Material>("Materials/BPBall.xml"));
     ballObject_->SetCastShadows(true);
 
-    // Create RigidBody and CollisionShape components like above. Give the RigidBody mass to make it movable
-    // and also adjust friction. The actual mass is not important; only the mass ratios between colliding
-    // objects are significant
-    // auto* body = boxNode->CreateComponent<RigidBody>();
-    // body->SetMass(1.0f);
-    // body->SetFriction(0.75f);
-    // auto* shape = boxNode->CreateComponent<CollisionShape>();
-    // shape->SetBox(Vector3::ONE);
+    auto* ballBody = ballNode_->CreateComponent<RigidBody>();
+    // ballBody->SetMass(1.0f);
+    // ballBody->SetFriction(0.75f);
+    auto* ballShape = ballNode_->CreateComponent<CollisionShape>();
+    ballShape->SetBox(Vector3::ONE);
 
 
     // Create the camera. Set far clip to match the fog. Note: now we actually create the camera node outside the scene, because
@@ -193,11 +172,15 @@ void standaloneScene::CreateScene()
 
 void standaloneScene::SetupViewport()
 {
+    auto* cache = GetSubsystem<ResourceCache>();
     auto* renderer = GetSubsystem<Renderer>();
+
+    renderer->SetHDRRendering(true);
 
     // Set up a viewport to the Renderer subsystem so that the 3D scene can be seen
     SharedPtr<Viewport> viewport(new Viewport(context_, scene_, cameraNode_->GetComponent<Camera>()));
     renderer->SetViewport(0, viewport);
+
 }
 
 /// Registration to scene events
@@ -228,28 +211,12 @@ void standaloneScene::MoveCamera(float timeStep)
     auto* input = GetSubsystem<Input>();
 
     // Movement speed as world units per second
-    const float MOVE_SPEED = 1.25f;
-    // Mouse sensitivity as degrees per pixel
-    // const float MOUSE_SENSITIVITY = 0.1f;
-
-    // Use this frame's mouse motion to adjust camera node yaw and pitch. Clamp the pitch between -90 and 90 degrees
-    // IntVector2 mouseMove = input->GetMouseMove();
-    // yaw_ += MOUSE_SENSITIVITY * mouseMove.x_;
-    // pitch_ += MOUSE_SENSITIVITY * mouseMove.y_;
-    // pitch_ = Clamp(pitch_, -90.0f, 90.0f);
+    const float MOVE_SPEED = 0.75f;
 
     // Construct new orientation for the camera scene node from yaw and pitch. Roll is fixed to zero
     cameraNode_->SetRotation(Quaternion(10.0f, 0.0f, 0.0f));
 
     // Read WASD keys and move the camera scene node to the corresponding direction if they are pressed
-    // We should restrict this for our example
-    // if (input->GetKeyDown(KEY_Z)){
-    //     cameraNode_->Translate(Vector3::FORWARD * MOVE_SPEED * timeStep);
-    // }
-    // if (input->GetKeyDown(KEY_S))
-    // {
-    //     cameraNode_->Translate(Vector3::BACK * MOVE_SPEED * timeStep);
-    // }
     if (input->GetKeyDown(KEY_A))
     {
         if (cameraNode_->GetPosition().x_ > -1.5f)
@@ -287,5 +254,28 @@ void standaloneScene::MoveBall(float timeStep)
         ballNode_->Translate(Vector3::BACK * MOVE_SPEED * timeStep);
     }
 
+
+}
+
+void standaloneScene::DisplayCups(Node* tableNode)
+{
+    ResourceCache* cache = GetSubsystem<ResourceCache>();
+
+    vector<Cup> cups = player.getCups();
+    std::cout << "Cup vector size: " << cups.size() << std::endl;
+
+    for (unsigned i = 0; i < cups.size(); ++i)
+    {
+        // Add 1 cup on table
+        Node* cupNode = tableNode->CreateChild("Cup");
+        std::cout << "Placing cup at " << cups[i].getPosition().x << ", " << cups[i].getPosition().y << std::endl;
+        cupNode->SetScale(Vector3(cups[i].getRadius(), cups[i].getHeight(), cups[i].getRadius()/2));
+        cupNode->SetPosition(Vector3(cups[i].getPosition().x, tableNode->GetScale().y_/2 + cupNode->GetScale().y_/2, cups[i].getPosition().y));
+        auto* cupObject = cupNode->CreateComponent<StaticModel>();
+        cupObject->SetModel(cache->GetResource<Model>("Models/Cylinder.mdl"));
+        cupObject->SetMaterial(cache->GetResource<Material>("Materials/BPCup.xml"));
+        cupObject->SetCastShadows(true);
+
+    }
 
 }

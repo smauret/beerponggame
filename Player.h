@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 #include "Vec3.h"
+#include "src/Vec2.h"
 
 using namespace std;
 
@@ -17,48 +18,49 @@ private:
     int totalThrows;
     vector<Cup> cups;
     int cupsLeft{};
-    Vec2i tableSize;
+    Vec2f tableSize;
 
-    int window_width_pixel;
-    int window_height_pixel;
-    double ratio_min_max;
-    int table_width_max_cm;
-    int table_width_min_cm;
-    int table_width_max_pixel;
-    int table_width_min_pixel;
-    int table_length_cm;
-    int table_length_pixel_zAxis;
-    int ball_size_max_cm;
-    int ball_size_min_cm;
-    int ball_size_max_pixel;
-    int ball_size_min_pixel;
+    // int window_width_pixel;
+    // int window_height_pixel;
+    // double ratio_min_max;
+    // int table_width_max_cm;
+    // int table_width_min_cm;
+    // int table_width_max_pixel;
+    // int table_width_min_pixel;
+    // int table_length_cm;
+    // int table_length_pixel_zAxis;
+    // int ball_size_max_cm;
+    // int ball_size_min_cm;
+    // int ball_size_max_pixel;
+    // int ball_size_min_pixel;
 
 
 public:
-    /** Constructeurs
+    /** Constructors
      */
     explicit Player(string name) : name(std::move(name)) {}
 
-    Player(string name, int nbOfCups) : name(std::move(name)), cupsLeft(nbOfCups) {
+    Player(string name, int nbOfCups, Vec2f tableSize) : name(std::move(name)), cupsLeft(nbOfCups), tableSize(tableSize) {
         totalThrows=0;
-        tableSize = Vec2i(61, 240);
-        vector<Vec2i> positionCups = cupsPositions(nbOfCups);
-        for (int i = 0; i < cupsLeft; i++) {
+        vector<Vec2f> positionCups = cupsPositions(tableSize);
+
+        for (int i = 0; i < cupsLeft; ++i) {
             Cup c (i, positionCups[i]);
+            c.setRadius(0.1f);
+            c.setHeight(0.07f);
             cups.emplace_back(c);
-            //cups.emplace_back(i, positionCups[i]);
         }
     }
 
-
-    Player(string name, int nbOfCups, const Vec2i &tableSize) : name(std::move(name)), cupsLeft(nbOfCups),
-                                                                tableSize(tableSize) {
-        totalThrows=0;
-        for (int i = 0; i < cupsLeft; i++) {
-            cups.emplace_back(i);
-        }
-        //cout << Player::name << " créé ! :) :) :)" << endl;
-    }
+    //
+    // Player(string name, int nbOfCups, const Vec2f &tableSize) : name(std::move(name)), cupsLeft(nbOfCups),
+    //                                                             tableSize(tableSize) {
+    //     totalThrows=0;
+    //     for (int i = 0; i < cupsLeft; i++) {
+    //         cups.emplace_back(i);
+    //     }
+    //     //cout << Player::name << " créé ! :) :) :)" << endl;
+    // }
 
 
     Player() = default;
@@ -85,7 +87,7 @@ public:
         Player::cupsLeft = cupsLeft;
     }
 
-    void setTableSize(const Vec2i &tableSize) {
+    void setTableSize(const Vec2f &tableSize) {
         Player::tableSize = tableSize;
     }
 
@@ -115,7 +117,7 @@ public:
         return cupsLeft;
     }
 
-    Vec2i &getTableSize() {
+    Vec2f &getTableSize() {
         return tableSize;
     }
 
@@ -184,7 +186,7 @@ public:
      * @param nbOfCups number of cups
      * @return starting positions
      */
-    vector<Vec2i> cupsPositions(int nbOfCups);
+    vector<Vec2f> cupsPositions(Vec2f& tableSize);
 
 
     /** Movve the cup to a new position
@@ -193,27 +195,27 @@ public:
      * @param newPosition The position where to moove the cup
      * @return true = worked, false = did not work (other cup at the same position for example)
      */
-    bool mooveCup(int cupID, Vec2i newPosition);
+    bool mooveCup(int cupID, Vec2f newPosition);
 
     /** Find the correct zGraphic values depending on the yArchitecture values, write them in a vector of 2d points for graphics purpose
      *
      * @param ballTrajectory the vector containing the position of the ball over the time, in cm (Architecture)
      * @param graphicsTrajectory The vector of 2D points for the graphic trajectory, write only x values in it
      */
-    void get_z_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
+    // void get_z_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
     /** Get xGraphic value for graphics from the architecture trajectory
      *
      * @param ballTrajectory The vector containing the position of the ball over the time, in cm (Architecture)
      * @param graphicsTrajectory The vector of 2D points for the graphic trajectory, write only x values in it
      */
-    void get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
+    // void get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
     // include zArchi in zGraphics, and return zGrahic to make it start with the upper left corner (and not the bottom left one)
-    void include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
+    // void include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
-    void get_ball_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
+    // void get_ball_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
 
 
-    void get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory, int &cupScored);
+    // void get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory, int &cupScored);
 };
