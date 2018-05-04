@@ -24,7 +24,7 @@ set (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 # Include UrhoCommon.cmake module after setting project name
 include (UrhoCommon)
 # Define target name
-set (TARGET_NAME beerpongproject_emptyscene)
+set (TARGET_NAME beerpongproject)
 # Define source files
 define_source_files (EXTRA_H_FILES ${COMMON_SAMPLE_H_FILES})
 # Setup target with resource copying
