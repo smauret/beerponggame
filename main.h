@@ -102,6 +102,8 @@ private:
      */
     void ThrowResult(int cupScored);
 
+    bool AnyWinner();
+
     /// Vector to store the main for iterating through them.
     Vector<SharedPtr<Sprite> > main_;
     Vector<SharedPtr<Sprite> > bluecups_;

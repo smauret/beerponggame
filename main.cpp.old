@@ -9,7 +9,7 @@
 #include <Urho3D/UI/Sprite.h>
 #include <Urho3D/UI/UI.h>
 #include <Urho3D/Urho2D/Sprite2D.h>
-
+#include <unistd.h>
 
 #include "main.h"
 
@@ -86,18 +86,65 @@ void main::CreatedraggableBall()
 
 void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 {
+    UI* ui = GetSubsystem<UI>();
+    ui->GetRoot()->RemoveChild(uielem_[7]);
+    Color *c = new Color(0.25, 0.25, 0.25, 1.0);
+
+    SharedPtr<Text> playerName(new Text(context_));
+    string playerNameString = currentPlayer_->getName();
+    playerName->SetText(playerNameString.c_str());
+    playerName->SetTextAlignment(HA_CENTER);
+    playerName->SetHorizontalAlignment(HA_CENTER);
+    playerName->SetFont("Fonts/Roboto-Bold.ttf", 18);
+    playerName->SetColor(*c);
+    uielem_[7]->RemoveAllChildren();
+    uielem_[7]->AddChild(playerName);
+
+    SharedPtr<Text> totalThrows(new Text(context_));
+    string totalThrowsString;
+
+    if (currentPlayer_->getTotalThrows() == 0)
+        totalThrowsString = "0 throw";
+    else if (currentPlayer_->getTotalThrows() == 1)
+        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
+    else
+        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
+
+    totalThrows->SetText(totalThrowsString.c_str());
+    totalThrows->SetFont("Fonts/Roboto-Bold.ttf",14);
+    totalThrows->SetColor(*c);
+    //totalThrows->SetPosition(25, 45);
+    totalThrows->SetTextAlignment(HA_CENTER);
+    totalThrows->SetHorizontalAlignment(HA_CENTER);
+    uielem_[7]->AddChild(totalThrows);
+
+    ui->GetRoot()->AddChild(uielem_[7]);
     int x = GetSubsystem<Input>()->GetMousePosition().x_;
     int y = GetSubsystem<Input>()->GetMousePosition().y_;
     draggedElement_->SetSize(68,68);
     draggedElement_->SetPosition(x - (draggedElement_->GetSize().x_)/2,y - (draggedElement_->GetSize().y_)/2);
     draggedElement_->SetPriority(410);
+
+/*    if (*currentPlayer_ == computer_)
+        ballTrajectory_ = currentPlayer_->throwBall(cupScored);*/
+
     //cout << "Displaying cups of " << currentPlayer_->getName() << endl;
     DisplayCups(*currentPlayer_);
+
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
+    cout << "Current player : " << currentPlayer_->getName() << endl;
+    if (*currentPlayer_ == computer_ ){
+        ballTrajectory_ = currentPlayer_->throwBall(cupScored);
+        currentPlayer_->get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_, cupScored);
+        k=0;
+        SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
+    }
+
     SubscribeToEvent(draggedElement_, E_DRAGBEGIN, URHO3D_HANDLER(main, HandleDragBegin));
     SubscribeToEvent(draggedElement_, E_DRAGMOVE, URHO3D_HANDLER(main, HandleDragMove));
     SubscribeToEvent(draggedElement_, E_DRAGEND, URHO3D_HANDLER(main, HandleDragEnd));
+
 /*    cout << "Current player : " << currentPlayer_->getName() << endl;
     cout << "Sarah cup on table : " << sarah_.getCup(1).isOnTable() << endl;
     cout << "Lucas cup on table : " << lucas_.getCup(1).isOnTable() << endl << endl;*/
@@ -143,10 +190,11 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     if(playMode_ == 0 || playMode_ == 1){
         ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
     }else if (playMode_ == 2){
-        if (*currentPlayer_ == computer_)
-            ballTrajectory_ = currentPlayer_->throwBall(cupScored);
-        else
-            ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+/*        if (*currentPlayer_ == computer_)
+            //ballTrajectory_ = currentPlayer_->throwBall(cupScored);*/
+        if (! (*currentPlayer_ == computer_)) {
+            ballTrajectory_ = currentPlayer_->throwBall(M_PI / 4, rotation_angle, 50, speed,(double) (finalPositionCm.x_), 0, cupScored);
+        }
     }
 
     currentPlayer_->get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_, cupScored);
@@ -162,38 +210,6 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
 void main::ThrowResult(int cupScored)
 {
     UI* ui = GetSubsystem<UI>();
-    ui->GetRoot()->RemoveChild(uielem_[7]);
-    Color *c = new Color(0.25, 0.25, 0.25, 1.0);
-
-    SharedPtr<Text> playerName(new Text(context_));
-    string playerNameString = currentPlayer_->getName();
-    playerName->SetText(playerNameString.c_str());
-    playerName->SetTextAlignment(HA_CENTER);
-    playerName->SetHorizontalAlignment(HA_CENTER);
-    playerName->SetFont("Fonts/Roboto-Bold.ttf", 18);
-    playerName->SetColor(*c);
-    uielem_[7]->RemoveAllChildren();
-    uielem_[7]->AddChild(playerName);
-
-    SharedPtr<Text> totalThrows(new Text(context_));
-    string totalThrowsString;
-
-    if (currentPlayer_->getTotalThrows() == 0)
-        totalThrowsString = "0 throw";
-    else if (currentPlayer_->getTotalThrows() == 1)
-        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throw";
-    else
-        totalThrowsString = std::to_string(currentPlayer_->getTotalThrows()) + " throws";
-
-    totalThrows->SetText(totalThrowsString.c_str());
-    totalThrows->SetFont("Fonts/Roboto-Bold.ttf",14);
-    totalThrows->SetColor(*c);
-    //totalThrows->SetPosition(25, 45);
-    totalThrows->SetTextAlignment(HA_CENTER);
-    totalThrows->SetHorizontalAlignment(HA_CENTER);
-    uielem_[7]->AddChild(totalThrows);
-
-    ui->GetRoot()->AddChild(uielem_[7]);
 
     if(cupScored != -1){
         ui->GetRoot()->RemoveChild(uielem_[11]);
@@ -203,22 +219,27 @@ void main::ThrowResult(int cupScored)
     }
     //cout << currentPlayer_->getName() << "  cups left " << currentPlayer_->getCupsLeft() << " Sarah : " << sarah_.getCupsLeft() << "  Lucas : " << lucas_.getCupsLeft() << endl;
 
-    if (currentPlayer_->getCupsLeft() == 0)
+    if (currentPlayer_->getCupsLeft() == 0 and !AnyWinner())
     {
-        Graphics* graphics = GetSubsystem<Graphics>();
-        float width = (float)graphics->GetWidth();
-        float height = (float)graphics->GetHeight();
-        SharedPtr<Text> title(new Text(context_));
-        string win = "YES, " + currentPlayer_->getName() + " you have won the game in " + std::to_string(currentPlayer_->getTotalThrows()) + " throws!";
-        title->SetText(win.c_str());
-        ui->GetRoot()->AddChild(title);
-        title->SetStyleAuto();
-        title->SetOpacity(1.0);
-        title->SetFont("Fonts/Roboto-Bold.ttf",16);
+        SharedPtr<Window> textWindow(new Window(context_));
+        // Set Window size and layout settings
+        textWindow->SetFixedSize(1024,75);
+        textWindow->SetPosition(0, 145);
+        textWindow->SetName("winWindow");
+        textWindow->SetStyle("WindowCustWin");
+        textWindow->SetPriority(1000);
+        textWindow->SetOpacity(0.8);
         Color *c = new Color(0.25, 0.25, 0.25, 1.0);
-        title->SetColor(*c);
-        title->SetPosition(((int)width-title->GetSize().x_)/2,1*(int)height/5);
-        title->SetPriority(1000);
+
+        SharedPtr<Text> win (new Text(context_));
+        string welcome = "Congratulations " + currentPlayer_->getName() + ", you have won the game in " + std::to_string(currentPlayer_->getTotalThrows()) + " throws!";
+        win->SetText(welcome.c_str());
+        win->SetAlignment(HA_CENTER, VA_CENTER);
+        win->SetFont("Fonts/Roboto-Bold.ttf", 18);
+        win->SetColor(*c);
+        textWindow->AddChild(win);
+        ui->GetRoot()->AddChild(textWindow);
+        currentPlayer_->win();
     }
 
     if (playMode_ == 1){
@@ -234,7 +255,6 @@ void main::ThrowResult(int cupScored)
     }else{
         //Do nothing, keep only one player
     }
-
 }
 
 // Function to translate a point in graphics (pixels) to a point on the table (cm)
@@ -675,6 +695,13 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         ThrowResult(cupScored);
         UnsubscribeFromEvent(E_UPDATE);
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
-
     }
+}
+
+bool main::AnyWinner()
+{
+    if (sarah_.hasWon() || lucas_.hasWon() || computer_.hasWon())
+        return true;
+    else
+        return false;
 }
