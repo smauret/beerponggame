@@ -3,7 +3,7 @@
 //Najwa Harif, Sarah Mauret, Hugo Blech, Lucas Chaulan, Elliot Hallais
 
 #pragma once
-#include "Cup.h"
+#include "Cup3d.h"
 #include <string>
 #include <utility>
 #include <vector>
@@ -19,20 +19,6 @@ private:
     vector<Cup> cups;
     int cupsLeft{};
     Vec2f tableSize;
-
-    // int window_width_pixel;
-    // int window_height_pixel;
-    // double ratio_min_max;
-    // int table_width_max_cm;
-    // int table_width_min_cm;
-    // int table_width_max_pixel;
-    // int table_width_min_pixel;
-    // int table_length_cm;
-    // int table_length_pixel_zAxis;
-    // int ball_size_max_cm;
-    // int ball_size_min_cm;
-    // int ball_size_max_pixel;
-    // int ball_size_min_pixel;
 
 
 public:
@@ -51,16 +37,6 @@ public:
             cups.emplace_back(c);
         }
     }
-
-    //
-    // Player(string name, int nbOfCups, const Vec2f &tableSize) : name(std::move(name)), cupsLeft(nbOfCups),
-    //                                                             tableSize(tableSize) {
-    //     totalThrows=0;
-    //     for (int i = 0; i < cupsLeft; i++) {
-    //         cups.emplace_back(i);
-    //     }
-    //     //cout << Player::name << " créé ! :) :) :)" << endl;
-    // }
 
 
     Player() = default;

@@ -2,6 +2,4 @@
 //Beer Pong Game
 //Najwa Harif, Sarah Mauret, Hugo Blech, Lucas Chaulan, Elliot Hallais
 
-#include "Cup.h"
-
-
+#include "Cup3d.h"

@@ -2,7 +2,7 @@
 //Beer Pong Game
 //Najwa Harif, Sarah Mauret, Hugo Blech, Lucas Chaulan, Elliot Hallais
 
-#include "Player.h"
+#include "Player3d.h"
 
 /*void Player::removeCup(int id) {
     int i = 0;
