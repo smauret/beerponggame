@@ -56,7 +56,6 @@ vector<Vec3<int>> Player::throwBall(double alpha, double beta, double h, double 
     return ballTrajectory;
 }
 
-
 int Player::scoreCup(vector<Vec3<int>> &ballTrajectory)
 {
     // only test the last element in ballTrajectory due to its construction

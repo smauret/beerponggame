@@ -28,8 +28,16 @@ public:
 
 protected:
     SharedPtr<Node> ballNode_;
+    SharedPtr<Node> tableNode;
     Player player;
-    
+
+    // UIElement* draggedElement_;
+    IntVector2 dragBeginPosition_;
+    IntVector2 BeginPosition_;
+    clock_t startTime;
+
+    float ball_velocity{5.0f};
+
 private:
     /// Construct the scene content.
     void CreateScene();
@@ -40,12 +48,15 @@ private:
     /// Read input and moves the camera.
     void MoveCamera(float timeStep);
     /// Read input and moves the ball.
-    void MoveBall(float timeStep);
-    /// Spawn a physics object from the camera position.
-    // void SpawnObject();
+    void LaunchBall();
+
+    void CreateInstructions(float& ball_velocity);
+    
     /// Handle the logic update event.
+    void HandleMouse(StringHash eventType, VariantMap& eventData);
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
+    void HandleNodeCollision(StringHash eventType, VariantMap& eventData);
 
     /// Displays cups on the table
-    void DisplayCups(Node* tableNode);
+    void DisplayCups();
 };

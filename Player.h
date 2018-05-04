@@ -143,19 +143,17 @@ public:
      *
      */
 
-    /** Remove the cup from the game when it's scoded*
+    /** Remove the cup from the game when it's scored*
      *
      * @param id id of the cup to remove
      */
-    void removeCup(int id);
-
+    // void removeCup(int id);
 
     /** Throw the ball for a computer
      *
      * @return all the positions taken by the ball
      */
     vector<Vec3<int>> throwBall(int &cupScored);
-
 
     /** Throw the ball for a human player
      *
@@ -168,8 +166,7 @@ public:
      * @param cupScored to stock the cup scored, -1 = no cup scored, otherwhise it's the ID of the cup scored
      * @return the trajectory vector that contain all the ball positions
      */
-    vector<Vec3<int>> throwBall(double alpha, double beta, double h, double v0, double startX, int startY,
-                                int &cupScored);
+    vector<Vec3<int>> throwBall(double alpha, double beta, double h, double v0, double startX, int startY, int &cupScored);
 
     /** Indicate if a ball scored a cup, return othe id of the cup to remove, -1 if no cup should be remooved
      *
@@ -188,7 +185,6 @@ public:
      */
     vector<Vec2f> cupsPositions(Vec2f& tableSize);
 
-
     /** Movve the cup to a new position
      *
      * @param cupID ID of the cup to moove
@@ -196,26 +192,4 @@ public:
      * @return true = worked, false = did not work (other cup at the same position for example)
      */
     bool mooveCup(int cupID, Vec2f newPosition);
-
-    /** Find the correct zGraphic values depending on the yArchitecture values, write them in a vector of 2d points for graphics purpose
-     *
-     * @param ballTrajectory the vector containing the position of the ball over the time, in cm (Architecture)
-     * @param graphicsTrajectory The vector of 2D points for the graphic trajectory, write only x values in it
-     */
-    // void get_z_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
-
-    /** Get xGraphic value for graphics from the architecture trajectory
-     *
-     * @param ballTrajectory The vector containing the position of the ball over the time, in cm (Architecture)
-     * @param graphicsTrajectory The vector of 2D points for the graphic trajectory, write only x values in it
-     */
-    // void get_x_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
-
-    // include zArchi in zGraphics, and return zGrahic to make it start with the upper left corner (and not the bottom left one)
-    // void include_zArchi_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
-
-    // void get_ball_size(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory);
-
-
-    // void get_xzSize_graphics(vector<Vec3<int>> &ballTrajectory, vector<Vec3<int>> &graphicsTrajectory, int &cupScored);
 };
