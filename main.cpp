@@ -130,6 +130,7 @@ void main::HandleMouse(StringHash eventType, VariantMap& eventData)
 
     //cout << "Displaying cups of " << currentPlayer_->getName() << endl;
     DisplayCups(*currentPlayer_);
+
     // Subscribe draggableBall to Drag Events (in order to make it draggable)
     // See "Event list" in documentation's Main Page for reference on available Events and their eventData
     cout << "Current player : " << currentPlayer_->getName() << endl;
@@ -193,8 +194,9 @@ void main::HandleDragEnd(StringHash eventType, VariantMap& eventData)
     }else if (playMode_ == 2){
 /*        if (*currentPlayer_ == computer_)
             //ballTrajectory_ = currentPlayer_->throwBall(cupScored);*/
-        if (! (*currentPlayer_ == computer_))
-            ballTrajectory_ = currentPlayer_->throwBall(M_PI/4, rotation_angle, 50, speed, (double)(finalPositionCm.x_), 0, cupScored);
+        if (! (*currentPlayer_ == computer_)) {
+            ballTrajectory_ = currentPlayer_->throwBall(M_PI / 4, rotation_angle, 50, speed,(double) (finalPositionCm.x_), 0, cupScored);
+        }
     }
 
     currentPlayer_->get_xzSize_graphics(ballTrajectory_, graphicsTrajectory_, cupScored);
@@ -594,10 +596,6 @@ void main::DisplayCups(Player player)
             main_.Push(sprite);
             splash_.Push(splash);
             bluecups_.Push(blueCup);
-/*            if (*currentPlayer_ == computer_){
-                usleep(2000000);
-                SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
-            }*/
             count=0;
 
         }
@@ -634,10 +632,7 @@ void main::DisplayCups(Player player)
             }
         }
         cout << endl;
-/*        if (*currentPlayer_ == computer_){
-            usleep(2000000);
-            SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(main, HandleUpdate));
-        }*/
+
         count=0;
     }
     cout << "Put count to 0." << endl;
@@ -708,7 +703,6 @@ void main::HandleUpdate(StringHash eventType, VariantMap& eventData)
         ThrowResult(cupScored);
         UnsubscribeFromEvent(E_UPDATE);
         SubscribeToEvent(E_MOUSEBUTTONDOWN, URHO3D_HANDLER(main,HandleMouse));
-
     }
 }
 
